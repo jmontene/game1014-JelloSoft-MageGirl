@@ -5,4 +5,4 @@ Fantasy/2d Side Scrolling/Shooter
 Inspirations: Contra, Metroid(NES),Castlevania
 
 Game Overview
-A 2d platformer/shooter hybrid with a fantasy setting, with a female protagonist
+\n A 2d platformer/shooter hybrid with a fantasy setting, with a female protagonist
