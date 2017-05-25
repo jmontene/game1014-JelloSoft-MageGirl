@@ -1,0 +1,32 @@
+{
+  "name": "Mage Girl",
+  "homepage": "https://github.com/JMakim/game1014-JelloSoft-MageGirl",
+  "authors": [
+    "Jose Montenegro",
+    "Jahn Makim",
+    "Kyle Kwan",
+    "Adolfo Nica"
+  ],
+  "description": "Platformer-Shooter Game for Game Production II",
+  "main": "",
+  "keywords": [
+    "Mage",
+    "Girl",
+    "Game",
+    "Production",
+    "Platformer",
+    "Shooter"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "Scripts/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "phaser-ce": "^2.7.10"
+  }
+}
