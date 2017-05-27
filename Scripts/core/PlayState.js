@@ -38,6 +38,7 @@ PlayState.preload = function(){
 
     //Platform images
     this.game.load.image('platform:forest:ground', this.assetFolder + 'images/tiles/forest/ground.png')
+    this.game.load.image('platform:forest:4x1', this.assetFolder + 'images/tiles/forest/4x1.png');
 
     //Heroine Sprite
     this.game.load.image('sprite:heroine', this.assetFolder + 'images/sprites/heroine/mage.png');
@@ -55,7 +56,6 @@ PlayState.create = function(){
 };
 
 PlayState.update = function(){
-    this.handleCollisions();
     this.handleInput();
 };
 
@@ -88,6 +88,7 @@ PlayState.spawnPlatform = function(platform){
 
 PlayState.spawnCharacters = function(data){
     this.heroine = new Heroine(this.game, data.heroine.x, data.heroine.y);
+    this.heroine.platformGroup = this.platforms;
     this.game.add.existing(this.heroine);
 };
 
@@ -116,7 +117,3 @@ PlayState.handleInput = function(){
         this.heroine.dirShootingY = 0;
     }
 }
-
-PlayState.handleCollisions = function(){
-    this.game.physics.arcade.collide(this.heroine, this.platforms);
-};
