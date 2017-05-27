@@ -16,7 +16,11 @@ PlayState.init = function(){
         left: Phaser.KeyCode.A,
         right: Phaser.KeyCode.D,
         up: Phaser.KeyCode.W,
-        down: Phaser.KeyCode.S
+        down: Phaser.KeyCode.S,
+        shootLeft: Phaser.KeyCode.LEFT,
+        shootRight: Phaser.KeyCode.RIGHT,
+        shootUp: Phaser.KeyCode.UP,
+        shootDown: Phaser.KeyCode.DOWN
     });
 
     //Set up keyboard events
@@ -37,6 +41,9 @@ PlayState.preload = function(){
 
     //Heroine Sprite
     this.game.load.image('sprite:heroine', this.assetFolder + 'images/sprites/heroine/mage.png');
+
+    //Bullet Sprites
+    this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
 };
 
 PlayState.create = function(){
@@ -91,6 +98,22 @@ PlayState.handleInput = function(){
         this.heroine.move(1);
     }else{
         this.heroine.move(0);
+    }
+
+    if(this.keys.shootLeft.isDown){
+        this.heroine.dirShootingX = -1;
+    }else if(this.keys.shootRight.isDown){
+        this.heroine.dirShootingX = 1;
+    }else{
+        this.heroine.dirShootingX = 0;
+    }
+
+    if(this.keys.shootUp.isDown){
+        this.heroine.dirShootingY = -1;
+    }else if(this.keys.shootDown.isDown){
+        this.heroine.dirShootingY = 1;
+    }else{
+        this.heroine.dirShootingY = 0;
     }
 }
 
