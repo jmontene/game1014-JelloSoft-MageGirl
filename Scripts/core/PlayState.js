@@ -1,24 +1,99 @@
+const GRAVITY = 1200;
+
 PlayState = {};
 
+//Properties
 PlayState.assetFolder = "../../Assets/";
+PlayState.gravity = GRAVITY;
 
 //Game Loop Functions
 
 PlayState.init = function(){
     this.game.renderer.renderSession.roundPixels = true;
-}
+
+    //Set up keyboard keys
+    this.keys = this.game.input.keyboard.addKeys({
+        left: Phaser.KeyCode.A,
+        right: Phaser.KeyCode.D,
+        up: Phaser.KeyCode.W,
+        down: Phaser.KeyCode.S
+    });
+
+    //Set up keyboard events
+    this.keys.up.onDown.add(function(){
+        let didJump = this.heroine.jump();
+    }, this);
+};
 
 PlayState.preload = function(){
+    //Level Data
+    this.game.load.json('level:forest', this.assetFolder + 'data/level00.json');
+
     //Background
     this.game.load.image('bg:forest', this.assetFolder + 'images/backgrounds/forest.png');
-}
+
+    //Platform images
+    this.game.load.image('platform:forest:ground', this.assetFolder + 'images/tiles/forest/ground.png')
+
+    //Heroine Sprite
+    this.game.load.image('sprite:heroine', this.assetFolder + 'images/sprites/heroine/mage.png');
+};
 
 PlayState.create = function(){
+    //Add the background
     this.game.add.image(0,0,'bg:forest');
-}
+
+    //Load the level
+    this.loadLevel(this.game.cache.getJSON('level:forest'));
+};
 
 PlayState.update = function(){
-    
-}
+    this.handleCollisions();
+    this.handleInput();
+};
 
 //Other functions of the play state
+
+PlayState.loadLevel = function(data){
+    //Set visual theme
+    this.theme = data.theme;
+
+    //Create the needed groups and layers
+    this.platforms = this.game.add.group();
+
+    //spawn platforms
+    data.platforms.forEach(this.spawnPlatform, this);
+
+    //spawn heroine and enemies
+    this.spawnCharacters({heroine: data.heroine});
+
+    //enable gravity
+    this.game.physics.arcade.gravity.y = this.gravity;
+};
+
+PlayState.spawnPlatform = function(platform){
+    let sprite = this.platforms.create(platform.x, platform.y, "platform:" + this.theme + ":" + platform.image);
+
+    this.game.physics.enable(sprite);
+    sprite.body.allowGravity = false;
+    sprite.body.immovable = true;
+};
+
+PlayState.spawnCharacters = function(data){
+    this.heroine = new Heroine(this.game, data.heroine.x, data.heroine.y);
+    this.game.add.existing(this.heroine);
+};
+
+PlayState.handleInput = function(){
+    if(this.keys.left.isDown){
+        this.heroine.move(-1);
+    }else if(this.keys.right.isDown){
+        this.heroine.move(1);
+    }else{
+        this.heroine.move(0);
+    }
+}
+
+PlayState.handleCollisions = function(){
+    this.game.physics.arcade.collide(this.heroine, this.platforms);
+};

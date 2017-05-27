@@ -1,0 +1,7 @@
+{
+    "theme": "forest",
+    "heroine": {"x": 21, "y": 525},
+    "platforms":[
+        {"image": "ground", "x": 0, "y": 546}
+    ]
+}
