@@ -55,6 +55,9 @@ PlayState.preload = function(){
     //Bullet Sprites
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
     this.game.load.image('sprite:bullet:enemy_energy_ball', this.assetFolder + 'images/sprites/bullets/enemy_energy_ball.png');
+
+    //Powerup Sprites
+    this.game.load.image('sprite:powerup:levitate', this.assetFolder + 'images/sprites/powerups/levitate.png');
 };
 
 PlayState.create = function(){
@@ -82,12 +85,16 @@ PlayState.loadLevel = function(data){
     this.platforms = this.game.add.group();
     this.enemies = this.game.add.group();
     this.damageGroup = this.game.add.group();
+    this.powerups = this.game.add.group();
 
     //spawn platforms
     data.platforms.forEach(this.spawnPlatform, this);
 
     //spawn heroine and enemies
     this.spawnCharacters(data);
+
+    //spawn powerups
+    data.powerups.forEach(this.spawnPowerup, this);
 
     //enable gravity
     this.game.physics.arcade.gravity.y = this.gravity;
@@ -120,31 +127,53 @@ PlayState.spawnCharacters = function(data){
 };
 
 PlayState.spawnEnemy = function(enemy){
+    enemy.args.damageGroup = this.damageGroup;
+    enemy.args.platformGroup = this.platforms;
+    enemy.args.enemyGroup = this.enemies;
     let e = undefined;
     
     switch(enemy.class){
         case "basic_shooter":
             e = new BasicShooterEnemy(this.game, enemy.args);
-            this.damageGroup.add(e.weapon.bullets);
             break;
         default:
             e = new Enemy(this.game, enemy.args);
     }
+};
 
-    this.enemies.add(e);
-    e.platformGroup =  this.platforms;
+PlayState.spawnPowerup = function(powerup){
+    powerup.args.heroine = this.heroine;
+    powerup.args.powerupGroup = this.powerups;
+    let p = undefined;
+
+    switch(powerup.class){
+        case "levitate":
+            p = new Levitate(this.game, powerup.args);
+            break;
+        default:
+            p = new Powerup(this.game, powerup.args);
+    }
 };
 
 //Input
 
 PlayState.handleInput = function(){
+    let dirX = 0;
+    let dirY = 0;
+
     if(this.keys.left.isDown){
-        this.heroine.move(-1);
+        dirX = -1;
     }else if(this.keys.right.isDown){
-        this.heroine.move(1);
-    }else{
-        this.heroine.move(0);
+        dirX = 1;
     }
+
+    if(this.keys.up.isDown){
+        dirY = -1;
+    }else if(this.keys.down.isDown){
+        dirY = 1;
+    }
+
+    this.heroine.move(dirX, dirY);
 
     if(this.keys.shootLeft.isDown){
         this.heroine.dirShootingX = -1;

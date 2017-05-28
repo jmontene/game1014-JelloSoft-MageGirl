@@ -10,9 +10,6 @@ function BasicShooterEnemy(game, args){
     this.rightLimit = this.x + this.horizontalRange;
     this.leftLimit = this.x - this.horizontalRange;
 
-    //Collision Groups
-    this.damageGroup = null; //Set by caller
-
     //Shooting
     this.weapon = new Phaser.Weapon(game);
     this.weapon.bulletSpeed = BASIC_SHOOTER_ENEMY_BULLET_SPEED;
@@ -24,6 +21,7 @@ function BasicShooterEnemy(game, args){
         bullet.body.setCircle(4,4,4);
     },this);
     this.fireRate = BASIC_SHOOTER_ENEMY_FIRE_RATE;
+    args.damageGroup.add(this.weapon.bullets);
 
     //Events
     this.fireTimer = this.game.time.create(false);

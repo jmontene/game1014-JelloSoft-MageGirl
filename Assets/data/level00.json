@@ -17,5 +17,19 @@
                 "bullet": "enemy_energy_ball"
             }
         }
+    ],
+    "powerups":[
+        {
+            "class": "levitate",
+            "args":{
+                "x": 500,
+                "y": 525,
+                "duration": 10000,   
+                "image": "levitate",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0
+            }
+        }
     ]
 }

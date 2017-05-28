@@ -11,7 +11,8 @@ function Enemy(game, args){
     this.speed = args.speed;
 
     //Collision Groups (Set by caller)
-    this.platformGroup = null;
+    this.platformGroup = args.platformGroup;
+    args.enemyGroup.add(this);
 }
 
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);

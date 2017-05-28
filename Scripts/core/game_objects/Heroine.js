@@ -34,6 +34,7 @@ function Heroine(game, args){
 
     //Events
     this.invincibilityTimer = this.game.time.create(false);
+    this.levitateTimer = this.game.time.create(false);
 
     //Collision Groups
     this.platformGroup = args.platformGroup;
@@ -55,10 +56,9 @@ Heroine.prototype.update = function(){
     }
 }
 
-//Heroine Controls
-
-Heroine.prototype.move = function(direction){
-    this.body.velocity.x = direction * this.speed;
+//Movement functions
+Heroine.prototype.basicMove = function(dirX, dirY){
+    this.body.velocity.x = dirX * this.speed;
 
     if(this.body.velocity.x < 0){
         this.scale.x = -1;
@@ -67,7 +67,25 @@ Heroine.prototype.move = function(direction){
     }
 };
 
-Heroine.prototype.jump = function(){
+Heroine.prototype.levitationMove = function(dirX, dirY){
+    if(dirX != 0 && dirY != 0){
+        this.body.velocity.x = dirX * this.speed/2;
+        this.body.velocity.y = dirY * this.speed/2;
+    }else{
+        this.body.velocity.x = dirX * this.speed/2;
+        this.body.velocity.y = dirY * this.speed/2;
+    }
+
+    if(this.body.velocity.x < 0){
+        this.scale.x = -1;
+    }else if(this.body.velocity.x > 0){
+        this.scale.x = 1;
+    } 
+};
+
+//Jump Functions
+
+Heroine.prototype.basicJump = function(){
     let canJump = this.body.touching.down;
 
     if(canJump){
@@ -76,6 +94,15 @@ Heroine.prototype.jump = function(){
 
     return canJump;
 };
+
+Heroine.prototype.levitationJump = function(){
+    //Do nothing
+};
+
+//Heroine Controls
+
+Heroine.prototype.move = Heroine.prototype.basicMove;
+Heroine.prototype.jump = Heroine.prototype.basicJump;
 
 Heroine.prototype.shoot = function(){
     this.weapon.fire(null, this.x + this.dirShootingX*1000, this.y + this.dirShootingY*1000);
@@ -120,8 +147,23 @@ Heroine.prototype.startInvincibility = function(){
         this.invincibilityTimer.stop();
     },this);
     this.invincibilityTimer.start();
-}
+};
+
+Heroine.prototype.startLevitation = function(duration){
+    this.body.allowGravity = false;
+    this.move = this.levitationMove;
+    this.jump = this.levitationJump;
+
+    this.levitateTimer.add(duration, function(){
+        this.move = this.basicMove;
+        this.jump = this.basicJump;
+        this.body.allowGravity = true;
+        this.levitateTimer.stop();
+    },this);
+
+    this.levitateTimer.start();
+};
 
 Heroine.prototype.die = function(){
     this.kill();
-}
+};
