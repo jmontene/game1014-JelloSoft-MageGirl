@@ -27,6 +27,7 @@ PlayState.init = function(){
     this.keys.up.onDown.add(function(){
         let didJump = this.heroine.jump();
     }, this);
+
 };
 
 PlayState.preload = function(){
@@ -36,12 +37,20 @@ PlayState.preload = function(){
     //Background
     this.game.load.image('bg:forest', this.assetFolder + 'images/backgrounds/forest.png');
 
+    //UI Elements
+    this.game.load.image('ui:lifebar:back', this.assetFolder + 'images/ui/lifebar/back.png');
+    this.game.load.image('ui:lifebar:front', this.assetFolder + 'images/ui/lifebar/front.png');
+    this.game.load.image('ui:lifebar:content', this.assetFolder + 'images/ui/lifebar/content.png');
+
     //Platform images
     this.game.load.image('platform:forest:ground', this.assetFolder + 'images/tiles/forest/ground.png')
     this.game.load.image('platform:forest:4x1', this.assetFolder + 'images/tiles/forest/4x1.png');
 
     //Heroine Sprite
     this.game.load.image('sprite:heroine', this.assetFolder + 'images/sprites/heroine/mage.png');
+
+    //Enemy Sprites
+    this.game.load.image('sprite:enemy:basic_shooter', this.assetFolder + 'images/sprites/enemies/basic_shooter.png')
 
     //Bullet Sprites
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
@@ -53,13 +62,16 @@ PlayState.create = function(){
 
     //Load the level
     this.loadLevel(this.game.cache.getJSON('level:forest'));
+
+    //Create the UI
+    this.createUI();
 };
 
 PlayState.update = function(){
     this.handleInput();
 };
 
-//Other functions of the play state
+//Level Loading
 
 PlayState.loadLevel = function(data){
     //Set visual theme
@@ -67,12 +79,14 @@ PlayState.loadLevel = function(data){
 
     //Create the needed groups and layers
     this.platforms = this.game.add.group();
+    this.enemies = this.game.add.group();
+    this.damageGroup = this.game.add.group();
 
     //spawn platforms
     data.platforms.forEach(this.spawnPlatform, this);
 
     //spawn heroine and enemies
-    this.spawnCharacters({heroine: data.heroine});
+    this.spawnCharacters(data);
 
     //enable gravity
     this.game.physics.arcade.gravity.y = this.gravity;
@@ -87,10 +101,37 @@ PlayState.spawnPlatform = function(platform){
 };
 
 PlayState.spawnCharacters = function(data){
-    this.heroine = new Heroine(this.game, data.heroine.x, data.heroine.y);
+    //Heroine
+    this.heroine = new Heroine(this.game, {
+        "x": data.heroine.x, 
+        "y": data.heroine.y,
+        "platformGroup": this.platforms,
+        "damageGroup": this.damageGroup
+    });
     this.heroine.platformGroup = this.platforms;
     this.game.add.existing(this.heroine);
+
+    //Enemies
+    data.enemies.forEach(this.spawnEnemy, this);
 };
+
+PlayState.spawnEnemy = function(enemy){
+    let e = undefined;
+    
+    switch(enemy.class){
+        case "basic_shooter":
+            e = new BasicShooterEnemy(this.game, enemy.args);
+            break;
+        default:
+            e = new Enemy(this.game, enemy.args);
+    }
+
+    this.enemies.add(e);
+    this.heroine.damageGroup.add(e);
+    e.platformGroup =  this.platforms;
+};
+
+//Input
 
 PlayState.handleInput = function(){
     if(this.keys.left.isDown){
@@ -117,3 +158,20 @@ PlayState.handleInput = function(){
         this.heroine.dirShootingY = 0;
     }
 }
+
+//UI
+
+PlayState.createUI = function(){
+    this.ui = this.game.add.group();
+
+    let lifebar = new LifeBar(this.game,{
+        "x": 0,
+        "y": 0,
+        "back": "ui:lifebar:back",
+        "content": "ui:lifebar:content",
+        "front": "ui:lifebar:front",
+        "heroine": this.heroine
+    });
+
+    this.ui.add(lifebar);
+};

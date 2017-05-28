@@ -1,13 +1,20 @@
 const HEROINE_DEFAULT_SPEED = 200;
 const HEROINE_DEFAULT_JUMP_SPEED = 600;
-const HEROINE_BULLET_SPEED = 300;
+const HEROINE_BULLET_SPEED = 700;
+const HEROINE_STARTING_HP = 10;
 
-function Heroine(game, x, y){
+function Heroine(game, args){
     //Basics
-    Phaser.Sprite.call(this, game, x, y, 'sprite:heroine');
+    Phaser.Sprite.call(this, game, args.x, args.y, 'sprite:heroine');
     this.anchor.set(0.5,0.5);
     this.game.physics.enable(this);
     this.body.collideWorldBounds = true;
+
+    //Stats
+    this.maxHP = HEROINE_STARTING_HP;
+    this.hp = HEROINE_STARTING_HP;
+    this.invincible = false;
+    this.invincibilityTime = 3000;
 
     //Speeds
     this.speed = HEROINE_DEFAULT_SPEED;
@@ -25,8 +32,12 @@ function Heroine(game, x, y){
         bullet.body.setCircle(4,4,4);
     },this);
 
-    //Collision Groups (Set by caller)
-    this.platformGroup = null;
+    //Events
+    this.invincibilityTimer = this.game.time.create(false);
+
+    //Collision Groups
+    this.platformGroup = args.platformGroup;
+    this.damageGroup = args.damageGroup;
 }
 
 Heroine.prototype = Object.create(Phaser.Sprite.prototype);
@@ -75,8 +86,36 @@ Heroine.prototype.shoot = function(){
 Heroine.prototype.handleCollisions = function(){
     this.game.physics.arcade.collide(this, this.platformGroup);
     this.game.physics.arcade.overlap(this.weapon.bullets, this.platformGroup, this.onBulletvsPlatform, null, this);
+    this.game.physics.arcade.overlap(this, this.damageGroup, this.onHeroinevsDamage, null, this);
 };
 
 Heroine.prototype.onBulletvsPlatform = function(bullet, platform){
     bullet.kill();
+}
+
+Heroine.prototype.onHeroinevsDamage = function(heroine, damage){
+    if(!this.invincibility){
+        heroine.hp -= 1;
+        if(heroine.hp == 0){
+            heroine.die();
+        }
+        heroine.startInvincibility();
+    }
+};
+
+//Status Changes
+
+Heroine.prototype.startInvincibility = function(){
+    this.invincibility = true;
+    this.tint = 0xff00ff;
+    this.invincibilityTimer.add(this.invincibilityTime, function(){
+        this.invincibility = false;
+        this.tint = 0xffffff;
+        this.invincibilityTimer.stop();
+    },this);
+    this.invincibilityTimer.start();
+}
+
+Heroine.prototype.die = function(){
+    this.kill();
 }

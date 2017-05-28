@@ -3,6 +3,18 @@
     "heroine": {"x": 21, "y": 525},
     "platforms":[
         {"image": "ground", "x": 0, "y": 546},
-        {"image": "4x1", "x": 450, "y": 290}
+        {"image": "4x1", "x": 450, "y": 410}
+    ],
+    "enemies":[
+        {
+            "class": "basic_shooter",
+            "args":{
+                "x": 500, 
+                "y": 395, 
+                "key": "basic_shooter", 
+                "horizontalRange": 50,
+                "speed": 100
+            }
+        }
     ]
 }
