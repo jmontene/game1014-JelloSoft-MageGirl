@@ -1,4 +1,6 @@
 const BASIC_SHOOTER_ENEMY_HORIZONTAL_RANGE = 100;
+const BASIC_SHOOTER_ENEMY_BULLET_SPEED = 200;
+const BASIC_SHOOTER_ENEMY_FIRE_RATE = 2000;
 
 function BasicShooterEnemy(game, args){
     //Basics
@@ -7,6 +9,26 @@ function BasicShooterEnemy(game, args){
     this.currentDir = 1;
     this.rightLimit = this.x + this.horizontalRange;
     this.leftLimit = this.x - this.horizontalRange;
+
+    //Collision Groups
+    this.damageGroup = null; //Set by caller
+
+    //Shooting
+    this.weapon = new Phaser.Weapon(game);
+    this.weapon.bulletSpeed = BASIC_SHOOTER_ENEMY_BULLET_SPEED;
+    this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+    this.weapon.createBullets(10, "sprite:bullet:" + args.bullet);
+    this.weapon.trackSprite(this);
+    this.weapon.onFire.add(function(bullet, weapon){
+        bullet.body.allowGravity = false;
+        bullet.body.setCircle(4,4,4);
+    },this);
+    this.fireRate = BASIC_SHOOTER_ENEMY_FIRE_RATE;
+
+    //Events
+    this.fireTimer = this.game.time.create(false);
+    this.fireTimer.loop(this.fireRate, this.shoot, this);
+    this.fireTimer.start();
 }
 
 BasicShooterEnemy.prototype = Object.create(Enemy.prototype);
@@ -26,4 +48,10 @@ BasicShooterEnemy.prototype.update = function(){
         this.x = this.leftLimit;
         this.currentDir = 1;
     }
+};
+
+//Actions
+
+BasicShooterEnemy.prototype.shoot = function(){
+    this.weapon.fire(null, this.x + this.currentDir * 1000, this.y);
 };

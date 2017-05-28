@@ -14,7 +14,7 @@ function Heroine(game, args){
     this.maxHP = HEROINE_STARTING_HP;
     this.hp = HEROINE_STARTING_HP;
     this.invincible = false;
-    this.invincibilityTime = 3000;
+    this.invincibilityTime = 2000;
 
     //Speeds
     this.speed = HEROINE_DEFAULT_SPEED;
@@ -86,7 +86,13 @@ Heroine.prototype.shoot = function(){
 Heroine.prototype.handleCollisions = function(){
     this.game.physics.arcade.collide(this, this.platformGroup);
     this.game.physics.arcade.overlap(this.weapon.bullets, this.platformGroup, this.onBulletvsPlatform, null, this);
-    this.game.physics.arcade.overlap(this, this.damageGroup, this.onHeroinevsDamage, null, this);
+
+    this.damageGroup.forEach(this.handleDamageSubGroups, this);
+    
+};
+
+Heroine.prototype.handleDamageSubGroups = function(group){
+    this.game.physics.arcade.overlap(this, group, this.onHeroinevsDamage, null, this);
 };
 
 Heroine.prototype.onBulletvsPlatform = function(bullet, platform){

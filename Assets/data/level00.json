@@ -13,7 +13,8 @@
                 "y": 395, 
                 "key": "basic_shooter", 
                 "horizontalRange": 50,
-                "speed": 100
+                "speed": 100,
+                "bullet": "enemy_energy_ball"
             }
         }
     ]

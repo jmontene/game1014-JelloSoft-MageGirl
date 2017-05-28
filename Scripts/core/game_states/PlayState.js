@@ -54,6 +54,7 @@ PlayState.preload = function(){
 
     //Bullet Sprites
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
+    this.game.load.image('sprite:bullet:enemy_energy_ball', this.assetFolder + 'images/sprites/bullets/enemy_energy_ball.png');
 };
 
 PlayState.create = function(){
@@ -90,6 +91,9 @@ PlayState.loadLevel = function(data){
 
     //enable gravity
     this.game.physics.arcade.gravity.y = this.gravity;
+
+    //More group operations
+    this.damageGroup.add(this.enemies);
 };
 
 PlayState.spawnPlatform = function(platform){
@@ -121,13 +125,13 @@ PlayState.spawnEnemy = function(enemy){
     switch(enemy.class){
         case "basic_shooter":
             e = new BasicShooterEnemy(this.game, enemy.args);
+            this.damageGroup.add(e.weapon.bullets);
             break;
         default:
             e = new Enemy(this.game, enemy.args);
     }
 
     this.enemies.add(e);
-    this.heroine.damageGroup.add(e);
     e.platformGroup =  this.platforms;
 };
 
