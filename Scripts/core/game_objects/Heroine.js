@@ -127,6 +127,7 @@ Heroine.prototype.onBulletvsPlatform = function(bullet, platform){
 }
 
 Heroine.prototype.onHeroinevsDamage = function(heroine, damage){
+    console.log(damage);
     if(!this.invincibility){
         heroine.hp -= 1;
         if(heroine.hp == 0){

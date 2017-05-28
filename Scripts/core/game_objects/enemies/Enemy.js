@@ -7,12 +7,17 @@ function Enemy(game, args){
     this.game.physics.enable(this);
     this.body.collideWorldBounds = true;
 
+    //Stats
+    this.hp = args.hp;
+    this.maxHP = args.hp;
+
     //Speeds
     this.speed = args.speed;
 
     //Collision Groups (Set by caller)
     this.platformGroup = args.platformGroup;
     args.enemyGroup.add(this);
+    this.heroineBullets = args.heroineBullets;
 }
 
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
@@ -41,4 +46,19 @@ Enemy.prototype.move = function(direction){
 
 Enemy.prototype.handleCollisions = function(){
     this.game.physics.arcade.collide(this, this.platformGroup);
+    this.game.physics.arcade.overlap(this, this.heroineBullets, this.onEnemyvsHeroineBullets, null, this);
+};
+
+Enemy.prototype.onEnemyvsHeroineBullets = function(enemy, bullet){
+    enemy.hp -= 1;
+    bullet.kill();
+    if(enemy.hp == 0){
+        enemy.die();
+    }
+};
+
+//Status change
+
+Enemy.prototype.die = function(){
+    this.kill();
 };

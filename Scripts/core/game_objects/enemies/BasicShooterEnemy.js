@@ -11,10 +11,10 @@ function BasicShooterEnemy(game, args){
     this.leftLimit = this.x - this.horizontalRange;
 
     //Shooting
-    this.weapon = new Phaser.Weapon(game);
+    this.weapon = this.game.add.weapon();
     this.weapon.bulletSpeed = BASIC_SHOOTER_ENEMY_BULLET_SPEED;
     this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-    this.weapon.createBullets(10, "sprite:bullet:" + args.bullet);
+    this.weapon.createBullets(-1, "sprite:bullet:" + args.bullet);
     this.weapon.trackSprite(this);
     this.weapon.onFire.add(function(bullet, weapon){
         bullet.body.allowGravity = false;
@@ -48,8 +48,16 @@ BasicShooterEnemy.prototype.update = function(){
     }
 };
 
+//Enemy Overrides
+BasicShooterEnemy.prototype.die = function(){
+    this.fireTimer.destroy();
+    this.weapon.destroy();
+    this.kill();
+};
+
 //Actions
 
 BasicShooterEnemy.prototype.shoot = function(){
     this.weapon.fire(null, this.x + this.currentDir * 1000, this.y);
 };
+

@@ -14,7 +14,18 @@
                 "key": "basic_shooter", 
                 "horizontalRange": 50,
                 "speed": 100,
-                "bullet": "enemy_energy_ball"
+                "bullet": "enemy_energy_ball",
+                "hp": 15
+            }
+        },
+        {
+            "class": "flying_shooter",
+            "args":{
+                "x": 40,
+                "y": 100,
+                "key": "flying_shooter",
+                "bullet": "enemy_energy_ball",
+                "hp": 20 
             }
         }
     ],

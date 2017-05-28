@@ -50,7 +50,8 @@ PlayState.preload = function(){
     this.game.load.image('sprite:heroine', this.assetFolder + 'images/sprites/heroine/mage.png');
 
     //Enemy Sprites
-    this.game.load.image('sprite:enemy:basic_shooter', this.assetFolder + 'images/sprites/enemies/basic_shooter.png')
+    this.game.load.image('sprite:enemy:basic_shooter', this.assetFolder + 'images/sprites/enemies/basic_shooter.png');
+    this.game.load.image('sprite:enemy:flying_shooter', this.assetFolder + 'images/sprites/enemies/flying_shooter.png');
 
     //Bullet Sprites
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
@@ -130,11 +131,16 @@ PlayState.spawnEnemy = function(enemy){
     enemy.args.damageGroup = this.damageGroup;
     enemy.args.platformGroup = this.platforms;
     enemy.args.enemyGroup = this.enemies;
+    enemy.args.heroineBullets = this.heroine.weapon.bullets;
+    enemy.args.heroine = this.heroine;
     let e = undefined;
     
     switch(enemy.class){
         case "basic_shooter":
             e = new BasicShooterEnemy(this.game, enemy.args);
+            break;
+        case "flying_shooter":
+            e = new FlyingShooterEnemy(this.game, enemy.args);
             break;
         default:
             e = new Enemy(this.game, enemy.args);
