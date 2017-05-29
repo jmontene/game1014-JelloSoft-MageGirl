@@ -1,16 +1,17 @@
 {
     "theme": "forest",
-    "heroine": {"x": 21, "y": 525},
+    "worldSize": { "width": 3000, "height": 3000 },
+    "heroine": {"x": 21, "y": 2900},
     "platforms":[
-        {"image": "ground", "x": 0, "y": 546},
-        {"image": "4x1", "x": 450, "y": 410}
+        {"image": "ground", "x": 0, "y": 2946},
+        {"image": "4x1", "x": 450, "y": 2810}
     ],
     "enemies":[
         {
             "class": "basic_shooter",
             "args":{
                 "x": 500, 
-                "y": 395, 
+                "y": 2795, 
                 "key": "basic_shooter", 
                 "horizontalRange": 50,
                 "speed": 100,
@@ -22,10 +23,11 @@
             "class": "flying_shooter",
             "args":{
                 "x": 40,
-                "y": 100,
+                "y": 2500,
                 "key": "flying_shooter",
                 "bullet": "enemy_energy_ball",
-                "hp": 20 
+                "hp": 20,
+                "range": 500
             }
         }
     ],
@@ -34,7 +36,7 @@
             "class": "levitate",
             "args":{
                 "x": 500,
-                "y": 525,
+                "y": 2925,
                 "duration": 10000,   
                 "image": "levitate",
                 "radius": 4,

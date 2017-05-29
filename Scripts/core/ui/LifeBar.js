@@ -6,6 +6,7 @@ LifeBar = function(game, args){
 
     //Parts
     this.parts = this.game.add.group();
+    this.parts.fixedToCamera = true;
 
     //Tracked Heroine
     this.heroine = args.heroine;

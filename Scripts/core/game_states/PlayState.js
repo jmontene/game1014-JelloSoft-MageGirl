@@ -63,7 +63,7 @@ PlayState.preload = function(){
 
 PlayState.create = function(){
     //Add the background
-    this.game.add.image(0,0,'bg:forest');
+    this.bg = this.game.add.tileSprite(0,0,3000,3000,'bg:forest');
 
     //Load the level
     this.loadLevel(this.game.cache.getJSON('level:forest'));
@@ -81,6 +81,9 @@ PlayState.update = function(){
 PlayState.loadLevel = function(data){
     //Set visual theme
     this.theme = data.theme;
+
+    //Set world bounds
+    this.game.world.setBounds(0,0,data.worldSize.width, data.worldSize.height);
 
     //Create the needed groups and layers
     this.platforms = this.game.add.group();
@@ -102,6 +105,9 @@ PlayState.loadLevel = function(data){
 
     //More group operations
     this.damageGroup.add(this.enemies);
+
+    //Set Camera
+    this.game.camera.follow(this.heroine);
 };
 
 PlayState.spawnPlatform = function(platform){
