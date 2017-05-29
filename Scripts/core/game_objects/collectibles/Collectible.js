@@ -1,6 +1,6 @@
-function Powerup(game, args){
+function Collectible(game, args){
     //Basics
-    Phaser.Sprite.call(this, game, args.x, args.y, 'sprite:powerup:' + args.image);
+    Phaser.Sprite.call(this, game, args.x, args.y, 'sprite:collectible:' + args.image);
     this.anchor.set(0.5,0.5);
     this.game.physics.enable(this);
     this.body.allowGravity = false;
@@ -10,21 +10,21 @@ function Powerup(game, args){
     //Collision
     this.heroine = args.heroine;
 
-    args.powerupGroup.add(this);
+    args.collectibleGroup.add(this);
 }
 
-Powerup.prototype = Object.create(Phaser.Sprite.prototype);
-Powerup.prototype.constructor = Powerup;
+Collectible.prototype = Object.create(Phaser.Sprite.prototype);
+Collectible.prototype.constructor = Collectible;
 
 //Phaser overrides
 
-Powerup.prototype.update = function(){
+Collectible.prototype.update = function(){
     this.game.physics.arcade.overlap(this, this.heroine, this.onPickup, null, this);
 }
 
 //Custom functions
 
-Powerup.prototype.onPickup = function(powerup, heroine){
-    console.log("Powerup picked up");
+Collectible.prototype.onPickup = function(collectible, heroine){
+    console.log("Collectible picked up");
     this.kill();
 };

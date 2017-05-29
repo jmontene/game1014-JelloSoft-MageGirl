@@ -1,0 +1,172 @@
+{
+    "theme": "forest",
+    "world": {"width": 1960, "height": 600},
+    "heroine": {"x": 10, "y": 520},
+    "platforms":[
+        {"image": "ground", "x": 0, "y": 546},
+        {"image": "4x1", "x": 160, "y" : 410},
+        {"image": "4x1", "x": 640, "y" : 410}
+    ],
+    "enemies":[
+        {
+            "class": "flying_shooter",
+            "args":{
+                "x": 50, 
+                "y": 100, 
+                "key": "flying_shooter", 
+                "bullet": "enemy_energy_ball",
+                "hp": 20,
+                "range": 500
+            }
+        },
+        {
+            "class": "flying_shooter",
+            "args":{
+                "x": 480, 
+                "y": 100, 
+                "key": "flying_shooter", 
+                "bullet": "enemy_energy_ball",
+                "hp": 20,
+                "range": 500
+            }
+        },
+        {
+            "class": "flying_shooter",
+            "args":{
+                "x": 890, 
+                "y": 100, 
+                "key": "flying_shooter", 
+                "bullet": "enemy_energy_ball",
+                "hp": 20,
+                "range": 500
+            }
+        },
+        {
+            "class": "basic_shooter",
+            "args":{
+                "x": 240, 
+                "y": 380, 
+                "key": "basic_shooter", 
+                "horizontalRange": 50,
+                "speed": 100,
+                "bullet": "enemy_energy_ball",
+                "hp": 15,
+                "range": 300
+            }
+        },
+        {
+            "class": "basic_shooter",
+            "args":{
+                "x": 720, 
+                "y": 380, 
+                "key": "basic_shooter", 
+                "horizontalRange": 50,
+                "speed": 100,
+                "bullet": "enemy_energy_ball",
+                "hp": 15,
+                "range": 300
+            }
+        }
+    ],
+    "collectibles":[
+        {
+            "class": "coin",
+            "args":{
+                "x": 200,
+                "y": 330,
+                "image": "coin",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0 
+            }
+        },
+        {
+            "class": "coin",
+            "args":{
+                "x": 240,
+                "y": 330,
+                "image": "coin",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0 
+            }
+        },
+        {
+            "class": "coin",
+            "args":{
+                "x": 280,
+                "y": 330,
+                "image": "coin",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0 
+            }
+        },
+        {
+            "class": "coin",
+            "args":{
+                "x": 680,
+                "y": 330,
+                "image": "coin",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0 
+            }
+        },
+        {
+            "class": "coin",
+            "args":{
+                "x": 720,
+                "y": 330,
+                "image": "coin",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0 
+            }
+        },
+        {
+            "class": "coin",
+            "args":{
+                "x": 760,
+                "y": 330,
+                "image": "coin",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0 
+            }
+        },
+        {
+            "class": "coin",
+            "args":{
+                "x": 440,
+                "y": 530,
+                "image": "coin",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0 
+            }
+        },
+        {
+            "class": "coin",
+            "args":{
+                "x": 480,
+                "y": 530,
+                "image": "coin",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0 
+            }
+        },
+        {
+            "class": "coin",
+            "args":{
+                "x": 520,
+                "y": 530,
+                "image": "coin",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0 
+            }
+        }
+    ]
+}

@@ -18,6 +18,9 @@ function Enemy(game, args){
     this.platformGroup = args.platformGroup;
     args.enemyGroup.add(this);
     this.heroineBullets = args.heroineBullets;
+
+    //Reference to the heroine
+    this.heroine = args.heroine;
 }
 
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);

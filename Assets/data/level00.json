@@ -1,6 +1,6 @@
 {
     "theme": "forest",
-    "worldSize": { "width": 3000, "height": 3000 },
+    "world": { "width": 3000, "height": 3000 },
     "heroine": {"x": 21, "y": 2900},
     "platforms":[
         {"image": "ground", "x": 0, "y": 2946},

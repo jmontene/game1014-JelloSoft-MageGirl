@@ -9,6 +9,7 @@ function Heroine(game, args){
     this.anchor.set(0.5,0.5);
     this.game.physics.enable(this);
     this.body.collideWorldBounds = true;
+    this.coins = 0;
 
     //Stats
     this.maxHP = HEROINE_STARTING_HP;

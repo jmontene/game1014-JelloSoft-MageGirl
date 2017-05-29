@@ -1,10 +1,10 @@
 function Levitate(game, args){
     //Basics
-    Powerup.call(this, game, args);
+    Collectible.call(this, game, args);
     this.duration = args.duration;
 };
 
-Levitate.prototype = Object.create(Powerup.prototype);
+Levitate.prototype = Object.create(Collectible.prototype);
 Levitate.prototype.constructor = Levitate;
 
 //Powerup Overrides

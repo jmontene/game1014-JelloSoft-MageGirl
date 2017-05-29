@@ -32,7 +32,7 @@ PlayState.init = function(){
 
 PlayState.preload = function(){
     //Level Data
-    this.game.load.json('level:forest', this.assetFolder + 'data/level00.json');
+    this.game.load.json('level:forest', this.assetFolder + 'data/firstPlayable.json');
 
     //Background
     this.game.load.image('bg:forest', this.assetFolder + 'images/backgrounds/forest.png');
@@ -41,6 +41,7 @@ PlayState.preload = function(){
     this.game.load.image('ui:lifebar:back', this.assetFolder + 'images/ui/lifebar/back.png');
     this.game.load.image('ui:lifebar:front', this.assetFolder + 'images/ui/lifebar/front.png');
     this.game.load.image('ui:lifebar:content', this.assetFolder + 'images/ui/lifebar/content.png');
+    this.game.load.image('ui:icon:coin', this.assetFolder + 'images/ui/icons/coin.png');
 
     //Platform images
     this.game.load.image('platform:forest:ground', this.assetFolder + 'images/tiles/forest/ground.png')
@@ -57,13 +58,18 @@ PlayState.preload = function(){
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
     this.game.load.image('sprite:bullet:enemy_energy_ball', this.assetFolder + 'images/sprites/bullets/enemy_energy_ball.png');
 
-    //Powerup Sprites
-    this.game.load.image('sprite:powerup:levitate', this.assetFolder + 'images/sprites/powerups/levitate.png');
+    //Collectible Sprites
+    this.game.load.image('sprite:collectible:levitate', this.assetFolder + 'images/sprites/collectibles/levitate.png');
+    this.game.load.spritesheet('sprite:collectible:coin', this.assetFolder + 'images/sprites/collectibles/coin.png',22,22);
+
+    //Fonts
+    this.game.load.image('ui:font:numbers', this.assetFolder + 'images/ui/fonts/numbers.png');
 };
 
 PlayState.create = function(){
     //Add the background
-    this.bg = this.game.add.tileSprite(0,0,3000,3000,'bg:forest');
+    this.bg = this.game.add.image(0,0,'bg:forest');
+    this.bg.fixedToCamera = true;
 
     //Load the level
     this.loadLevel(this.game.cache.getJSON('level:forest'));
@@ -83,13 +89,13 @@ PlayState.loadLevel = function(data){
     this.theme = data.theme;
 
     //Set world bounds
-    this.game.world.setBounds(0,0,data.worldSize.width, data.worldSize.height);
+    this.game.world.setBounds(0,0,data.world.width, data.world.height);
 
     //Create the needed groups and layers
     this.platforms = this.game.add.group();
     this.enemies = this.game.add.group();
     this.damageGroup = this.game.add.group();
-    this.powerups = this.game.add.group();
+    this.collectibles = this.game.add.group();
 
     //spawn platforms
     data.platforms.forEach(this.spawnPlatform, this);
@@ -98,7 +104,7 @@ PlayState.loadLevel = function(data){
     this.spawnCharacters(data);
 
     //spawn powerups
-    data.powerups.forEach(this.spawnPowerup, this);
+    data.collectibles.forEach(this.spawnCollectible, this);
 
     //enable gravity
     this.game.physics.arcade.gravity.y = this.gravity;
@@ -153,17 +159,20 @@ PlayState.spawnEnemy = function(enemy){
     }
 };
 
-PlayState.spawnPowerup = function(powerup){
-    powerup.args.heroine = this.heroine;
-    powerup.args.powerupGroup = this.powerups;
-    let p = undefined;
+PlayState.spawnCollectible = function(collectible){
+    collectible.args.heroine = this.heroine;
+    collectible.args.collectibleGroup = this.collectibles;
+    let c = undefined;
 
-    switch(powerup.class){
+    switch(collectible.class){
         case "levitate":
-            p = new Levitate(this.game, powerup.args);
+            p = new Levitate(this.game, collectible.args);
+            break;
+        case "coin":
+            p = new Coin(this.game, collectible.args);
             break;
         default:
-            p = new Powerup(this.game, powerup.args);
+            p = new Collectible(this.game, collectible.args);
     }
 };
 
@@ -218,5 +227,14 @@ PlayState.createUI = function(){
         "heroine": this.heroine
     });
 
+    let coinCounter = new CoinCounter(this.game,{
+        "x": 190,
+        "y": 0,
+        "icon": "coin",
+        "font": "numbers",
+        "heroine": this.heroine
+    });
+
     this.ui.add(lifebar);
+    this.ui.add(coinCounter);
 };

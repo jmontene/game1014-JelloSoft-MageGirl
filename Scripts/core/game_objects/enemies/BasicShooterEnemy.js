@@ -9,6 +9,7 @@ function BasicShooterEnemy(game, args){
     this.currentDir = 1;
     this.rightLimit = this.x + this.horizontalRange;
     this.leftLimit = this.x - this.horizontalRange;
+    this.range = args.range;
 
     //Shooting
     this.weapon = this.game.add.weapon();
@@ -58,6 +59,8 @@ BasicShooterEnemy.prototype.die = function(){
 //Actions
 
 BasicShooterEnemy.prototype.shoot = function(){
-    this.weapon.fire(null, this.x + this.currentDir * 1000, this.y);
+    if(this.game.physics.arcade.distanceBetween(this, this.heroine) <= this.range){
+        this.weapon.fire(null, this.heroine.x, this.heroine.y);
+    }
 };
 
