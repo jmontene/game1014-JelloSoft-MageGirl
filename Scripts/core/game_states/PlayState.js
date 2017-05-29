@@ -50,7 +50,7 @@ PlayState.preload = function(){
     this.game.load.image('platform:forest:inner', this.assetFolder + 'images/tiles/forest/inner.png');
 
     //Heroine Sprite
-    this.game.load.image('sprite:heroine', this.assetFolder + 'images/sprites/heroine/mage.PNG');
+    this.game.load.image('sprite:heroine', this.assetFolder + 'images/sprites/heroine/mage.png');
 
     //Enemy Sprites
     this.game.load.image('sprite:enemy:basic_shooter', this.assetFolder + 'images/sprites/enemies/basic_shooter.png');
