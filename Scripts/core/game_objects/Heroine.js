@@ -16,15 +16,16 @@ function Heroine(game, args){
     this.hp = HEROINE_STARTING_HP;
     this.invincible = false;
     this.invincibilityTime = 2000;
+    this.dead = false;
 
     //Speeds
     this.speed = HEROINE_DEFAULT_SPEED;
     this.jumpSpeed = HEROINE_DEFAULT_JUMP_SPEED;
 
     //Shooting
-    this.weapon = new Phaser.Weapon(game);
+    this.weapon = this.game.add.weapon();
     this.weapon.bulletSpeed = HEROINE_BULLET_SPEED;
-    this.weapon.createBullets(20, 'sprite:bullet:energy_ball');
+    this.weapon.createBullets(-1, 'sprite:bullet:energy_ball');
     this.weapon.trackSprite(this);
     this.dirShootingX = 0;
     this.dirShootingY = 0;
@@ -166,5 +167,7 @@ Heroine.prototype.startLevitation = function(duration){
 };
 
 Heroine.prototype.die = function(){
+    this.dead = true;
+    this.weapon.destroy();
     this.kill();
 };

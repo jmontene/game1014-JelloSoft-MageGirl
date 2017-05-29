@@ -80,7 +80,9 @@ PlayState.create = function(){
 };
 
 PlayState.update = function(){
-    this.handleInput();
+    if(!this.heroine.dead){
+        this.handleInput();
+    }
 };
 
 //Level Loading
