@@ -3,7 +3,7 @@ const GRAVITY = 1200;
 PlayState = {};
 
 //Properties
-PlayState.assetFolder = "../../Assets/";
+PlayState.assetFolder = "Assets/";
 PlayState.gravity = GRAVITY;
 
 //Game Loop Functions

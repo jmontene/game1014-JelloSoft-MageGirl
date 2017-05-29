@@ -165,6 +165,18 @@
             }
         },
         {
+            "class": "levitate",
+            "args":{
+                "x": 200,
+                "y": 330,
+                "image": "levitate",
+                "radius": 4,
+                "offsetX": 0,
+                "offsetY": 0, 
+                "duration": 10000
+            }
+        },
+        {
             "class": "coin",
             "args":{
                 "x": 240,
