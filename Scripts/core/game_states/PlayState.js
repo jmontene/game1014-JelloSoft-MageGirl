@@ -128,13 +128,10 @@ PlayState.spawnPlatform = function(platform){
 };
 
 PlayState.spawnCharacters = function(data){
+    data.heroine.platformGroup = this.platforms;
+    data.heroine.damageGroup = this.damageGroup;
     //Heroine
-    this.heroine = new Heroine(this.game, {
-        "x": data.heroine.x, 
-        "y": data.heroine.y,
-        "platformGroup": this.platforms,
-        "damageGroup": this.damageGroup
-    });
+    this.heroine = new Heroine(this.game, data.heroine);
     this.heroine.platformGroup = this.platforms;
     this.game.add.existing(this.heroine);
 

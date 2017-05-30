@@ -1,6 +1,6 @@
 const HEROINE_DEFAULT_SPEED = 200;
 const HEROINE_DEFAULT_JUMP_SPEED = 600;
-const HEROINE_BULLET_SPEED = 700;
+const HEROINE_BULLET_SPEED = 300;
 const HEROINE_STARTING_HP = 10;
 
 function Heroine(game, args){
@@ -27,6 +27,7 @@ function Heroine(game, args){
     this.weapon.bulletSpeed = HEROINE_BULLET_SPEED;
     this.weapon.createBullets(-1, 'sprite:bullet:energy_ball');
     this.weapon.trackSprite(this);
+    this.weapon.fireRate = args.fireRate;
     this.dirShootingX = 0;
     this.dirShootingY = 0;
     this.weapon.onFire.add(function(bullet, weapon){
@@ -71,11 +72,11 @@ Heroine.prototype.basicMove = function(dirX, dirY){
 
 Heroine.prototype.levitationMove = function(dirX, dirY){
     if(dirX != 0 && dirY != 0){
-        this.body.velocity.x = dirX * this.speed/2;
-        this.body.velocity.y = dirY * this.speed/2;
+        this.body.velocity.x = dirX * this.speed;
+        this.body.velocity.y = dirY * this.speed;
     }else{
-        this.body.velocity.x = dirX * this.speed/2;
-        this.body.velocity.y = dirY * this.speed/2;
+        this.body.velocity.x = dirX * this.speed;
+        this.body.velocity.y = dirY * this.speed;
     }
 
     if(this.body.velocity.x < 0){
