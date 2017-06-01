@@ -1,7 +1,7 @@
 {
     "theme": "forest",
     "world": {"width": 2460, "height": 600},
-    "heroine": {"x": 10, "y": 520, "fireRate": 1000},
+    "heroine": {"x": 10, "y": 520, "fireRate": 500},
     "platforms":[
         {"image": "ground", "x": 0, "y": 546},
         {"image": "4x1", "x": 160, "y" : 410},
