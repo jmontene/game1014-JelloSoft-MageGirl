@@ -8,7 +8,8 @@ function Heroine(game, args){
     Phaser.Sprite.call(this, game, args.x, args.y, 'sprite:heroine');
     this.anchor.set(0.5,0.5);
     this.game.physics.enable(this);
-    this.body.collideWorldBounds = true;
+    this.body.collideWorldBounds = false;
+    this.outOfCameraBoundsKill = true;
     this.coins = 0;
 
     //Stats
@@ -38,6 +39,9 @@ function Heroine(game, args){
     //Events
     this.invincibilityTimer = this.game.time.create(false);
     this.levitateTimer = this.game.time.create(false);
+
+    //Event Listeners
+    this.events.onKilled.add(this.die, this);
 
     //Collision Groups
     this.platformGroup = args.platformGroup;
@@ -133,7 +137,7 @@ Heroine.prototype.onHeroinevsDamage = function(heroine, damage){
     if(!this.invincibility){
         heroine.hp -= 1;
         if(heroine.hp == 0){
-            heroine.die();
+            heroine.kill();
         }
         heroine.startInvincibility();
     }
@@ -168,7 +172,7 @@ Heroine.prototype.startLevitation = function(duration){
 };
 
 Heroine.prototype.die = function(){
+    this.game.camera.fade();
     this.dead = true;
     this.weapon.destroy();
-    this.kill();
 };

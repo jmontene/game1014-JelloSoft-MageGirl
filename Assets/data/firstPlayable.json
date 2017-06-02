@@ -1,6 +1,6 @@
 {
     "theme": "forest",
-    "world": {"width": 2460, "height": 600},
+    "world": {"originX": 0, "originY": -400, "width": 2460, "height": 1000},
     "heroine": {"x": 10, "y": 520, "fireRate": 500},
     "platforms":[
         {"image": "ground", "x": 0, "y": 546},
@@ -153,6 +153,15 @@
         }
     ],
     "collectibles":[
+        {
+            "class": "deadzone",
+            "args":{
+                "x": 1230,
+                "y": 676,
+                "width" : 680,
+                "height": 10
+            }
+        },
         {
             "class": "coin",
             "args":{

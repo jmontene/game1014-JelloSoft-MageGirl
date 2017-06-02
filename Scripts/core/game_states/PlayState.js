@@ -92,7 +92,7 @@ PlayState.loadLevel = function(data){
     this.theme = data.theme;
 
     //Set world bounds
-    this.game.world.setBounds(0,0,data.world.width, data.world.height);
+    this.game.world.setBounds(data.world.originX,data.world.originY,data.world.width, data.world.height);
 
     //Create the needed groups and layers
     this.platforms = this.game.add.group();
@@ -166,13 +166,17 @@ PlayState.spawnCollectible = function(collectible){
 
     switch(collectible.class){
         case "levitate":
-            p = new Levitate(this.game, collectible.args);
+            c = new Levitate(this.game, collectible.args);
             break;
         case "coin":
-            p = new Coin(this.game, collectible.args);
+            c = new Coin(this.game, collectible.args);
+            break;
+        case "deadzone":
+            c = new Deadzone(this.game, collectible.args);
+            this.deadzone = c;
             break;
         default:
-            p = new Collectible(this.game, collectible.args);
+            c = new Collectible(this.game, collectible.args);
     }
 };
 

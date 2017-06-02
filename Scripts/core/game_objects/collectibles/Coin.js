@@ -4,6 +4,7 @@ function Coin(game, args){
 
     this.animations.add('rotate', [0,1,2,1], 6, true);
     this.animations.play('rotate');
+    this.body.setCircle(args.radius, args.offsetX, args.offsetY);
 };
 
 Coin.prototype = Object.create(Collectible.prototype);

@@ -1,11 +1,16 @@
 function Collectible(game, args){
     //Basics
-    Phaser.Sprite.call(this, game, args.x, args.y, 'sprite:collectible:' + args.image);
+    let img = '';
+    if(args.image != undefined){
+        img = 'sprite:collectible:' + args.image;
+    }else{
+        img = null;
+    }
+    Phaser.Sprite.call(this, game, args.x, args.y, img);
     this.anchor.set(0.5,0.5);
     this.game.physics.enable(this);
     this.body.allowGravity = false;
     this.body.collideWorldBounds = true;
-    this.body.setCircle(args.radius, args.offsetX, args.offsetY);
 
     //Collision
     this.heroine = args.heroine;
