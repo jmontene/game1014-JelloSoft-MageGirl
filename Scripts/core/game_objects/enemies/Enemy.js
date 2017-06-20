@@ -14,10 +14,10 @@ function Enemy(game, args){
     //Speeds
     this.speed = args.speed;
 
-    //Collision Groups (Set by caller)
+    //Collision Groups
     this.platformGroup = args.platformGroup;
     args.enemyGroup.add(this);
-    this.heroineBullets = args.heroineBullets;
+    this.enemyDamageGroup = args.enemyDamageGroup;
 
     //Reference to the heroine
     this.heroine = args.heroine;
@@ -49,16 +49,25 @@ Enemy.prototype.move = function(direction){
 
 Enemy.prototype.handleCollisions = function(){
     this.game.physics.arcade.collide(this, this.platformGroup);
-    this.game.physics.arcade.overlap(this, this.heroineBullets, this.onEnemyvsHeroineBullets, null, this);
+    this.enemyDamageGroup.forEach(this.processDamageCollisions, this);
 };
 
-Enemy.prototype.onEnemyvsHeroineBullets = function(enemy, bullet){
-    enemy.hp -= 1;
-    bullet.kill();
+Enemy.prototype.processDamageCollisions = function(damage){
+    if(damage instanceof Phaser.Group){
+        damage.forEach(this.processDamageCollisions, this);   
+    }else{
+        this.game.physics.arcade.overlap(this, damage, this.onDamage, null, this);
+    }
+};
+
+Enemy.prototype.onDamage = function(enemy, obj){
+    let damage = obj.damage;
+    enemy.hp -= damage.baseValue;
+    damage.onTargetCollision();
     if(enemy.hp == 0){
         enemy.die();
     }
-};
+}
 
 //Status change
 

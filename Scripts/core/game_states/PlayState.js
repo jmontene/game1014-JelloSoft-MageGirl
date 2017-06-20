@@ -17,17 +17,11 @@ PlayState.init = function(){
         right: Phaser.KeyCode.D,
         up: Phaser.KeyCode.W,
         down: Phaser.KeyCode.S,
-        shootLeft: Phaser.KeyCode.LEFT,
-        shootRight: Phaser.KeyCode.RIGHT,
-        shootUp: Phaser.KeyCode.UP,
-        shootDown: Phaser.KeyCode.DOWN
+        attackLeft: Phaser.KeyCode.LEFT,
+        attackRight: Phaser.KeyCode.RIGHT,
+        attackUp: Phaser.KeyCode.UP,
+        attackDown: Phaser.KeyCode.DOWN
     });
-
-    //Set up keyboard events
-    this.keys.up.onDown.add(function(){
-        let didJump = this.heroine.jump();
-    }, this);
-
 };
 
 PlayState.preload = function(){
@@ -49,7 +43,7 @@ PlayState.preload = function(){
     this.game.load.image('platform:forest:2x1', this.assetFolder + 'images/tiles/forest/2x1.png');
 
     //Heroine Sprite
-    this.game.load.image('sprite:heroine', this.assetFolder + 'images/sprites/heroine/mage.png');
+    this.game.load.image('sprite:heroine:mage', this.assetFolder + 'images/sprites/heroine/mage.png');
 
     //Enemy Sprites
     this.game.load.image('sprite:enemy:basic_shooter', this.assetFolder + 'images/sprites/enemies/basic_shooter.png');
@@ -59,8 +53,11 @@ PlayState.preload = function(){
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
     this.game.load.image('sprite:bullet:enemy_energy_ball', this.assetFolder + 'images/sprites/bullets/enemy_energy_ball.png');
 
+    //Melee Sprites
+    this.game.load.image('sprite:melee:slash', this.assetFolder + 'images/sprites/melee/slash.png');
+
     //Collectible Sprites
-    this.game.load.image('sprite:collectible:levitate', this.assetFolder + 'images/sprites/collectibles/levitate.png');
+    this.game.load.image('sprite:collectible:arcane', this.assetFolder + 'images/sprites/collectibles/levitate.png');
     this.game.load.spritesheet('sprite:collectible:coin', this.assetFolder + 'images/sprites/collectibles/coin.png',22,22);
 
     //Fonts
@@ -80,9 +77,7 @@ PlayState.create = function(){
 };
 
 PlayState.update = function(){
-    if(!this.heroine.dead){
-        this.handleInput();
-    }
+    //Do nothing for now
 };
 
 //Level Loading
@@ -95,10 +90,12 @@ PlayState.loadLevel = function(data){
     this.game.world.setBounds(data.world.originX,data.world.originY,data.world.width, data.world.height);
 
     //Create the needed groups and layers
-    this.platforms = this.game.add.group();
-    this.enemies = this.game.add.group();
-    this.damageGroup = this.game.add.group();
-    this.collectibles = this.game.add.group();
+    this.platforms = this.game.add.group(); //Platforms
+    this.enemies = this.game.add.group(); //Enemies
+    this.damageGroup = this.game.add.group(); //Stuff that deals damage to heroines
+    this.damageGroup.add(this.enemies); //Add the enemies to the damage group
+    this.enemyDamageGroup = this.game.add.group(); //Stuff that deals damage to enemies
+    this.collectibles = this.game.add.group(); //Collectibles
 
     //spawn platforms
     data.platforms.forEach(this.spawnPlatform, this);
@@ -128,22 +125,37 @@ PlayState.spawnPlatform = function(platform){
 };
 
 PlayState.spawnCharacters = function(data){
-    data.heroine.platformGroup = this.platforms;
-    data.heroine.damageGroup = this.damageGroup;
     //Heroine
-    this.heroine = new Heroine(this.game, data.heroine);
-    this.heroine.platformGroup = this.platforms;
-    this.game.add.existing(this.heroine);
+    this.spawnHeroine(data.heroine);
 
     //Enemies
     data.enemies.forEach(this.spawnEnemy, this);
 };
 
+PlayState.spawnHeroine = function(heroine){
+    heroine.args.damageGroup = this.damageGroup;
+    heroine.args.enemyDamageGroup = this.enemyDamageGroup;
+    heroine.args.platformGroup = this.platforms;
+    heroine.args.keys = this.keys;
+    let h = undefined;
+
+    switch(heroine.class){
+        case "mage":
+            h = new Mage(this.game, heroine.args);
+            break;
+        default:
+            h = new Heroine(this.game, heroine.args);
+    }
+
+    this.game.add.existing(h);
+    this.heroine = h;
+}
+
 PlayState.spawnEnemy = function(enemy){
     enemy.args.damageGroup = this.damageGroup;
     enemy.args.platformGroup = this.platforms;
     enemy.args.enemyGroup = this.enemies;
-    enemy.args.heroineBullets = this.heroine.weapon.bullets;
+    enemy.args.enemyDamageGroup = this.enemyDamageGroup;
     enemy.args.heroine = this.heroine;
     let e = undefined;
     
@@ -165,8 +177,8 @@ PlayState.spawnCollectible = function(collectible){
     let c = undefined;
 
     switch(collectible.class){
-        case "levitate":
-            c = new Levitate(this.game, collectible.args);
+        case "arcane":
+            c = new Arcane(this.game, collectible.args);
             break;
         case "coin":
             c = new Coin(this.game, collectible.args);
@@ -179,43 +191,6 @@ PlayState.spawnCollectible = function(collectible){
             c = new Collectible(this.game, collectible.args);
     }
 };
-
-//Input
-
-PlayState.handleInput = function(){
-    let dirX = 0;
-    let dirY = 0;
-
-    if(this.keys.left.isDown){
-        dirX = -1;
-    }else if(this.keys.right.isDown){
-        dirX = 1;
-    }
-
-    if(this.keys.up.isDown){
-        dirY = -1;
-    }else if(this.keys.down.isDown){
-        dirY = 1;
-    }
-
-    this.heroine.move(dirX, dirY);
-
-    if(this.keys.shootLeft.isDown){
-        this.heroine.dirShootingX = -1;
-    }else if(this.keys.shootRight.isDown){
-        this.heroine.dirShootingX = 1;
-    }else{
-        this.heroine.dirShootingX = 0;
-    }
-
-    if(this.keys.shootUp.isDown){
-        this.heroine.dirShootingY = -1;
-    }else if(this.keys.shootDown.isDown){
-        this.heroine.dirShootingY = 1;
-    }else{
-        this.heroine.dirShootingY = 0;
-    }
-}
 
 //UI
 

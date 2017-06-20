@@ -13,6 +13,6 @@ Coin.prototype.constructor = Coin;
 //Collectible Overrides
 
 Coin.prototype.onPickup = function(powerup, heroine){
-    heroine.coins += 1;
+    //heroine.coins += 1;
     this.kill();
 };

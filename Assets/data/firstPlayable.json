@@ -1,7 +1,21 @@
 {
     "theme": "forest",
     "world": {"originX": 0, "originY": -400, "width": 2460, "height": 1000},
-    "heroine": {"x": 10, "y": 520, "fireRate": 200},
+    "heroine": {
+        "class" : "mage",
+        "args" : {
+            "x": 10, 
+            "y": 510,
+            "sprite": "mage",
+            "hp": 15,
+            "speed": 200,
+            "attack": 1,
+            "jump_speed": 600,
+            "fire_rate": 200,
+            "bullet_speed": 300,
+            "bullet_sprite": "energy_ball"
+        }
+    },
     "platforms":[
         {"image": "ground", "x": 0, "y": 546},
         {"image": "4x1", "x": 160, "y" : 410},
@@ -174,11 +188,11 @@
             }
         },
         {
-            "class": "levitate",
+            "class": "arcane",
             "args":{
                 "x": 200,
                 "y": 330,
-                "image": "levitate",
+                "image": "arcane",
                 "radius": 4,
                 "offsetX": 0,
                 "offsetY": 0, 
