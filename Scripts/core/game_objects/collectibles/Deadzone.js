@@ -10,8 +10,8 @@ function Deadzone(game, args){
 Deadzone.prototype = Object.create(Collectible.prototype);
 Deadzone.prototype.constructor = Deadzone;
 
-//Collecible overrides
+//Collectible overrides
 
 Deadzone.prototype.onPickup = function(collectible, heroine){
-    heroine.kill();
+    heroine.die();
 };

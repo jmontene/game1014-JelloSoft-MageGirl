@@ -1,76 +1,55 @@
-const ENEMY_DEFAULT_SPEED = 200;
-
 function Enemy(game, args){
     //Basics
-    Phaser.Sprite.call(this, game, args.x, args.y, "sprite:enemy:" + args.key);
-    this.anchor.set(0.5,0.5);
-    this.game.physics.enable(this);
-    this.body.collideWorldBounds = true;
+    Actor.call(this, game, args);
 
     //Stats
-    this.hp = args.hp;
-    this.maxHP = args.hp;
-
-    //Speeds
-    this.speed = args.speed;
 
     //Collision Groups
-    this.platformGroup = args.platformGroup;
     args.enemyGroup.add(this);
-    this.enemyDamageGroup = args.enemyDamageGroup;
+
+    //Enemies deal damage by collision
+    this.damage = new Damage(this,{"baseValue": 1});
+    this.damage.onTargetCollision = function(){
+        //Do nothing
+    }
 
     //Reference to the heroine
     this.heroine = args.heroine;
 }
 
-Enemy.prototype = Object.create(Phaser.Sprite.prototype);
+Enemy.prototype = Object.create(Actor.prototype);
 Enemy.prototype.constructor = Enemy;
 
 
 //Phaser Overrides
 
 Enemy.prototype.update = function(){
-    this.handleCollisions();
-}
-
-//Enemy actions
-
-Enemy.prototype.move = function(direction){
-    this.body.velocity.x = direction * this.speed;
-
-    if(this.body.velocity.x < 0){
-        this.scale.x = -1;
-    }else if(this.body.velocity.x > 0){
-        this.scale.x = 1;
+    Actor.prototype.update.call(this);
+    if(!this.dead){
+        this.executeAI();
     }
 };
+
+//Movement Functions
+
+//Attack Functions
+
+//Death Functions
+Enemy.prototype.basicEnemyDeath = function(){
+    this.dead = true;
+    this.kill();
+};
+
+//AI Handling
+Enemy.prototype.basicAI = function(){
+    console.log("Executed AI");
+}
 
 //Collision Handling
 
-Enemy.prototype.handleCollisions = function(){
-    this.game.physics.arcade.collide(this, this.platformGroup);
-    this.enemyDamageGroup.forEach(this.processDamageCollisions, this);
-};
+//Damage Handling
 
-Enemy.prototype.processDamageCollisions = function(damage){
-    if(damage instanceof Phaser.Group){
-        damage.forEach(this.processDamageCollisions, this);   
-    }else{
-        this.game.physics.arcade.overlap(this, damage, this.onDamage, null, this);
-    }
-};
+//Function Wiring
 
-Enemy.prototype.onDamage = function(enemy, obj){
-    let damage = obj.damage;
-    enemy.hp -= damage.baseValue;
-    damage.onTargetCollision();
-    if(enemy.hp == 0){
-        enemy.die();
-    }
-}
-
-//Status change
-
-Enemy.prototype.die = function(){
-    this.kill();
-};
+Enemy.prototype.executeAI = Enemy.prototype.basicAI;
+Enemy.prototype.die = Enemy.prototype.basicEnemyDeath;

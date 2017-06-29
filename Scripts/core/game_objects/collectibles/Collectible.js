@@ -1,8 +1,8 @@
 function Collectible(game, args){
     //Basics
     let img = '';
-    if(args.image != undefined){
-        img = 'sprite:collectible:' + args.image;
+    if(args.sprite){
+        img = 'sprite:collectible:' + args.sprite;
     }else{
         img = null;
     }

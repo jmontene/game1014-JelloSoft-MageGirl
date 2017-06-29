@@ -5,15 +5,7 @@
         "class" : "mage",
         "args" : {
             "x": 10, 
-            "y": 510,
-            "sprite": "mage",
-            "hp": 15,
-            "speed": 200,
-            "attack": 1,
-            "jump_speed": 600,
-            "fire_rate": 200,
-            "bullet_speed": 300,
-            "bullet_sprite": "energy_ball"
+            "y": 510
         }
     },
     "platforms":[
@@ -38,131 +30,77 @@
             "class": "flying_shooter",
             "args":{
                 "x": 50, 
-                "y": 100, 
-                "key": "flying_shooter", 
-                "bullet": "enemy_energy_ball",
-                "hp": 20,
-                "range": 500
+                "y": 100
             }
         },
         {
             "class": "flying_shooter",
             "args":{
                 "x": 480, 
-                "y": 100, 
-                "key": "flying_shooter", 
-                "bullet": "enemy_energy_ball",
-                "hp": 20,
-                "range": 500
+                "y": 100
             }
         },
         {
             "class": "flying_shooter",
             "args":{
                 "x": 890, 
-                "y": 100, 
-                "key": "flying_shooter", 
-                "bullet": "enemy_energy_ball",
-                "hp": 20,
-                "range": 500
+                "y": 100
             }
         },
         {
             "class": "basic_shooter",
             "args":{
                 "x": 240, 
-                "y": 380, 
-                "key": "basic_shooter", 
-                "horizontalRange": 50,
-                "speed": 100,
-                "bullet": "enemy_energy_ball",
-                "hp": 15,
-                "range": 300
+                "y": 380
             }
         },
         {
             "class": "basic_shooter",
             "args":{
                 "x": 720, 
-                "y": 380, 
-                "key": "basic_shooter", 
-                "horizontalRange": 50,
-                "speed": 100,
-                "bullet": "enemy_energy_ball",
-                "hp": 15,
-                "range": 300
+                "y": 380
             }
         },
         {
             "class": "basic_shooter",
             "args":{
                 "x": 1560, 
-                "y": 280, 
-                "key": "basic_shooter", 
-                "horizontalRange": 20,
-                "speed": 100,
-                "bullet": "enemy_energy_ball",
-                "hp": 15,
-                "range": 300
+                "y": 280
             }
         },
         {
             "class": "basic_shooter",
             "args":{
                 "x": 1760, 
-                "y": 180, 
-                "key": "basic_shooter", 
-                "horizontalRange": 20,
-                "speed": 100,
-                "bullet": "enemy_energy_ball",
-                "hp": 15,
-                "range": 300
+                "y": 180
             }
         },
         {
             "class": "basic_shooter",
             "args":{
                 "x": 1760, 
-                "y": 380, 
-                "key": "basic_shooter", 
-                "horizontalRange": 20,
-                "speed": 100,
-                "bullet": "enemy_energy_ball",
-                "hp": 15,
-                "range": 300
+                "y": 380
             }
         },
         {
             "class": "flying_shooter",
             "args":{
                 "x": 1320, 
-                "y": 100, 
-                "key": "flying_shooter", 
-                "bullet": "enemy_energy_ball",
-                "hp": 20,
-                "range": 500
+                "y": 100
             }
         },
         {
             "class": "flying_shooter",
             "args":{
                 "x": 1620, 
-                "y": 100, 
-                "key": "flying_shooter", 
-                "bullet": "enemy_energy_ball",
-                "hp": 20,
-                "range": 500
+                "y": 100
             }
         },
         {
             "class": "flying_shooter",
             "args":{
                 "x": 1920, 
-                "y": 100, 
-                "key": "flying_shooter", 
-                "bullet": "enemy_energy_ball",
-                "hp": 20,
-                "range": 500
+                "y": 100
             }
         }
     ],
@@ -180,276 +118,175 @@
             "class": "coin",
             "args":{
                 "x": 200,
-                "y": 330,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 330
             }
         },
         {
             "class": "arcane",
             "args":{
                 "x": 200,
-                "y": 330,
-                "image": "arcane",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0, 
-                "duration": 3000
+                "y": 330
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 240,
-                "y": 330,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 330
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 280,
-                "y": 330,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 330
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 680,
-                "y": 330,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 330
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 720,
-                "y": 330,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 330
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 760,
-                "y": 330,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 330
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 440,
-                "y": 530,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 530
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 480,
-                "y": 530,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 530 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 520,
-                "y": 530,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 530
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1332,
-                "y": 390,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 390
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1362,
-                "y": 390,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 390
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1392,
-                "y": 390,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 390 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1532,
-                "y": 490,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 490 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1562,
-                "y": 490,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 490 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1592,
-                "y": 490,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 490 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1532,
-                "y": 250,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 250 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1562,
-                "y": 250,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 250 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1592,
-                "y": 250,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 250 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1732,
-                "y": 350,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 350 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1762,
-                "y": 350,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 350
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1792,
-                "y": 350,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 350
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1732,
-                "y": 150,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 150
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1762,
-                "y": 150,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 150 
             }
         },
         {
             "class": "coin",
             "args":{
                 "x": 1792,
-                "y": 150,
-                "image": "coin",
-                "radius": 4,
-                "offsetX": 0,
-                "offsetY": 0 
+                "y": 150 
             }
         }
     ]

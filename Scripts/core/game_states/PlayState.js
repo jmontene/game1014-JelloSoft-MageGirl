@@ -54,7 +54,7 @@ PlayState.preload = function(){
     this.game.load.image('sprite:bullet:enemy_energy_ball', this.assetFolder + 'images/sprites/bullets/enemy_energy_ball.png');
 
     //Melee Sprites
-    this.game.load.image('sprite:melee:slash', this.assetFolder + 'images/sprites/melee/slash.png');
+    this.game.load.spritesheet('sprite:melee:slash', this.assetFolder + 'images/sprites/melee/slash.png', 24, 38);
 
     //Collectible Sprites
     this.game.load.image('sprite:collectible:arcane', this.assetFolder + 'images/sprites/collectibles/levitate.png');
@@ -136,12 +136,19 @@ PlayState.spawnHeroine = function(heroine){
     heroine.args.damageGroup = this.damageGroup;
     heroine.args.enemyDamageGroup = this.enemyDamageGroup;
     heroine.args.platformGroup = this.platforms;
+    heroine.args.enemyGroup = this.enemies;
     heroine.args.keys = this.keys;
+    if(heroine.args.sprite){
+        heroine.args.sprite = "heroine:" + heroine.args.sprite;
+    }
     let h = undefined;
 
     switch(heroine.class){
         case "mage":
             h = new Mage(this.game, heroine.args);
+            break;
+        case "swordfighter":
+            h = new Swordfighter(this.game, heroine.args);
             break;
         default:
             h = new Heroine(this.game, heroine.args);
@@ -152,10 +159,10 @@ PlayState.spawnHeroine = function(heroine){
 }
 
 PlayState.spawnEnemy = function(enemy){
-    enemy.args.damageGroup = this.damageGroup;
+    enemy.args.damageGroup = this.enemyDamageGroup;
+    enemy.args.enemyDamageGroup = this.damageGroup;
     enemy.args.platformGroup = this.platforms;
     enemy.args.enemyGroup = this.enemies;
-    enemy.args.enemyDamageGroup = this.enemyDamageGroup;
     enemy.args.heroine = this.heroine;
     let e = undefined;
     

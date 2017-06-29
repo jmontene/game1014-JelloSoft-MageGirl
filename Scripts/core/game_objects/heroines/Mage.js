@@ -1,19 +1,18 @@
 function Mage(game, args){
     //Basics
+    args.sprite = args.sprite ? args.sprite : this.defaults.sprite
     Heroine.call(this, game, args);
 
     //Shooting
     this.weapon = this.game.add.weapon();
-    this.weapon.bulletSpeed = args.bullet_speed;
-    this.weapon.createBullets(-1, 'sprite:bullet:' + args.bullet_sprite);
+    this.weapon.bulletSpeed = args.bullet_speed ? args.bullet_speed : this.defaults.bullet_speed;
+    this.weapon.createBullets(-1, 'sprite:bullet:' + (args.bullet_sprite ? args.bullet_sprite : this.defaults.bullet_sprite));
     this.weapon.trackSprite(this);
-    this.weapon.fireRate = args.fire_rate;
-    this.dirShootingX = 0;
-    this.dirShootingY = 0;
+    this.weapon.fireRate = args.fire_rate ? args.fire_rate : this.defaults.fire_rate;
     this.weapon.onFire.add(function(bullet, weapon){
         bullet.body.allowGravity = false;
         bullet.body.setCircle(4,4,4);
-        bullet.damage = new Damage(bullet, {"baseValue": this.attack});
+        bullet.damage = new Damage(bullet, {"baseValue": this.currentAttack});
     },this);
 
     //Events
@@ -26,28 +25,31 @@ function Mage(game, args){
 Mage.prototype = Object.create(Heroine.prototype);
 Mage.prototype.constructor = Mage;
 
+//Constants
+Mage.prototype.defaults = {
+    sprite : "heroine:mage",
+    hp : 15,
+    speed : 200,
+    base_attack : 1,
+    jump_speed : 600,
+    fire_rate : 200,
+    bullet_speed : 300,
+    bullet_sprite : "energy_ball",
+    invincibility_time : 2000
+};
 
 //Phaser Overrides
 
 Mage.prototype.update = function(){
     Heroine.prototype.update.call(this);
     this.handleWeaponCollisions();
-
-    //Check for shooting
-    if(this.dirShootingX != 0 || this.dirShootingY != 0){
-        this.shoot();
-    }
 }
 
-//Unique Movement functions
-Mage.prototype.levitationMove = function(dirX, dirY){
-    if(dirX != 0 && dirY != 0){
-        this.body.velocity.x = dirX * this.speed;
-        this.body.velocity.y = dirY * this.speed;
-    }else{
-        this.body.velocity.x = dirX * this.speed;
-        this.body.velocity.y = dirY * this.speed;
-    }
+//Movement functions
+
+Mage.prototype.levitationMove = function(){
+    this.body.velocity.x = this.dir.x * this.speed;
+    this.body.velocity.y = this.dir.y * this.speed;
 
     if(this.body.velocity.x < 0){
         this.scale.x = -1;
@@ -56,7 +58,7 @@ Mage.prototype.levitationMove = function(dirX, dirY){
     } 
 };
 
-//Unique Jump Functions
+//Jump Functions
 
 Mage.prototype.levitationJump = function(){
     //Do nothing
@@ -65,35 +67,14 @@ Mage.prototype.levitationJump = function(){
 //Unique Attack Functions
 
 Mage.prototype.shoot = function(){
-    this.weapon.fire(null, this.x + this.dirShootingX*1000, this.y + this.dirShootingY*1000);
+    if(this.attackDir.x != 0 || this.attackDir.y != 0){
+        this.weapon.fire(null, this.x + this.attackDir.x*1000, this.y + this.attackDir.y*1000);
+    }
 };
 
-//Mage Controls
-
-Mage.prototype.move = Heroine.prototype.basicMove;
-Mage.prototype.jump = Heroine.prototype.basicJump;
-Mage.prototype.attack = Mage.prototype.shoot;
+//Death Functions
 
 //Input Handling
-Mage.prototype.handleInput = function(){
-    Heroine.prototype.handleInput.call(this);
-
-    if(this.keys.attackLeft.isDown){
-        this.dirShootingX = -1;
-    }else if(this.keys.attackRight.isDown){
-        this.dirShootingX = 1;
-    }else{
-        this.dirShootingX = 0;
-    }
-
-    if(this.keys.attackUp.isDown){
-        this.dirShootingY = -1;
-    }else if(this.keys.attackDown.isDown){
-        this.dirShootingY = 1;
-    }else{
-        this.dirShootingY = 0;
-    }
-}
 
 //Collision Handling
 
@@ -104,6 +85,8 @@ Mage.prototype.handleWeaponCollisions = function(){
 Mage.prototype.onBulletvsPlatform = function(bullet, platform){
     bullet.kill();
 }
+
+//Damage Handling
 
 //Status Changes
 
@@ -124,9 +107,15 @@ Mage.prototype.startLevitation = function(args){
 };
 
 Mage.prototype.die = function(){
-    Heroine.prototype.die.call(this);
     this.weapon.destroy();
+    Heroine.prototype.die.call(this);
 };
+
+//Function Wiring
+
+Mage.prototype.move = Actor.prototype.basicMove;
+Mage.prototype.jump = Heroine.prototype.basicJump;
+Mage.prototype.attack = Mage.prototype.shoot;
 
 //Powerup hooks
 
