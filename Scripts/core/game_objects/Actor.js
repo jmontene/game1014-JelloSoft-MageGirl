@@ -23,6 +23,12 @@ function Actor(game, args){
     //Controls
     this.dir = {"x": Actor.DIR_NONE, "y": Actor.DIR_NONE};
     this.attackDir = {"x": Actor.DIR_NONE, "y": Actor.DIR_NONE};
+
+    //Animations
+    this.animHooks = {
+        idle : null,
+        run : null
+    };
 }
 
 Actor.prototype = Object.create(Phaser.Sprite.prototype);
@@ -40,22 +46,34 @@ Actor.prototype.defaults = {};
 //Phaser Overrides
 Actor.prototype.update = function(){
     this.handleCollisions();
+    this.handleAnimations();  
+};
+
+//Animations
+Actor.prototype.handleAnimations = function(){
+
+};
+
+Actor.prototype.tryPlayAnimation = function(key){
+    if(this.animHooks[key]){
+        this.animations.play(key);
+    }
 };
 
 //Movement Functions
 Actor.prototype.basicMove = function(){
     this.body.velocity.x = this.dir.x * this.speed;
 
-    if(this.body.velocity.x < 0){
-        this.scale.x = -1;
-    }else if(this.body.velocity.x > 0){
-        this.scale.x = 1;
+    if(this.body.velocity.x < 0 && this.scale.x > 0){
+        this.scale.x *= -1;
+    }else if(this.body.velocity.x > 0 && this.scale.x < 0){
+        this.scale.x *= -1;
     }
 };
 
 //Attack Functions
 Actor.prototype.basicAttack = function(){
-    console.log("Base Actor attacked");
+    //console.log("Base Actor attacked");
 };
 
 //Death Functions

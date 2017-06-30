@@ -28,6 +28,9 @@ PlayState.preload = function(){
     //Level Data
     this.game.load.json('level:forest', this.assetFolder + 'data/firstPlayable.json');
 
+    //Animation Data
+    this.game.load.json('statemachine:animations:heroine', this.assetFolder + 'data/state_machines/animations/heroine.json');
+
     //Background
     this.game.load.image('bg:forest', this.assetFolder + 'images/backgrounds/forest.png');
 
@@ -42,8 +45,9 @@ PlayState.preload = function(){
     this.game.load.image('platform:forest:4x1', this.assetFolder + 'images/tiles/forest/4x1.png');
     this.game.load.image('platform:forest:2x1', this.assetFolder + 'images/tiles/forest/2x1.png');
 
-    //Heroine Sprite
+    //Heroine Sprites
     this.game.load.image('sprite:heroine:mage', this.assetFolder + 'images/sprites/heroine/mage.png');
+    this.game.load.atlas('sprite:heroine:sword', this.assetFolder + 'images/sprites/heroine/sword.png', this.assetFolder + 'data/atlases/sword_girl.json');
 
     //Enemy Sprites
     this.game.load.image('sprite:enemy:basic_shooter', this.assetFolder + 'images/sprites/enemies/basic_shooter.png');

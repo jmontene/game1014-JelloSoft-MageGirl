@@ -2,7 +2,7 @@
     "theme": "forest",
     "world": {"originX": 0, "originY": -400, "width": 2460, "height": 1000},
     "heroine": {
-        "class" : "mage",
+        "class" : "swordfighter",
         "args" : {
             "x": 10, 
             "y": 510

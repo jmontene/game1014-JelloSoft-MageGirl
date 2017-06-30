@@ -20,6 +20,10 @@ function Heroine(game, args){
     this.platformGroup = args.platformGroup;
     this.damageGroup = args.damageGroup;
     this.enemyDamageGroup = args.enemyDamageGroup;
+
+    //Animations
+    let stateMachineArgs = args.animation_state_machine ? args.animation_state_machine : this.defaults.animation_state_machine;
+    this.animationStateMachine = new StateMachine(this, this.game.cache.getJSON(stateMachineArgs));
 }
 
 Heroine.prototype = Object.create(Actor.prototype);
@@ -27,7 +31,8 @@ Heroine.prototype.constructor = Heroine;
 
 //Constants
 Heroine.prototype.defaults = {
-    invincibility_time : 2000
+    invincibility_time : 2000,
+    animation_state_machine : "statemachine:animations:heroine"
 };
 
 //Phaser Overrides
@@ -35,6 +40,9 @@ Heroine.prototype.defaults = {
 Heroine.prototype.update = function(){
     Actor.prototype.update.call(this);
     if(!this.dead){
+        this.animationStateMachine.update();
+        this.animationStateMachine.setProperty("x_speed", this.body.velocity.x);
+        this.animationStateMachine.setProperty("grounded", this.body.touching.down);
         this.handleInput();
     }
 }
