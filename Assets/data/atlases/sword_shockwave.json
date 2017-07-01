@@ -1,0 +1,36 @@
+{"frames": {
+
+"sword_shockwave_1":
+{
+	"frame": {"x":1,"y":1,"w":12,"h":34},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":34},
+	"sourceSize": {"w":12,"h":34}
+},
+"sword_shockwave_2":
+{
+	"frame": {"x":1,"y":37,"w":11,"h":34},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":34},
+	"sourceSize": {"w":11,"h":34}
+},
+"sword_shockwave_3":
+{
+	"frame": {"x":1,"y":73,"w":9,"h":33},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":33},
+	"sourceSize": {"w":9,"h":34}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "slash_shockwave.png",
+	"format": "RGBA8888",
+	"size": {"w":14,"h":107},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2d87d2f11fd75a3b70cf447dc51adb72:2004c5b60dd245a94f3e81bd8bc16895:913c2da79b93a711239d7140444201c5$"
+}
+}

@@ -30,6 +30,7 @@ PlayState.preload = function(){
 
     //Animation Data
     this.game.load.json('statemachine:animations:heroine', this.assetFolder + 'data/state_machines/animations/heroine.json');
+    this.game.load.json('statemachine:animations:melee', this.assetFolder + 'data/state_machines/animations/melee.json');
 
     //Background
     this.game.load.image('bg:forest', this.assetFolder + 'images/backgrounds/forest.png');
@@ -58,7 +59,7 @@ PlayState.preload = function(){
     this.game.load.image('sprite:bullet:enemy_energy_ball', this.assetFolder + 'images/sprites/bullets/enemy_energy_ball.png');
 
     //Melee Sprites
-    this.game.load.spritesheet('sprite:melee:slash', this.assetFolder + 'images/sprites/melee/slash.png', 24, 38);
+    this.game.load.atlas('sprite:melee:slash', this.assetFolder + 'images/sprites/melee/slash_shockwave.png', this.assetFolder + 'data/atlases/sword_shockwave.json');
 
     //Collectible Sprites
     this.game.load.image('sprite:collectible:arcane', this.assetFolder + 'images/sprites/collectibles/levitate.png');

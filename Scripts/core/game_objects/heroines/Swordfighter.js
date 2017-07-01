@@ -6,20 +6,14 @@ function Swordfighter(game, args){
     this.scale.y = 1.5;
 
     //Slashing
-    this.sword = new Melee(game, {
+    this.sword = new BasicSword(game, {
         x : 0,
         y : 0,
-        sprite : null,
-        base_attack : this.baseAttack,
-        attack_rate : 2000,
         tracked_sprite : this,
-        horizontal_offset : 20,
-        vertical_offset : 20,
-        slash_width : 20,
-        slash_height : 40,
-        slash_sprite : "sprite:melee:slash"
-    })
-    //game.add.existing(this.sword);
+        base_attack : this.baseAttack,
+    });
+    game.add.existing(this.sword);
+    this.enemyDamageGroup.add(this.sword);
 
     //Animations
     this.animations.add('idle',["idle"], 6, true);
@@ -35,12 +29,17 @@ function Swordfighter(game, args){
     this.animHooks.jump = 'jump';
     this.animHooks.attack_run = 'attack_run';
 
+    //State variables
+    this.slashing = false;
+
     //Animation Events
     this.animations.getAnimation("attack").onComplete.add(function(){
         this.animationStateMachine.setProperty("attacking", false);
+        this.slashing = false;
     },this);
     this.animations.getAnimation("attack_run").onComplete.add(function(){
         this.animationStateMachine.setProperty("attacking", false);
+        this.slashing = false;
     },this);
 }
 
@@ -50,13 +49,10 @@ Swordfighter.prototype.constructor = Swordfighter;
 //Constants
 Swordfighter.prototype.defaults = {
     sprite : "heroine:sword",
-    hp : 15,
+    hp : 10,
     speed : 250,
-    base_attack : 1,
-    jump_speed : 600,
-    fire_rate : 200,
-    bullet_speed : 300,
-    bullet_sprite : "energy_ball",
+    base_attack : 3,
+    jump_speed : 800,
     invincibility_time : 2000,
     animation_state_machine : "statemachine:animations:heroine"
 };
@@ -73,8 +69,12 @@ Swordfighter.prototype.update = function(){
 
 //Attack Functions
 Swordfighter.prototype.slash = function(){
-    if(this.attackDir.x != 0 || this.attackDir.y != 0){
+    if(!this.slashing && (this.attackDir.x != 0 || this.attackDir.y != 0)){
+        this.slashing = true;
         this.animationStateMachine.setProperty("attacking", true);
+        this.sword.slashDir.x = this.attackDir.x;
+        this.sword.slashDir.y = this.attackDir.y;
+        this.sword.stateMachine.setProperty("slashing", true);
     }
 };
 

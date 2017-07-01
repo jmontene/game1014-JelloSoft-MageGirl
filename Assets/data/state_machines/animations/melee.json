@@ -1,0 +1,37 @@
+{
+    "start_state" : "neutral",
+    "properties" : {
+        "slashing" : false,
+        "thrusting" : false
+    },
+    "states" : {
+        "neutral" : {
+            "onEnter" : {
+                "function" : "neutral",
+                "args" : []
+            },
+            "transitions" : [
+                {
+                    "to" : "slash",
+                    "check" : "property_is_equal_to",
+                    "property" : "slashing",
+                    "val" : true
+                }
+            ]
+        },
+        "slash" : {
+            "onEnter" : {
+                "function" : "slash",
+                "args" : []
+            },
+            "transitions" : [
+                {
+                    "to" : "neutral",
+                    "check" : "property_is_equal_to",
+                    "property" : "slashing",
+                    "val" : false
+                }
+            ]
+        }
+    }
+}
