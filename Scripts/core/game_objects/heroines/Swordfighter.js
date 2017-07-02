@@ -2,8 +2,8 @@ function Swordfighter(game, args){
     //Basics
     args.sprite = args.sprite ? args.sprite : this.defaults.sprite
     Heroine.call(this, game, args);
-    this.scale.x = 1.5;
-    this.scale.y = 1.5;
+    this.scale.x = 1.3;
+    this.scale.y = 1.3;
 
     //Slashing
     this.sword = new BasicSword(game, {
@@ -54,7 +54,9 @@ Swordfighter.prototype.defaults = {
     base_attack : 3,
     jump_speed : 800,
     invincibility_time : 2000,
-    animation_state_machine : "statemachine:animations:heroine"
+    animation_state_machine : "statemachine:animations:heroine",
+    ui_tint : 0x00ff00,
+    ui_back : "ui:lifebar:back:sword"
 };
 
 //Phaser overrides

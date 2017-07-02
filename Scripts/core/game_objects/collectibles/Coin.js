@@ -27,7 +27,7 @@ Coin.prototype.defaults = {
 
 //Collectible Overrides
 
-Coin.prototype.onPickup = function(powerup, heroine){
-    //heroine.coins += 1;
+Coin.prototype.onPickup = function(heroine){
+    heroine.onCoinPickup.dispatch();
     this.kill();
 };

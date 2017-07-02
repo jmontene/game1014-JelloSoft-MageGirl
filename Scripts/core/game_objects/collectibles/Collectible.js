@@ -29,7 +29,7 @@ Collectible.prototype.update = function(){
 
 //Custom functions
 
-Collectible.prototype.onPickup = function(collectible, heroine){
+Collectible.prototype.onPickup = function(heroine){
     console.log("Collectible picked up");
     this.kill();
 };

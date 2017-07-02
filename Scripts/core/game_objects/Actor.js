@@ -29,6 +29,10 @@ function Actor(game, args){
         idle : null,
         run : null
     };
+
+    //Events
+    this.onDeath = new Phaser.Signal();
+    this.onDeath.add(this.die, this);
 }
 
 Actor.prototype = Object.create(Phaser.Sprite.prototype);
@@ -45,13 +49,7 @@ Actor.prototype.defaults = {};
 
 //Phaser Overrides
 Actor.prototype.update = function(){
-    this.handleCollisions();
-    this.handleAnimations();  
-};
-
-//Animations
-Actor.prototype.handleAnimations = function(){
-
+    this.handleCollisions(); 
 };
 
 Actor.prototype.tryPlayAnimation = function(key){
@@ -78,7 +76,6 @@ Actor.prototype.basicAttack = function(){
 
 //Death Functions
 Actor.prototype.basicDeath = function(){
-    this.game.camera.fade();
     this.dead = true;
     this.kill();
 };
@@ -112,7 +109,7 @@ Actor.prototype.dealDamage = function(amount){
     this.hp -= amount;
     if(this.hp <= 0){
         this.hp = 0;
-        this.die();
+        this.onDeath.dispatch();
     }
 }
 

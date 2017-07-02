@@ -12,6 +12,6 @@ Deadzone.prototype.constructor = Deadzone;
 
 //Collectible overrides
 
-Deadzone.prototype.onPickup = function(collectible, heroine){
-    heroine.die();
+Deadzone.prototype.onPickup = function(heroine){
+    heroine.onDeath.dispatch();
 };

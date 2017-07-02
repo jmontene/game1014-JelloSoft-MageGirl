@@ -20,7 +20,8 @@ PlayState.init = function(){
         attackLeft: Phaser.KeyCode.LEFT,
         attackRight: Phaser.KeyCode.RIGHT,
         attackUp: Phaser.KeyCode.UP,
-        attackDown: Phaser.KeyCode.DOWN
+        attackDown: Phaser.KeyCode.DOWN,
+        switch: Phaser.KeyCode.ENTER
     });
 };
 
@@ -37,6 +38,7 @@ PlayState.preload = function(){
 
     //UI Elements
     this.game.load.image('ui:lifebar:back', this.assetFolder + 'images/ui/lifebar/back.png');
+    this.game.load.image('ui:lifebar:back:sword', this.assetFolder + 'images/ui/lifebar/back_sword.png');
     this.game.load.image('ui:lifebar:front', this.assetFolder + 'images/ui/lifebar/front.png');
     this.game.load.image('ui:lifebar:content', this.assetFolder + 'images/ui/lifebar/content.png');
     this.game.load.image('ui:icon:coin', this.assetFolder + 'images/ui/icons/coin.png');
@@ -74,11 +76,11 @@ PlayState.create = function(){
     this.bg = this.game.add.image(0,0,'bg:forest');
     this.bg.fixedToCamera = true;
 
+    //Create the UI
+    this.uiManager = this.createUI();
+
     //Load the level
     this.loadLevel(this.game.cache.getJSON('level:forest'));
-
-    //Create the UI
-    this.createUI();
 };
 
 PlayState.update = function(){
@@ -142,22 +144,15 @@ PlayState.spawnHeroine = function(heroine){
     heroine.args.enemyDamageGroup = this.enemyDamageGroup;
     heroine.args.platformGroup = this.platforms;
     heroine.args.enemyGroup = this.enemies;
+    heroine.args.collectibleGroup = this.collectibles;
     heroine.args.keys = this.keys;
-    if(heroine.args.sprite){
-        heroine.args.sprite = "heroine:" + heroine.args.sprite;
-    }
+    heroine.args.heroine_A = new Mage(this.game, Object.create(heroine.args));
+    heroine.args.heroine_B = new Swordfighter(this.game, Object.create(heroine.args));
+    heroine.args.uiManager = this.uiManager;
     let h = undefined;
-
-    switch(heroine.class){
-        case "mage":
-            h = new Mage(this.game, heroine.args);
-            break;
-        case "swordfighter":
-            h = new Swordfighter(this.game, heroine.args);
-            break;
-        default:
-            h = new Heroine(this.game, heroine.args);
-    }
+    h = new DualHeroine(this.game, heroine.args);
+    this.uiManager.lifebar.setHeroine(h);
+    this.uiManager.coinCounter.setHeroine(h);
 
     this.game.add.existing(h);
     this.heroine = h;
@@ -212,10 +207,6 @@ PlayState.createUI = function(){
     let lifebar = new LifeBar(this.game,{
         "x": 0,
         "y": 0,
-        "back": "ui:lifebar:back",
-        "content": "ui:lifebar:content",
-        "front": "ui:lifebar:front",
-        "heroine": this.heroine
     });
 
     let coinCounter = new CoinCounter(this.game,{
@@ -223,9 +214,13 @@ PlayState.createUI = function(){
         "y": 0,
         "icon": "coin",
         "font": "numbers",
-        "heroine": this.heroine
     });
 
     this.ui.add(lifebar);
     this.ui.add(coinCounter);
+
+    return {
+        lifebar : lifebar,
+        coinCounter : coinCounter
+    }
 };

@@ -35,7 +35,10 @@ Mage.prototype.defaults = {
     fire_rate : 200,
     bullet_speed : 300,
     bullet_sprite : "energy_ball",
-    invincibility_time : 2000
+    invincibility_time : 2000,
+    animation_state_machine : "statemachine:animations:heroine",
+    ui_tint : 0xff0000,
+    ui_back : "ui:lifebar:back"
 };
 
 //Phaser Overrides

@@ -12,7 +12,6 @@ BasicSword.prototype.defaults = {
     horizontal_offset : 30,
     vertical_offset : 30,
     base_attack : 1,
-    sprite : "sprite:melee:slash",
     slash_frames : ["sword_shockwave_1","sword_shockwave_2","sword_shockwave_3"]
 }
 

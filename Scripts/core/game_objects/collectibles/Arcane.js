@@ -26,7 +26,7 @@ Arcane.prototype.defaults = {
 
 //Powerup Overrides
 
-Arcane.prototype.onPickup = function(powerup, heroine){
+Arcane.prototype.onPickup = function(heroine){
     heroine.onArcane({"duration": this.duration});
     this.kill();
 };

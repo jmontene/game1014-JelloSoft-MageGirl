@@ -4,7 +4,8 @@ function Heroine(game, args){
     this.outOfCameraBoundsKill = true;
     this.body.collideWorldBounds = false;
 
-    //Stats
+    //State
+    this.enabled = true;
 
     //Status
     this.invincible = false;
@@ -12,14 +13,20 @@ function Heroine(game, args){
 
     //Events
     this.invincibilityTimer = this.game.time.create(false);
+    this.onCoinPickup = new Phaser.Signal();
 
     //Keys
     this.keys = args.keys;
+
+    //UI
+    this.uiTint = args.ui_tint ? args.ui_tint : this.defaults.ui_tint;
+    this.uiBack = args.ui_back ? args.ui_back : this.defaults.ui_back;
 
     //Collision Groups
     this.platformGroup = args.platformGroup;
     this.damageGroup = args.damageGroup;
     this.enemyDamageGroup = args.enemyDamageGroup;
+    this.collectibleGroup = args.collectibleGroup;
 
     //Animations
     let stateMachineArgs = args.animation_state_machine ? args.animation_state_machine : this.defaults.animation_state_machine;
@@ -38,12 +45,14 @@ Heroine.prototype.defaults = {
 //Phaser Overrides
 
 Heroine.prototype.update = function(){
-    Actor.prototype.update.call(this);
-    if(!this.dead){
-        this.animationStateMachine.update();
-        this.animationStateMachine.setProperty("x_speed", this.body.velocity.x);
-        this.animationStateMachine.setProperty("grounded", this.body.touching.down);
-        this.handleInput();
+    if(this.enabled){
+        Actor.prototype.update.call(this);
+        if(!this.dead){
+            this.animationStateMachine.update();
+            this.animationStateMachine.setProperty("x_speed", this.body.velocity.x);
+            this.animationStateMachine.setProperty("grounded", this.body.touching.down);
+            this.handleInput();
+        }
     }
 }
 
@@ -113,6 +122,12 @@ Heroine.prototype.handleInput = function(){
 };
 
 //Collision Handling
+Heroine.prototype.handleCollisions = function(){
+    Actor.prototype.handleCollisions.call(this);
+    this.game.physics.arcade.overlap(this, this.collectibleGroup, function(heroine, collectible){
+        collectible.onPickup(this);
+    }, null, this);
+};
 
 //Damage Handling
 
@@ -123,7 +138,7 @@ Heroine.prototype.dealDamage = function(amount){
     this.hp -= amount;
     if(this.hp <= 0){
         this.hp = 0;
-        this.die();
+        this.onDeath.dispatch();
     }else if(amount > 0){
         this.startInvincibility();
     }

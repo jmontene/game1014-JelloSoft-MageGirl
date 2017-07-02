@@ -26,3 +26,7 @@ CoinCounter.prototype.constructor = CoinCounter;
 CoinCounter.prototype.update = function(){
     this.font.text = `x${this.heroine.coins}`;
 };
+
+CoinCounter.prototype.setHeroine = function(heroine){
+    this.heroine = heroine;
+};
