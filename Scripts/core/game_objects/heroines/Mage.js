@@ -1,6 +1,6 @@
 function Mage(game, args){
     //Basics
-    args.sprite = args.sprite ? args.sprite : this.defaults.sprite
+    args.sprite = args.sprite ? args.sprite : this.defaults.sprite;
     Heroine.call(this, game, args);
 
     //Shooting
@@ -82,10 +82,11 @@ Mage.prototype.shoot = function(){
 //Collision Handling
 
 Mage.prototype.handleWeaponCollisions = function(){
-    this.game.physics.arcade.overlap(this.weapon.bullets, this.platformGroup, this.onBulletvsPlatform, null, this);
+    this.game.physics.arcade.collide(this.weapon.bullets, this.platformGroup, this.onBulletvsPlatform, null, this);
 };
 
 Mage.prototype.onBulletvsPlatform = function(bullet, platform){
+    console.log("Bullet collided");
     bullet.kill();
 }
 

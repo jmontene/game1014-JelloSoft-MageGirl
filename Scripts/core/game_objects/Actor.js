@@ -3,6 +3,7 @@ function Actor(game, args){
     Phaser.Sprite.call(this, game, args.x, args.y, "sprite:" + args.sprite);
     this.anchor.set(0.5,0.5);
     this.game.physics.enable(this);
+    this.body.allowGravity = true;
     this.body.collideWorldBounds = true;
 
     //Stats

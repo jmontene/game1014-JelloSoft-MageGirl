@@ -50,7 +50,7 @@ Heroine.prototype.update = function(){
         if(!this.dead){
             this.animationStateMachine.update();
             this.animationStateMachine.setProperty("x_speed", this.body.velocity.x);
-            this.animationStateMachine.setProperty("grounded", this.body.touching.down);
+            this.animationStateMachine.setProperty("grounded", this.body.blocked.down);
             this.handleInput();
         }
     }
@@ -61,7 +61,7 @@ Heroine.prototype.update = function(){
 //Jump Functions
 
 Heroine.prototype.basicJump = function(){
-    let canJump = this.body.touching.down;
+    let canJump = this.body.blocked.down;
 
     if(canJump){
         this.body.velocity.y = -this.jumpSpeed;

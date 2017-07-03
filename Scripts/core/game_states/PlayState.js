@@ -28,6 +28,8 @@ PlayState.init = function(){
 PlayState.preload = function(){
     //Level Data
     this.game.load.json('level:forest', this.assetFolder + 'data/firstPlayable.json');
+    this.load.tilemap('level:castle', this.assetFolder + '/data/levels/castle.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.image('tileset:castle', this.assetFolder + '/images/tiles/castle/tileset.png');
 
     //Animation Data
     this.game.load.json('statemachine:animations:heroine', this.assetFolder + 'data/state_machines/animations/heroine.json');
@@ -76,11 +78,27 @@ PlayState.create = function(){
     this.bg = this.game.add.image(0,0,'bg:forest');
     this.bg.fixedToCamera = true;
 
+    this.map = this.game.add.tilemap('level:castle');
+    this.map.addTilesetImage('castle', 'tileset:castle');
+
+    //create layer
+    this.platformLayer = this.map.createLayer('platforms');
+ 
+    //collision on blockedLayer
+    this.map.setCollisionBetween(1, 100, true, 'platforms');
+ 
+    //resizes the game world to match the layer dimensions
+    this.platformLayer.resizeWorld();
+
     //Create the UI
     this.uiManager = this.createUI();
 
     //Load the level
-    this.loadLevel(this.game.cache.getJSON('level:forest'));
+    this.loadLevel();
+
+    //Enable Gravity
+    this.game.physics.arcade.gravity.y = 1200;
+    this.game.physics.arcade.TILE_BIAS = 40;
 };
 
 PlayState.update = function(){
@@ -89,68 +107,68 @@ PlayState.update = function(){
 
 //Level Loading
 
-PlayState.loadLevel = function(data){
-    //Set visual theme
-    this.theme = data.theme;
+PlayState.findObjectsByType = function(type, map, layer) {
+    var result = new Array();
+    map.objects[layer].forEach(function(element){
+      if(element.type === type) {
+        //Phaser uses top left, Tiled bottom left so we have to adjust the y position
+        //also keep in mind that the cup images are a bit smaller than the tile which is 16x16
+        //so they might not be placed in the exact pixel position as in Tiled
+        element.y -= map.tileHeight;
+        result.push(element);
+      }      
+    });
+    return result;
+};
 
-    //Set world bounds
-    this.game.world.setBounds(data.world.originX,data.world.originY,data.world.width, data.world.height);
-
+PlayState.loadLevel = function(){
     //Create the needed groups and layers
-    this.platforms = this.game.add.group(); //Platforms
+    this.platforms = this.platformLayer; //Platforms
     this.enemies = this.game.add.group(); //Enemies
     this.damageGroup = this.game.add.group(); //Stuff that deals damage to heroines
     this.damageGroup.add(this.enemies); //Add the enemies to the damage group
     this.enemyDamageGroup = this.game.add.group(); //Stuff that deals damage to enemies
     this.collectibles = this.game.add.group(); //Collectibles
 
-    //spawn platforms
-    data.platforms.forEach(this.spawnPlatform, this);
-
     //spawn heroine and enemies
-    this.spawnCharacters(data);
+    this.spawnCharacters();
 
     //spawn powerups
-    data.collectibles.forEach(this.spawnCollectible, this);
-
-    //enable gravity
-    this.game.physics.arcade.gravity.y = this.gravity;
+    /*data.collectibles.forEach(this.spawnCollectible, this);
 
     //More group operations
-    this.damageGroup.add(this.enemies);
+    this.damageGroup.add(this.enemies);*/
 
     //Set Camera
     this.game.camera.follow(this.heroine);
 };
 
-PlayState.spawnPlatform = function(platform){
-    let sprite = this.platforms.create(platform.x, platform.y, "platform:" + this.theme + ":" + platform.image);
-
-    this.game.physics.enable(sprite);
-    sprite.body.allowGravity = false;
-    sprite.body.immovable = true;
-};
-
-PlayState.spawnCharacters = function(data){
+PlayState.spawnCharacters = function(){
     //Heroine
-    this.spawnHeroine(data.heroine);
+    this.spawnHeroine();
 
     //Enemies
-    data.enemies.forEach(this.spawnEnemy, this);
+    //data.enemies.forEach(this.spawnEnemy, this);
 };
 
-PlayState.spawnHeroine = function(heroine){
-    heroine.args.damageGroup = this.damageGroup;
-    heroine.args.enemyDamageGroup = this.enemyDamageGroup;
-    heroine.args.platformGroup = this.platforms;
-    heroine.args.enemyGroup = this.enemies;
-    heroine.args.collectibleGroup = this.collectibles;
-    heroine.args.keys = this.keys;
-    heroine.args.heroine_A = new Mage(this.game, Object.create(heroine.args));
-    heroine.args.heroine_B = new Swordfighter(this.game, Object.create(heroine.args));
-    heroine.args.uiManager = this.uiManager;
+PlayState.spawnHeroine = function(){
+    let result = this.findObjectsByType('playerSpawn', this.map, 'Objects')
+    let args = {}
+
+    args.x = result[0].x;
+    args.y = result[0].y;
+    args.damageGroup = this.damageGroup;
+    args.enemyDamageGroup = this.enemyDamageGroup;
+    args.platformGroup = this.platforms;
+    args.enemyGroup = this.enemies;
+    args.collectibleGroup = this.collectibles;
+    args.keys = this.keys;
+    args.heroine_A = new Mage(this.game, Object.create(args));
+    args.heroine_B = new Swordfighter(this.game, Object.create(args));
+    args.uiManager = this.uiManager;
+
     let h = undefined;
-    h = new DualHeroine(this.game, heroine.args);
+    h = new DualHeroine(this.game, args);
     this.uiManager.lifebar.setHeroine(h);
     this.uiManager.coinCounter.setHeroine(h);
 
