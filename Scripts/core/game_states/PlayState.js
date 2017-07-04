@@ -36,7 +36,7 @@ PlayState.preload = function(){
     this.game.load.json('statemachine:animations:melee', this.assetFolder + 'data/state_machines/animations/melee.json');
 
     //Background
-    this.game.load.image('bg:forest', this.assetFolder + 'images/backgrounds/forest.png');
+    this.game.load.image('bg:castle', this.assetFolder + 'images/backgrounds/castle.png');
 
     //UI Elements
     this.game.load.image('ui:lifebar:back', this.assetFolder + 'images/ui/lifebar/back.png');
@@ -75,7 +75,9 @@ PlayState.preload = function(){
 
 PlayState.create = function(){
     //Add the background
-    this.bg = this.game.add.image(0,0,'bg:forest');
+    this.bg = this.game.add.image(0,0,'bg:castle');
+    this.bg.scale.x /= 1.5;
+    this.bg.scale.y /= 1.5;
     this.bg.fixedToCamera = true;
 
     this.map = this.game.add.tilemap('level:castle');
