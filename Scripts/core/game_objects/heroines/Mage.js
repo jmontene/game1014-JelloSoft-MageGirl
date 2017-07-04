@@ -86,7 +86,6 @@ Mage.prototype.handleWeaponCollisions = function(){
 };
 
 Mage.prototype.onBulletvsPlatform = function(bullet, platform){
-    console.log("Bullet collided");
     bullet.kill();
 }
 

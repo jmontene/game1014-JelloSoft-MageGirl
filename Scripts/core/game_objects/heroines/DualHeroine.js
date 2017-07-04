@@ -56,10 +56,10 @@ DualHeroine.prototype.switch = function(){
     this.currentHeroine.enabled = false;
     if(this.currentHeroine === this.heroineA){
         this.currentHeroine = this.heroineB;
-        this.heroineB.velocity = this.heroineA.velocity;
+        this.heroineB.body.velocity = this.heroineA.body.velocity;
     }else{
         this.currentHeroine = this.heroineA;
-        this.heroineA.velocity = this.heroineB.velocity;
+        this.heroineA.body.velocity = this.heroineB.body.velocity;
     }
     this.currentHeroine.exists = true;
     this.currentHeroine.enabled = true;
