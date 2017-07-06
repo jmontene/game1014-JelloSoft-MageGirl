@@ -1,0 +1,52 @@
+{
+    "start_state" : "patrol",
+    "properties" : {
+        "player_in_vision" : false,
+        "player_in_range" : false,
+        "attacking" : false
+    },
+    "states" : {
+        "patrol" : {
+            "onEnter" : {
+                "function" : "initPatrolState",
+                "args" : []
+            },
+            "onExit" : {
+                "function" : "endPatrol",
+                "args" : []
+            },
+            "onState" : {
+                "function" : "patrol",
+                "args" : []
+            },
+            "transitions" : [
+                {
+                    "to" : "move_towards_player",
+                    "check" : "property_is_equal_to",
+                    "property" : "player_in_vision",
+                    "val" : true
+                }
+            ]
+        },
+        "move_towards_player" : {
+            "onEnter" :{
+              "function" : "tryPlayAnimation",
+              "args" :[
+                  "run"   
+              ]
+            },
+            "onState" : {
+                "function" : "moveTowardsPlayer",
+                "args" : []
+            },
+            "transitions" : [
+                {
+                    "to" : "patrol",
+                    "check" : "property_is_equal_to",
+                    "property" : "player_in_vision",
+                    "val" : false
+                }
+            ]
+        }
+    }
+}

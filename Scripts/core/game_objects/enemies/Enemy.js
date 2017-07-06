@@ -4,9 +4,6 @@ function Enemy(game, args){
 
     //Stats
 
-    //Collision Groups
-    args.enemyGroup.add(this);
-
     //Enemies deal damage by collision
     this.damage = new Damage(this,{"baseValue": 1});
     this.damage.onTargetCollision = function(){
@@ -15,6 +12,10 @@ function Enemy(game, args){
 
     //Reference to the heroine
     this.heroine = args.heroine;
+
+    //AI State Machine
+    this.aiKey = args.ai_state_machine ? args.ai_state_machine : this.defaults.ai_state_machine;
+    this.aiStateMachine = new StateMachine(this, this.game.cache.getJSON(this.aiKey));
 }
 
 Enemy.prototype = Object.create(Actor.prototype);
@@ -26,7 +27,7 @@ Enemy.prototype.constructor = Enemy;
 Enemy.prototype.update = function(){
     Actor.prototype.update.call(this);
     if(!this.dead){
-        this.executeAI();
+        this.aiStateMachine.update();
     }
 };
 
@@ -41,9 +42,6 @@ Enemy.prototype.basicEnemyDeath = function(){
 };
 
 //AI Handling
-Enemy.prototype.basicAI = function(){
-    console.log("Executed AI");
-}
 
 //Collision Handling
 

@@ -35,6 +35,9 @@ PlayState.preload = function(){
     this.game.load.json('statemachine:animations:heroine', this.assetFolder + 'data/state_machines/animations/heroine.json');
     this.game.load.json('statemachine:animations:melee', this.assetFolder + 'data/state_machines/animations/melee.json');
 
+    //AI Data
+    this.game.load.json('statemachine:ai:soldier', this.assetFolder + 'data/state_machines/ai/soldier.json');
+    
     //Background
     this.game.load.image('bg:castle', this.assetFolder + 'images/backgrounds/castle.png');
 
@@ -55,8 +58,7 @@ PlayState.preload = function(){
     this.game.load.atlas('sprite:heroine:sword', this.assetFolder + 'images/sprites/heroine/sword.png', this.assetFolder + 'data/atlases/sword_girl.json');
 
     //Enemy Sprites
-    this.game.load.image('sprite:enemy:basic_shooter', this.assetFolder + 'images/sprites/enemies/basic_shooter.png');
-    this.game.load.image('sprite:enemy:flying_shooter', this.assetFolder + 'images/sprites/enemies/flying_shooter.png');
+    this.game.load.image('sprite:enemy:soldier', this.assetFolder + 'images/sprites/enemies/soldier.png');
 
     //Bullet Sprites
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
@@ -79,21 +81,6 @@ PlayState.create = function(){
     this.bg.scale.x /= 1.5;
     this.bg.scale.y /= 1.5;
     this.bg.fixedToCamera = true;
-
-    this.map = this.game.add.tilemap('level:castle');
-    this.map.addTilesetImage('castle', 'tileset:castle');
-
-    //create layer
-    this.platformLayer = this.map.createLayer('platforms');
- 
-    //collision on blockedLayer
-    this.map.setCollisionBetween(1, 100, true, 'platforms');
- 
-    //resizes the game world to match the layer dimensions
-    this.platformLayer.resizeWorld();
-
-    //Create the UI
-    this.uiManager = this.createUI();
 
     //Load the level
     this.loadLevel();
@@ -124,13 +111,29 @@ PlayState.findObjectsByType = function(type, map, layer) {
 };
 
 PlayState.loadLevel = function(){
+    this.map = this.game.add.tilemap('level:castle');
+    this.map.addTilesetImage('castle', 'tileset:castle');
+
+    //create layer
+    this.platformLayer = this.map.createLayer('platforms');
+ 
+    //collision on blockedLayer
+    this.map.setCollisionBetween(1, 100, true, 'platforms');
+ 
+    //resizes the game world to match the layer dimensions
+    this.platformLayer.resizeWorld();
+
     //Create the needed groups and layers
     this.platforms = this.platformLayer; //Platforms
     this.enemies = this.game.add.group(); //Enemies
+    this.enemies.name = "enemies";
     this.damageGroup = this.game.add.group(); //Stuff that deals damage to heroines
     this.damageGroup.add(this.enemies); //Add the enemies to the damage group
     this.enemyDamageGroup = this.game.add.group(); //Stuff that deals damage to enemies
     this.collectibles = this.game.add.group(); //Collectibles
+
+    //Create the UI
+    this.uiManager = this.createUI();
 
     //spawn heroine and enemies
     this.spawnCharacters();
@@ -150,11 +153,14 @@ PlayState.spawnCharacters = function(){
     this.spawnHeroine();
 
     //Enemies
-    //data.enemies.forEach(this.spawnEnemy, this);
+    let enemies = this.findObjectsByType('enemySpawn', this.map, 'Objects');
+    for(var i=0;i < enemies.length ; ++i){
+        this.spawnEnemy(enemies[i]);
+    }
 };
 
 PlayState.spawnHeroine = function(){
-    let result = this.findObjectsByType('playerSpawn', this.map, 'Objects')
+    let result = this.findObjectsByType('playerSpawn', this.map, 'Objects');
     let args = {}
 
     args.x = result[0].x;
@@ -171,6 +177,8 @@ PlayState.spawnHeroine = function(){
 
     let h = undefined;
     h = new DualHeroine(this.game, args);
+
+    //UI Stuff
     this.uiManager.lifebar.setHeroine(h);
     this.uiManager.coinCounter.setHeroine(h);
 
@@ -179,23 +187,26 @@ PlayState.spawnHeroine = function(){
 }
 
 PlayState.spawnEnemy = function(enemy){
-    enemy.args.damageGroup = this.enemyDamageGroup;
-    enemy.args.enemyDamageGroup = this.damageGroup;
-    enemy.args.platformGroup = this.platforms;
-    enemy.args.enemyGroup = this.enemies;
-    enemy.args.heroine = this.heroine;
+    args = {};
+    args.x = enemy.x;
+    args.y = enemy.y;
+    args.damageGroup = this.enemyDamageGroup;
+    args.enemyDamageGroup = this.damageGroup;
+    args.platformGroup = this.platforms;
+    args.enemyGroup = this.enemies;
+    args.heroine = this.heroine;
     let e = undefined;
     
-    switch(enemy.class){
-        case "basic_shooter":
-            e = new BasicShooterEnemy(this.game, enemy.args);
-            break;
-        case "flying_shooter":
-            e = new FlyingShooterEnemy(this.game, enemy.args);
+    switch(enemy.properties.class){
+        case "soldier":
+            e = new Soldier(this.game, args);
             break;
         default:
             e = new Enemy(this.game, enemy.args);
     }
+
+    this.game.add.existing(e);
+    this.enemies.add(e);
 };
 
 PlayState.spawnCollectible = function(collectible){

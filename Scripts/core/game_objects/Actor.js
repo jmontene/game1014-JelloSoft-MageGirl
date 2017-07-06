@@ -1,5 +1,6 @@
 function Actor(game, args){
     //Basics
+    args.sprite = args.sprite ? args.sprite : this.defaults.sprite;
     Phaser.Sprite.call(this, game, args.x, args.y, "sprite:" + args.sprite);
     this.anchor.set(0.5,0.5);
     this.game.physics.enable(this);

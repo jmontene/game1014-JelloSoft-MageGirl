@@ -31,6 +31,7 @@ function Heroine(game, args){
     //Animations
     let stateMachineArgs = args.animation_state_machine ? args.animation_state_machine : this.defaults.animation_state_machine;
     this.animationStateMachine = new StateMachine(this, this.game.cache.getJSON(stateMachineArgs));
+    this.animationStateMachine.start();
 }
 
 Heroine.prototype = Object.create(Actor.prototype);

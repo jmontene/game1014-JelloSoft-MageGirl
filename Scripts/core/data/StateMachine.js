@@ -3,7 +3,9 @@ function StateMachine(owner, args){
     this.states = args.states;
     this.properties = args.properties;
     this.currentState = this.states[args.start_state];
+};
 
+StateMachine.prototype.start = function(){
     this.onEnterState(this.currentState);
 };
 
