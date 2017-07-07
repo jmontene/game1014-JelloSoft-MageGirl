@@ -25,12 +25,11 @@ function Heroine(game, args){
     //Collision Groups
     this.platformGroup = args.platformGroup;
     this.damageGroup = args.damageGroup;
-    this.enemyDamageGroup = args.enemyDamageGroup;
     this.collectibleGroup = args.collectibleGroup;
 
     //Animations
     let stateMachineArgs = args.animation_state_machine ? args.animation_state_machine : this.defaults.animation_state_machine;
-    this.animationStateMachine = new StateMachine(this, this.game.cache.getJSON(stateMachineArgs));
+    this.animationStateMachine = new StateMachine(this, this.game.cache.getJSON(stateMachineArgs, true));
     this.animationStateMachine.start();
 }
 

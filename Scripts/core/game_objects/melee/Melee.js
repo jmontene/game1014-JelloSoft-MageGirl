@@ -19,7 +19,7 @@ function Melee(game, args){
     }
 
     //State Machine
-    this.stateMachine = new StateMachine(this, this.game.cache.getJSON("statemachine:animations:melee"));
+    this.stateMachine = new StateMachine(this, this.game.cache.getJSON("statemachine:animations:melee", true)); 
 
     //Tracking
     this.trackedSprite = args.tracked_sprite;
@@ -33,7 +33,8 @@ function Melee(game, args){
 
 
     //Animations
-    this.animations.add('slash', this.defaults.slash_frames, 15, false);
+    this.slashSpeed = args.slash_speed ? args.slash_speed : this.defaults.slash_speed;
+    this.animations.add('slash', this.defaults.slash_frames, this.slashSpeed, false);
     this.animations.getAnimation("slash").onComplete.add(function(){
         this.stateMachine.setProperty("slashing", false);
     },this);

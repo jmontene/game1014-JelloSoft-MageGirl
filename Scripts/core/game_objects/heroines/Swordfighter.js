@@ -10,7 +10,7 @@ function Swordfighter(game, args){
         x : 0,
         y : 0,
         tracked_sprite : this,
-        base_attack : this.baseAttack,
+        base_attack : this.baseAttack
     });
     game.add.existing(this.sword);
     this.enemyDamageGroup.add(this.sword);

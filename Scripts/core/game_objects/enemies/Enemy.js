@@ -15,7 +15,7 @@ function Enemy(game, args){
 
     //AI State Machine
     this.aiKey = args.ai_state_machine ? args.ai_state_machine : this.defaults.ai_state_machine;
-    this.aiStateMachine = new StateMachine(this, this.game.cache.getJSON(this.aiKey));
+    this.aiStateMachine = new StateMachine(this, Object.create(this.game.cache.getJSON(this.aiKey)));
 }
 
 Enemy.prototype = Object.create(Actor.prototype);

@@ -21,6 +21,7 @@ function Actor(game, args){
     //Collision Groups
     this.platformGroup = args.platformGroup;
     this.damageGroup = args.damageGroup;
+    this.enemyDamageGroup = args.enemyDamageGroup;
 
     //Controls
     this.dir = {"x": Actor.DIR_NONE, "y": Actor.DIR_NONE};

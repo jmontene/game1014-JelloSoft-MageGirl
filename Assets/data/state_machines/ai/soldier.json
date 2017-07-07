@@ -39,13 +39,37 @@
                 "function" : "moveTowardsPlayer",
                 "args" : []
             },
+            "onExit" :{
+                "function" : "endPursuit",
+                "args" : []  
+            },
             "transitions" : [
                 {
                     "to" : "patrol",
                     "check" : "property_is_equal_to",
                     "property" : "player_in_vision",
                     "val" : false
+                },
+                {
+                    "to" : "attack",
+                    "check" : "property_is_equal_to",
+                    "property" : "player_in_range",
+                    "val" : true
                 }
+            ]
+        },
+        "attack" : {
+            "onEnter" :{
+                "function" : "attack",
+                "args" : []   
+            },
+            "transitions" :[
+                {
+                    "to" : "patrol",
+                    "check" : "property_is_equal_to",
+                    "property" : "attacking",
+                    "val" : false
+                }   
             ]
         }
     }

@@ -14,13 +14,40 @@ function Soldier(game, args){
     this.spawnPoint = {x : this.x, y: this.y};
     this.dir.x = 1;
 
-    //Vision Variables
+    //Vision/Range Variables
     this.visionRange = args.vision_range ? args.vision_range : this.defaults.vision_range;
     this.visionAngle = args.vision_angle ? args.vision_angle : this.defaults.vision_angle;
+    this.range = args.range ? args.range : this.defaults.range;
+
+    //Slashing
+    this.sword = new BasicSword(game, {
+        x : 0,
+        y : 0,
+        tracked_sprite : this,
+        base_attack : this.baseAttack,
+        sprite : "sprite:melee:enemy_slash",
+        slash_speed : 20,
+        horizontal_offset : 50
+    });
+    game.add.existing(this.sword);
+    this.enemyDamageGroup.add(this.sword);
+    this.attackCooldownTimer = this.game.time.create(false);
+    this.attackCooldown = args.attack_cooldown ? args.attack_cooldown : this.defaults.attack_cooldown;
+
+    //Animations
+    this.animations.add('attack', [0,0,0], 2, false);
+    this.animations.getAnimation("attack").onComplete.add(function(){
+        this.attackCooldownTimer.add(this.attackCooldown, function(){
+            this.aiStateMachine.setProperty("attacking", false);
+            this.attackCooldownTimer.stop();
+        }, this)
+        this.attackCooldownTimer.start();
+    },this);
 
     //Animation Hooks
     this.animHooks.idle = "idle";
     this.animHooks.run = "run";
+    this.animHooks.attack = "attack";
 
     //Start the state machine
     this.aiStateMachine.start();
@@ -50,7 +77,10 @@ Soldier.prototype.defaults = {
         max : 2000
     },
     vision_range : 500,
-    vision_angle : 45
+    vision_angle : 45,
+    range : 70,
+    attack_cooldown : 1000,
+    attack_windup : 1000
 }
 
 //Phaser Overrides
@@ -79,6 +109,7 @@ Soldier.prototype.patrol = function(){
 Soldier.prototype.initPatrolState = function(){
     this.spawnPoint.x = this.x;
     this.spawnPoint.y = this.y;
+    this.dir.x = 1;
     this.initPatrol();
 };
 
@@ -109,16 +140,20 @@ Soldier.prototype.togglePatrolMovement = function(){
 Soldier.prototype.endPatrol = function(){
     this.stopPatrolTimer.stop();
     this.resumePatrolTimer.stop();
+    this.dir.x = 0;
+};
+
+Soldier.prototype.endPursuit = function(){
+    this.dir.x = 0;
 };
 
 Soldier.prototype.moveTowardsPlayer = function(){
     this.aiStateMachine.setProperty("player_in_vision", this.isPlayerInVision());
+    this.aiStateMachine.setProperty("player_in_range", this.isPlayerInRange());
     if(this.x > this.heroine.x){
-        console.log("Heroine is on my left");
         this.dir.x = -1;
     }else{
         this.dir.x = 1;
-        console.log("Heroine is on my right");
     }
     this.move();
 };
@@ -139,6 +174,18 @@ Soldier.prototype.isPlayerInVision = function(){
     }
 
     return d <= this.visionRange && a <= this.visionAngle;
+};
+
+Soldier.prototype.isPlayerInRange = function(){
+    return this.game.physics.arcade.distanceBetween(this,this.heroine) <= this.range;
+};
+
+Soldier.prototype.attack = function(){
+    this.body.velocity.x = 0;
+    this.aiStateMachine.setProperty("attacking", true);
+    this.sword.slashDir.x = this.heroine.x < this.x ? -1 : 1;
+    this.tryPlayAnimation("attack");
+    this.sword.stateMachine.setProperty("slashing", true);
 };
 
 //Death Functions

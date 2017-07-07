@@ -66,6 +66,7 @@ PlayState.preload = function(){
 
     //Melee Sprites
     this.game.load.atlas('sprite:melee:slash', this.assetFolder + 'images/sprites/melee/slash_shockwave.png', this.assetFolder + 'data/atlases/sword_shockwave.json');
+    this.game.load.atlas('sprite:melee:enemy_slash', this.assetFolder + 'images/sprites/melee/slash_shockwave_enemy.png', this.assetFolder + 'data/atlases/sword_shockwave.json');
 
     //Collectible Sprites
     this.game.load.image('sprite:collectible:arcane', this.assetFolder + 'images/sprites/collectibles/levitate.png');
@@ -73,6 +74,9 @@ PlayState.preload = function(){
 
     //Fonts
     this.game.load.image('ui:font:numbers', this.assetFolder + 'images/ui/fonts/numbers.png');
+
+    //Audio
+    this.game.load.audio('bgm:castle', this.assetFolder + 'audio/bgm/castle.mp3');
 };
 
 PlayState.create = function(){
@@ -84,6 +88,9 @@ PlayState.create = function(){
 
     //Load the level
     this.loadLevel();
+
+    //Add sounds
+    this.game.sound.play('bgm:castle',0.6,true);
 
     //Enable Gravity
     this.game.physics.arcade.gravity.y = 1200;
@@ -145,7 +152,7 @@ PlayState.loadLevel = function(){
     this.damageGroup.add(this.enemies);*/
 
     //Set Camera
-    this.game.camera.follow(this.heroine);
+    this.game.camera.follow(this.heroine, Phaser.Camera.FOLLOW_PLATFORMER, 0.05, 0.1);
 };
 
 PlayState.spawnCharacters = function(){
