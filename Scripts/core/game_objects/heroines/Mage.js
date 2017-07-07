@@ -33,7 +33,7 @@ Mage.prototype.defaults = {
     base_attack : 1,
     jump_speed : 600,
     fire_rate : 200,
-    bullet_speed : 300,
+    bullet_speed : 800,
     bullet_sprite : "energy_ball",
     invincibility_time : 2000,
     animation_state_machine : "statemachine:animations:heroine",

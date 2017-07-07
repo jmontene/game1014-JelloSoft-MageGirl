@@ -59,6 +59,8 @@ PlayState.preload = function(){
 
     //Enemy Sprites
     this.game.load.image('sprite:enemy:soldier', this.assetFolder + 'images/sprites/enemies/soldier.png');
+    this.game.load.image('sprite:enemy:mage', this.assetFolder + 'images/sprites/enemies/mage.png');
+    this.game.load.image('sprite:enemy:bat', this.assetFolder + 'images/sprites/enemies/bat.png');
 
     //Bullet Sprites
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
@@ -146,10 +148,7 @@ PlayState.loadLevel = function(){
     this.spawnCharacters();
 
     //spawn powerups
-    /*data.collectibles.forEach(this.spawnCollectible, this);
-
-    //More group operations
-    this.damageGroup.add(this.enemies);*/
+    //data.collectibles.forEach(this.spawnCollectible, this);
 
     //Set Camera
     this.game.camera.follow(this.heroine, Phaser.Camera.FOLLOW_PLATFORMER, 0.05, 0.1);
@@ -205,8 +204,14 @@ PlayState.spawnEnemy = function(enemy){
     let e = undefined;
     
     switch(enemy.properties.class){
-        case "soldier":
+        case "Soldier":
             e = new Soldier(this.game, args);
+            break;
+        case "EnemyMage":
+            e = new EnemyMage(this.game, args);
+            break;
+        case "Bat":
+            e = new Bat(this.game, args);
             break;
         default:
             e = new Enemy(this.game, enemy.args);

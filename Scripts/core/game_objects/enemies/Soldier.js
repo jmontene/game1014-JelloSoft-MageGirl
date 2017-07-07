@@ -81,7 +81,7 @@ Soldier.prototype.defaults = {
     range : 70,
     attack_cooldown : 1000,
     attack_windup : 1000
-}
+};
 
 //Phaser Overrides
 
