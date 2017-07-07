@@ -14,8 +14,6 @@ function Collectible(game, args){
 
     //Collision
     this.heroine = args.heroine;
-
-    args.collectibleGroup.add(this);
 }
 
 Collectible.prototype = Object.create(Phaser.Sprite.prototype);

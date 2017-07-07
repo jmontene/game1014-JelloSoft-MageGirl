@@ -12,6 +12,8 @@ function Coin(game, args){
         args.offsetX ? args.offsetX : this.defaults.offsetX,
         args.offsetY ? args.offsetY : this.defaults.offsetY
     );
+
+    this.sfx = args.sfx ? args.sfx : this.defaults.sfx;
 };
 
 Coin.prototype = Object.create(Collectible.prototype);
@@ -22,12 +24,14 @@ Coin.prototype.defaults = {
     sprite : "coin",
     radius : 4,
     offsetX : 0,
-    offsetY : 0
+    offsetY : 0,
+    sfx : "sfx:coin"
 };
 
 //Collectible Overrides
 
 Coin.prototype.onPickup = function(heroine){
     heroine.onCoinPickup.dispatch();
+    this.game.sound.play(this.sfx,1,false);
     this.kill();
 };

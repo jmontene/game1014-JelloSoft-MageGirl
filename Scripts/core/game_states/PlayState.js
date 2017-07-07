@@ -79,6 +79,7 @@ PlayState.preload = function(){
 
     //Audio
     this.game.load.audio('bgm:castle', this.assetFolder + 'audio/bgm/castle.mp3');
+    this.game.load.audio('sfx:coin', this.assetFolder + 'audio/sfx/coin.wav');
 };
 
 PlayState.create = function(){
@@ -95,7 +96,7 @@ PlayState.create = function(){
     this.game.sound.play('bgm:castle',0.6,true);
 
     //Enable Gravity
-    this.game.physics.arcade.gravity.y = 1200;
+    this.game.physics.arcade.gravity.y = PlayState.gravity;
     this.game.physics.arcade.TILE_BIAS = 40;
 };
 
@@ -148,7 +149,7 @@ PlayState.loadLevel = function(){
     this.spawnCharacters();
 
     //spawn powerups
-    //data.collectibles.forEach(this.spawnCollectible, this);
+    this.spawnCollectibles();
 
     //Set Camera
     this.game.camera.follow(this.heroine, Phaser.Camera.FOLLOW_PLATFORMER, 0.05, 0.1);
@@ -162,6 +163,13 @@ PlayState.spawnCharacters = function(){
     let enemies = this.findObjectsByType('enemySpawn', this.map, 'Objects');
     for(var i=0;i < enemies.length ; ++i){
         this.spawnEnemy(enemies[i]);
+    }
+};
+
+PlayState.spawnCollectibles = function(){
+    let collectibles = this.findObjectsByType('collectibleSpawn', this.map, 'Objects');
+    for(var i=0;i<collectibles.length;++i){
+        this.spawnCollectible(collectibles[i]);
     }
 };
 
@@ -222,24 +230,28 @@ PlayState.spawnEnemy = function(enemy){
 };
 
 PlayState.spawnCollectible = function(collectible){
-    collectible.args.heroine = this.heroine;
-    collectible.args.collectibleGroup = this.collectibles;
+    let args = {};
+    args.x = collectible.x;
+    args.y = collectible.y;
+    args.heroine = this.heroine;
     let c = undefined;
 
-    switch(collectible.class){
-        case "arcane":
-            c = new Arcane(this.game, collectible.args);
+    switch(collectible.properties.class){
+        case "Arcane":
+            c = new Arcane(this.game, args);
             break;
-        case "coin":
-            c = new Coin(this.game, collectible.args);
+        case "Coin":
+            c = new Coin(this.game, args);
             break;
-        case "deadzone":
-            c = new Deadzone(this.game, collectible.args);
+        case "Deadzone":
+            c = new Deadzone(this.game, args);
             this.deadzone = c;
             break;
         default:
-            c = new Collectible(this.game, collectible.args);
+            c = new Collectible(this.game, args);
     }
+    this.game.add.existing(c);
+    this.collectibles.add(c);
 };
 
 //UI
