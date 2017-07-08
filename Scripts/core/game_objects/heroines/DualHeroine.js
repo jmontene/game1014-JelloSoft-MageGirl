@@ -37,6 +37,10 @@ function DualHeroine(game, args){
     //Events
     this.onSwitch = new Phaser.Signal();
     this.onSwitch.add(this.switch, this);
+    this.teleportTimer = this.game.time.create(false);
+
+    //State
+    this.inputEnabled = true;
 };
 
 DualHeroine.prototype = Object.create(Phaser.Sprite.prototype);
@@ -46,6 +50,12 @@ DualHeroine.prototype.update = function(){
     this.position.x = this.currentHeroine.position.x;
     this.position.y = this.currentHeroine.position.y;
     this.hp = this.currentHeroine.hp;
+    if(this.inputEnabled){
+        this.handleInput();
+    }
+};
+
+DualHeroine.prototype.handleInput = function(){
     if(this.keys.switch.justDown){
         this.onSwitch.dispatch();
     }
@@ -74,3 +84,23 @@ DualHeroine.prototype.switch = function(){
 DualHeroine.prototype.die = function(){
     this.game.camera.fade();
 };
+
+DualHeroine.prototype.setJumpEnabled = function(enabled){
+    this.heroineA.setJumpEnabled(enabled);
+    this.heroineB.setJumpEnabled(enabled);
+}
+
+DualHeroine.prototype.teleportTo = function(x, y){
+    this.currentHeroine.inputEnabled = false;
+    this.inputEnabled = false;
+    this.currentHeroine.dir.x = 0;
+    this.game.camera.onFadeComplete.add(function(){
+        this.currentHeroine.x = x;
+        this.currentHeroine.y = y;
+        this.currentHeroine.inputEnabled = true;
+        this.inputEnabled = true;
+        this.game.camera.focusOn(this.currentHeroine);
+        this.game.camera.flash(0x000000, 1000);
+    },this);
+    this.game.camera.fade(0x000000, 1000);
+}

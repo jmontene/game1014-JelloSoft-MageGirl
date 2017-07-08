@@ -33,6 +33,7 @@ PlayState.preload = function(){
 
     //Animation Data
     this.game.load.json('statemachine:animations:heroine', this.assetFolder + 'data/state_machines/animations/heroine.json');
+    this.game.load.json('statemachine:animations:mage', this.assetFolder + 'data/state_machines/animations/mage.json');
     this.game.load.json('statemachine:animations:melee', this.assetFolder + 'data/state_machines/animations/melee.json');
 
     //AI Data
@@ -54,7 +55,7 @@ PlayState.preload = function(){
     this.game.load.image('platform:forest:2x1', this.assetFolder + 'images/tiles/forest/2x1.png');
 
     //Heroine Sprites
-    this.game.load.image('sprite:heroine:mage', this.assetFolder + 'images/sprites/heroine/mage.png');
+    this.game.load.atlas('sprite:heroine:mage', this.assetFolder + 'images/sprites/heroine/mage.png', this.assetFolder + 'data/atlases/mage_girl.json');
     this.game.load.atlas('sprite:heroine:sword', this.assetFolder + 'images/sprites/heroine/sword.png', this.assetFolder + 'data/atlases/sword_girl.json');
 
     //Enemy Sprites
@@ -73,6 +74,9 @@ PlayState.preload = function(){
     //Collectible Sprites
     this.game.load.image('sprite:collectible:arcane', this.assetFolder + 'images/sprites/collectibles/levitate.png');
     this.game.load.spritesheet('sprite:collectible:coin', this.assetFolder + 'images/sprites/collectibles/coin.png',22,22);
+
+    //Operable Sprites
+    this.game.load.image('sprite:operable:door', this.assetFolder + 'images/sprites/operables/door.png');
 
     //Fonts
     this.game.load.image('ui:font:numbers', this.assetFolder + 'images/ui/fonts/numbers.png');
@@ -141,6 +145,10 @@ PlayState.loadLevel = function(){
     this.damageGroup.add(this.enemies); //Add the enemies to the damage group
     this.enemyDamageGroup = this.game.add.group(); //Stuff that deals damage to enemies
     this.collectibles = this.game.add.group(); //Collectibles
+    this.operables = this.game.add.group();
+
+    //Get the targets object
+    this.mapTargets = this.createMapTargets();
 
     //Create the UI
     this.uiManager = this.createUI();
@@ -151,8 +159,20 @@ PlayState.loadLevel = function(){
     //spawn powerups
     this.spawnCollectibles();
 
+    //spawn operables
+    this.spawnOperables();
+
     //Set Camera
     this.game.camera.follow(this.heroine, Phaser.Camera.FOLLOW_PLATFORMER, 0.05, 0.1);
+};
+
+PlayState.createMapTargets = function(){
+    let res = {};
+    let targetArr = this.findObjectsByType('target', this.map, "Objects");
+    for(var i=0;i<targetArr.length;++i){
+        res[targetArr[i].properties.targetID] = targetArr[i];
+    }
+    return res;
 };
 
 PlayState.spawnCharacters = function(){
@@ -173,6 +193,13 @@ PlayState.spawnCollectibles = function(){
     }
 };
 
+PlayState.spawnOperables = function(){
+    let operables = this.findObjectsByType('operable', this.map, 'Objects');
+    for(var i=0;i<operables.length;++i){
+        this.spawnOperable(operables[i]);
+    }
+};
+
 PlayState.spawnHeroine = function(){
     let result = this.findObjectsByType('playerSpawn', this.map, 'Objects');
     let args = {}
@@ -184,6 +211,7 @@ PlayState.spawnHeroine = function(){
     args.platformGroup = this.platforms;
     args.enemyGroup = this.enemies;
     args.collectibleGroup = this.collectibles;
+    args.operableGroup = this.operables;
     args.keys = this.keys;
     args.heroine_A = new Mage(this.game, Object.create(args));
     args.heroine_B = new Swordfighter(this.game, Object.create(args));
@@ -252,6 +280,31 @@ PlayState.spawnCollectible = function(collectible){
     }
     this.game.add.existing(c);
     this.collectibles.add(c);
+};
+
+PlayState.spawnOperable = function(operable){
+    let args = {};
+    args.x = operable.x;
+    args.y = operable.y;
+    args.heroine = this.heroine;
+    let o = undefined;
+
+    switch(operable.properties.class){
+        case "Door":
+            args.target = {
+                position : {
+                    x : this.mapTargets[operable.properties.targetID].x,
+                    y : this.mapTargets[operable.properties.targetID].y
+                }
+            };
+            o = new Door(this.game, args);
+            break;
+        default:
+            o = new Operable(this.game, args);
+    }
+
+    this.game.add.existing(o);
+    this.operables.add(o);
 };
 
 //UI

@@ -6,6 +6,7 @@ function Heroine(game, args){
 
     //State
     this.enabled = true;
+    this.inputEnabled = true;
 
     //Status
     this.invincible = false;
@@ -14,6 +15,7 @@ function Heroine(game, args){
     //Events
     this.invincibilityTimer = this.game.time.create(false);
     this.onCoinPickup = new Phaser.Signal();
+    this.currentOperable = null;
 
     //Keys
     this.keys = args.keys;
@@ -26,6 +28,7 @@ function Heroine(game, args){
     this.platformGroup = args.platformGroup;
     this.damageGroup = args.damageGroup;
     this.collectibleGroup = args.collectibleGroup;
+    this.operableGroup = args.operableGroup;
 
     //Animations
     let stateMachineArgs = args.animation_state_machine ? args.animation_state_machine : this.defaults.animation_state_machine;
@@ -51,7 +54,11 @@ Heroine.prototype.update = function(){
             this.animationStateMachine.update();
             this.animationStateMachine.setProperty("x_speed", this.body.velocity.x);
             this.animationStateMachine.setProperty("grounded", this.body.blocked.down);
-            this.handleInput();
+            this.handleOperables();
+            if(this.inputEnabled){
+                this.handleInput();
+            }
+            this.move();
         }
     }
 }
@@ -68,6 +75,10 @@ Heroine.prototype.basicJump = function(){
     }
 
     return canJump;
+};
+
+Heroine.prototype.setJumpEnabled = function(enabled){
+    this.jumpEnabled = enabled;
 };
 
 //Attack Functions
@@ -94,11 +105,13 @@ Heroine.prototype.handleInput = function(){
         this.dir.y = Actor.DIR_NONE;
     }
 
-    this.move();
-
     //Jumping
     if(this.keys.up.justDown){
-        let didJump = this.jump();
+        if(this.currentOperable != null){
+            this.currentOperable.operate();
+        }else{
+            let didJump = this.jump();
+        }
     }
 
     //Attacking
@@ -127,6 +140,22 @@ Heroine.prototype.handleCollisions = function(){
     this.game.physics.arcade.overlap(this, this.collectibleGroup, function(heroine, collectible){
         collectible.onPickup(this);
     }, null, this);
+};
+
+Heroine.prototype.handleOperables = function(){
+    let found = false;
+    let operables = this.operableGroup.getAll();
+    for(var i=0;i<operables.length;++i){
+        if(this.game.physics.arcade.intersects(this, operables[i])){
+            this.currentOperable = operables[i];
+            found = true;
+            break;
+        }
+    }
+
+    if(!found){
+        this.currentOperable = null;
+    }
 };
 
 //Damage Handling

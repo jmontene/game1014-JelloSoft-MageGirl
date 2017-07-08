@@ -2,6 +2,8 @@ function Mage(game, args){
     //Basics
     args.sprite = args.sprite ? args.sprite : this.defaults.sprite;
     Heroine.call(this, game, args);
+    this.scale.x = 1.5;
+    this.scale.y = 1.5;
 
     //Shooting
     this.weapon = this.game.add.weapon();
@@ -17,6 +19,19 @@ function Mage(game, args){
 
     //Events
     this.levitateTimer = this.game.time.create(false);
+
+    //Animations
+    this.animations.add('idle',["idle"], 6, true);
+    this.animations.add('run', ["run_1", "run_2", "run_3"], 12, true);
+    this.animations.add('attack', ["attack_1", "attack_2", "attack_3", "attack_4"], 12, true);
+    this.animations.add('jump', ["jump"], 6, false);
+
+    //Animation Hooks
+    this.animHooks.idle = 'idle';
+    this.animHooks.run = 'run';
+    this.animHooks.attack = 'attack';
+    this.animHooks.jump = 'jump';
+    this.animHooks.attack_run = 'run';
 
     //Collision Groups
     this.enemyDamageGroup.add(this.weapon.bullets);
@@ -36,7 +51,7 @@ Mage.prototype.defaults = {
     bullet_speed : 800,
     bullet_sprite : "energy_ball",
     invincibility_time : 2000,
-    animation_state_machine : "statemachine:animations:heroine",
+    animation_state_machine : "statemachine:animations:mage",
     ui_tint : 0xff0000,
     ui_back : "ui:lifebar:back"
 };
@@ -71,7 +86,10 @@ Mage.prototype.levitationJump = function(){
 
 Mage.prototype.shoot = function(){
     if(this.attackDir.x != 0 || this.attackDir.y != 0){
+        this.animationStateMachine.setProperty("attacking", true);
         this.weapon.fire(null, this.x + this.attackDir.x*1000, this.y + this.attackDir.y*1000);
+    }else{
+        this.animationStateMachine.setProperty("attacking", false);
     }
 };
 

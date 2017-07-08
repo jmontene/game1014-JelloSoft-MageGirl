@@ -1,0 +1,98 @@
+{
+    "start_state" : "idle",
+    "properties" : {
+        "x_speed" : 0,
+        "attacking" : false,
+        "grounded" : true
+    },
+    "states" : {
+        "idle" : {
+            "onEnter" : {
+                "function" : "tryPlayAnimation",
+                "args" : [
+                    "idle"
+                ]
+            },
+            "transitions" : [
+                {
+                    "to" : "run",
+                    "check" : "property_is_not_equal_to",
+                    "property" : "x_speed",
+                    "val" : 0
+                },
+                {
+                    "to" : "shoot",
+                    "check" : "property_is_equal_to",
+                    "property" : "attacking",
+                    "val" : true
+                },
+                {
+                    "to" : "jump",
+                    "check" : "property_is_equal_to",
+                    "property" : "grounded",
+                    "val" : false
+                }
+            ]
+        },
+        "run" : {
+            "onEnter" :{
+                "function" : "tryPlayAnimation",
+                "args" :[
+                    "run"
+                ]
+            },
+            "transitions" : [
+                {
+                    "to" : "idle",
+                    "check" : "property_is_equal_to",
+                    "property" : "x_speed",
+                    "val" : 0
+                },
+                {
+                    "to" : "jump",
+                    "check" : "property_is_equal_to",
+                    "property" : "grounded",
+                    "val" : false
+                }
+            ]
+        },
+        "jump" : {
+            "onEnter" :{
+                "function" : "tryPlayAnimation",
+                "args" :[
+                    "jump"
+                ]
+            },
+            "transitions" : [
+                {
+                    "to" : "idle",
+                    "check" : "property_is_equal_to",
+                    "property" : "grounded",
+                    "val" : true
+                },
+                {
+                    "to" : "shoot",
+                    "check" : "property_is_equal_to",
+                    "property" : "attacking",
+                    "val" : true
+                }
+            ]
+        },
+        "shoot" : {
+            "onEnter" :{
+                "function" : "tryPlayAnimation",
+                "args" :[
+                    "attack"
+                ]
+            },
+            "transitions" : [
+                {
+                    "to" : "idle",
+                    "check" : "property_is_equal_to",
+                    "property" : "attacking",
+                    "val" : false
+                }
+            ]
+        }
+    }
+}
