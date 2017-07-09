@@ -17,6 +17,10 @@ function Actor(game, args){
 
     //Status
     this.dead = false;
+    this.facingDir = {
+        x : 1,
+        y : -1
+    }
 
     //Collision Groups
     this.platformGroup = args.platformGroup;
@@ -52,7 +56,8 @@ Actor.prototype.defaults = {};
 
 //Phaser Overrides
 Actor.prototype.update = function(){
-    this.handleCollisions(); 
+    this.handleCollisions();
+    this.updateFacingDir();
 };
 
 Actor.prototype.tryPlayAnimation = function(key){
@@ -70,6 +75,15 @@ Actor.prototype.basicMove = function(){
     }else if(this.body.velocity.x > 0 && this.scale.x < 0){
         this.scale.x *= -1;
     }
+};
+
+Actor.prototype.updateFacingDir = function(){
+    this.facingDir.x = this.body.velocity.x >= 0 ? 1 : -1;
+    this.facingDir.y = this.body.velocity.y >= 0 ? 1 : -1;
+};
+
+Actor.prototype.isGrounded = function(){
+    return this.body.blocked.down;
 };
 
 //Attack Functions

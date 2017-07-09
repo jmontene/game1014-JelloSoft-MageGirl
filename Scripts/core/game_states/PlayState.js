@@ -21,7 +21,8 @@ PlayState.init = function(){
         attackRight: Phaser.KeyCode.RIGHT,
         attackUp: Phaser.KeyCode.UP,
         attackDown: Phaser.KeyCode.DOWN,
-        switch: Phaser.KeyCode.ENTER
+        switch: Phaser.KeyCode.ENTER,
+        secondary: Phaser.KeyCode.SPACEBAR
     });
 };
 

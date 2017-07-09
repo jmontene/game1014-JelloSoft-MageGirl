@@ -6,7 +6,7 @@ function Heroine(game, args){
 
     //State
     this.enabled = true;
-    this.inputEnabled = true;
+    this.inputEnabled = true
 
     //Status
     this.invincible = false;
@@ -53,7 +53,7 @@ Heroine.prototype.update = function(){
         if(!this.dead){
             this.animationStateMachine.update();
             this.animationStateMachine.setProperty("x_speed", this.body.velocity.x);
-            this.animationStateMachine.setProperty("grounded", this.body.blocked.down);
+            this.animationStateMachine.setProperty("grounded", this.isGrounded());
             this.handleOperables();
             if(this.inputEnabled){
                 this.handleInput();
@@ -85,25 +85,21 @@ Heroine.prototype.setJumpEnabled = function(enabled){
 
 //Death Functions
 
+//Secondary Functions
+Heroine.prototype.secondaryAbility = function(){
+    console.log("Heroine did her secondary ability");
+};
+
 //Input handling
 
 Heroine.prototype.handleInput = function(){
-    //Movement
-    if(this.keys.left.isDown){
-        this.dir.x = Actor.DIRX_LEFT;
-    }else if(this.keys.right.isDown){
-        this.dir.x = Actor.DIRX_RIGHT;
-    }else{
-        this.dir.x = Actor.DIR_NONE;
+    //Secondary Ability
+    if(this.keys.secondary.justDown){
+        this.secondaryAbility();
     }
 
-    if(this.keys.up.isDown){
-        this.dir.y = Actor.DIRY_UP;
-    }else if(this.keys.down.isDown){
-        this.dir.y = Actor.DIRY_DOWN;
-    }else{
-        this.dir.y = Actor.DIR_NONE;
-    }
+    //Movement
+    this.handleMovementInput();
 
     //Jumping
     if(this.keys.up.justDown){
@@ -132,6 +128,25 @@ Heroine.prototype.handleInput = function(){
     }
 
     this.attack();
+};
+
+Heroine.prototype.handleMovementInput = function(){
+    //Movement
+    if(this.keys.left.isDown){
+        this.dir.x = Actor.DIRX_LEFT;
+    }else if(this.keys.right.isDown){
+        this.dir.x = Actor.DIRX_RIGHT;
+    }else{
+        this.dir.x = Actor.DIR_NONE;
+    }
+
+    if(this.keys.up.isDown){
+        this.dir.y = Actor.DIRY_UP;
+    }else if(this.keys.down.isDown){
+        this.dir.y = Actor.DIRY_DOWN;
+    }else{
+        this.dir.y = Actor.DIR_NONE;
+    }
 };
 
 //Collision Handling

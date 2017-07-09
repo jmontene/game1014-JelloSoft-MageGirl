@@ -3,7 +3,8 @@
     "properties" : {
         "x_speed" : 0,
         "attacking" : false,
-        "grounded" : true
+        "grounded" : true,
+        "dashing" : false
     },
     "states" : {
         "idle" : {
@@ -31,6 +32,12 @@
                     "check" : "property_is_equal_to",
                     "property" : "grounded",
                     "val" : false
+                },
+                {
+                    "to" : "dash",
+                    "check" : "property_is_equal_to",
+                    "property" : "dashing",
+                    "val" : true
                 }
             ]
         },
@@ -59,6 +66,12 @@
                     "check" : "property_is_equal_to",
                     "property" : "attacking",
                     "val" : true
+                },
+                {
+                    "to" : "dash",
+                    "check" : "property_is_equal_to",
+                    "property" : "dashing",
+                    "val" : true
                 }
             ]
         },
@@ -75,6 +88,12 @@
                     "check" : "property_is_equal_to",
                     "property" : "attacking",
                     "val" : false
+                },
+                {
+                    "to" : "dash",
+                    "check" : "property_is_equal_to",
+                    "property" : "dashing",
+                    "val" : true
                 }
             ]
         },
@@ -91,6 +110,12 @@
                     "check" : "property_is_equal_to",
                     "property" : "attacking",
                     "val" : false
+                },
+                {
+                    "to" : "dash",
+                    "check" : "property_is_equal_to",
+                    "property" : "dashing",
+                    "val" : true
                 }
             ]
         },
@@ -113,6 +138,28 @@
                     "check" : "property_is_equal_to",
                     "property" : "attacking",
                     "val" : true
+                }
+            ]
+        },
+        "dash" : {
+            "onEnter" : {
+                "function" : "tryPlayAnimation",
+                "args" : [
+                    "dash"
+                ]
+            },
+            "transitions" : [
+                {
+                    "to" : "idle",
+                    "check" : "property_is_equal_to",
+                    "property" : "dashing",
+                    "val" : false
+                },
+                {
+                    "to" : "jump",
+                    "check" : "property_is_equal_to",
+                    "property" : "grounded",
+                    "val" : false
                 }
             ]
         }
