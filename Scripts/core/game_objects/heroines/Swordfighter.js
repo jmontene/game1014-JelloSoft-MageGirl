@@ -59,7 +59,7 @@ Swordfighter.prototype.constructor = Swordfighter;
 Swordfighter.prototype.defaults = {
     //Actor Defaults
     sprite : "heroine:sword",
-    hp : 10,
+    hp : 3,
     speed : 250,
     base_attack : 3,
     jump_speed : 800,

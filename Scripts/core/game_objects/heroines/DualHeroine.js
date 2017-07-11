@@ -7,6 +7,7 @@ function DualHeroine(game, args){
     this.heroineA = args.heroine_A;
     this.heroineB = args.heroine_B;
     this.currentHeroine = this.heroineA;
+    this.backupHeroine = this.heroineB;
     this.game.add.existing(this.heroineA);
     this.game.add.existing(this.heroineB);
     this.heroineB.exists = false;
@@ -64,17 +65,18 @@ DualHeroine.prototype.handleInput = function(){
 DualHeroine.prototype.switch = function(){
     this.currentHeroine.exists = false;
     this.currentHeroine.enabled = false;
-    if(this.currentHeroine === this.heroineA){
-        this.currentHeroine = this.heroineB;
-        this.heroineB.body.velocity = this.heroineA.body.velocity;
-    }else{
-        this.currentHeroine = this.heroineA;
-        this.heroineA.body.velocity = this.heroineB.body.velocity;
-    }
+
+    let temp = this.currentHeroine;
+    this.currentHeroine = this.backupHeroine;
+    this.backupHeroine = temp;
+    this.currentHeroine.body.velocity = this.backupHeroine.body.velocity;
+
     this.currentHeroine.exists = true;
     this.currentHeroine.enabled = true;
+
     this.currentHeroine.position.x = this.position.x;
     this.currentHeroine.position.y = this.position.y;
+    
     this.maxHP = this.currentHeroine.maxHP;
 
     this.uiManager.lifebar.changeTint(this.currentHeroine.uiTint);
@@ -82,7 +84,12 @@ DualHeroine.prototype.switch = function(){
 };
 
 DualHeroine.prototype.die = function(){
-    this.game.camera.fade();
+    this.game.sound.removeByKey("bgm:castle");
+    this.game.camera.onFadeComplete.addOnce(function(){
+        this.game.camera.unfollow();
+        this.game.state.start("GameOver");
+    },this)
+    this.game.camera.fade(0x000000, 1000);
 };
 
 DualHeroine.prototype.setJumpEnabled = function(enabled){
@@ -94,7 +101,7 @@ DualHeroine.prototype.teleportTo = function(x, y){
     this.currentHeroine.inputEnabled = false;
     this.inputEnabled = false;
     this.currentHeroine.dir.x = 0;
-    this.game.camera.onFadeComplete.add(function(){
+    this.game.camera.onFadeComplete.addOnce(function(){
         this.currentHeroine.x = x;
         this.currentHeroine.y = y;
         this.currentHeroine.inputEnabled = true;

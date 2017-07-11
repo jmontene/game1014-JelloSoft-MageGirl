@@ -85,6 +85,7 @@ Heroine.prototype.setJumpEnabled = function(enabled){
 
 //Death Functions
 
+
 //Secondary Functions
 Heroine.prototype.secondaryAbility = function(){
     console.log("Heroine did her secondary ability");
@@ -206,7 +207,6 @@ Heroine.prototype.startInvincibility = function(){
 Heroine.prototype.move = Actor.prototype.basicMove;
 Heroine.prototype.jump = Heroine.prototype.basicJump;
 Heroine.prototype.attack = Actor.prototype.basicAttack;
-Heroine.prototype.die = Actor.prototype.basicDeath;
 
 //Powerup Hooks
 
