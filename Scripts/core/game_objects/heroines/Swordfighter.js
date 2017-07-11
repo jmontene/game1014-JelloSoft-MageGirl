@@ -30,6 +30,7 @@ function Swordfighter(game, args){
     this.animations.add('attack_run',["slash_run_1", "slash_run_2", "slash_run_3, slash_run_4, slash_run_5"], 8, false);
     this.animations.add('jump', ["jump"], 6, false);
     this.animations.add('dash', ["dash"], 6, false);
+    this.frameName = "idle";
 
     //Animation Hooks
     this.animHooks.idle = 'idle';

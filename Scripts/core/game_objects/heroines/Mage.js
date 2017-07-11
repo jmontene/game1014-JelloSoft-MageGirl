@@ -26,6 +26,7 @@ function Mage(game, args){
     this.animations.add('run', ["run_1", "run_2", "run_3"], 12, true);
     this.animations.add('attack', ["attack_1", "attack_2", "attack_3", "attack_4"], 12, true);
     this.animations.add('jump', ["jump"], 6, false);
+    this.frameName = "idle";
 
     //Animation Hooks
     this.animHooks.idle = 'idle';
