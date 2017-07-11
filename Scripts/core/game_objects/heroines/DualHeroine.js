@@ -47,7 +47,6 @@ DualHeroine.prototype = Object.create(Phaser.Sprite.prototype);
 DualHeroine.prototype.constructor = DualHeroine;
 
 DualHeroine.prototype.update = function(){
-    this.game.debug.body(this.currentHeroine);
     this.position.x = this.currentHeroine.position.x;
     this.position.y = this.currentHeroine.position.y;
     this.hp = this.currentHeroine.hp;
