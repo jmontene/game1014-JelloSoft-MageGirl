@@ -14,6 +14,8 @@ function DualHeroine(game, args){
     this.heroineB.enabled = false;
     this.heroineA.onDeath.add(this.die, this);
     this.heroineB.onDeath.add(this.die, this);
+    this.heroineA.parentHeroine = this;
+    this.heroineB.parentHeroine = this;
 
     //Stats
     this.hp = this.currentHeroine.hp;
@@ -56,7 +58,7 @@ DualHeroine.prototype.update = function(){
 };
 
 DualHeroine.prototype.handleInput = function(){
-    if(this.keys.switch.justDown){
+    if(this.currentHeroine.switchEnabled && this.keys.switch.justDown){
         this.onSwitch.dispatch();
     }
 };
@@ -110,3 +112,17 @@ DualHeroine.prototype.teleportTo = function(x, y){
     },this);
     this.game.camera.fade(0x000000, 1000);
 }
+
+DualHeroine.prototype.toggleSwitch = function(){
+    this.currentHeroine.switchEnabled = !this.currentHeroine.switchEnabled;
+    this.backupHeroine.switchEnabled = !this.backupHeroine.switchEnabled;
+};
+
+DualHeroine.prototype.toggleSecondary = function(){
+    this.currentHeroine.secondaryEnabled = !this.currentHeroine.secondaryEnabled;
+    this.backupHeroine.secondaryEnabled = !this.backupHeroine.secondaryEnabled;
+}
+
+DualHeroine.prototype.getType = function(){
+    return this.currentHeroine.type;
+};

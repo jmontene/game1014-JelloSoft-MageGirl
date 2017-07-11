@@ -4,6 +4,7 @@ function Swordfighter(game, args){
     Heroine.call(this, game, args);
     this.scale.x = 1.3;
     this.scale.y = 1.3;
+    this.type = "Swordfighter"
 
     //Slashing
     this.sword = new BasicSword(game, {

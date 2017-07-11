@@ -4,6 +4,7 @@ function Mage(game, args){
     Heroine.call(this, game, args);
     this.scale.x = 1.5;
     this.scale.y = 1.5;
+    this.type = "Mage";
 
     //Shooting
     this.weapon = this.game.add.weapon();
@@ -69,11 +70,11 @@ Mage.prototype.levitationMove = function(){
     this.body.velocity.x = this.dir.x * this.speed;
     this.body.velocity.y = this.dir.y * this.speed;
 
-    if(this.body.velocity.x < 0){
-        this.scale.x = -1;
-    }else if(this.body.velocity.x > 0){
-        this.scale.x = 1;
-    } 
+    if(this.body.velocity.x < 0 && this.scale.x > 0){
+        this.scale.x *= -1;
+    }else if(this.body.velocity.x > 0 && this.scale.x < 0){
+        this.scale.x *= -1;
+    }
 };
 
 //Jump Functions

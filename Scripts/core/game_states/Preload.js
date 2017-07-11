@@ -58,6 +58,8 @@ Preload.preload = function(){
 
     //Collectible Sprites
     this.game.load.image('sprite:collectible:arcane', this.assetFolder + 'images/sprites/collectibles/levitate.png');
+    this.game.load.image('sprite:collectible:change', this.assetFolder + 'images/sprites/collectibles/change.png');
+    this.game.load.image('sprite:collectible:dash', this.assetFolder + 'images/sprites/collectibles/dash.png');
     this.game.load.spritesheet('sprite:collectible:coin', this.assetFolder + 'images/sprites/collectibles/coin.png',22,22);
 
     //Operable Sprites
@@ -75,6 +77,7 @@ Preload.preload = function(){
     this.game.load.audio('sfx:coin', this.assetFolder + 'audio/sfx/coin.wav');
     this.game.load.audio('sfx:hover', this.assetFolder + 'audio/sfx/hover.wav');
     this.game.load.audio('sfx:select', this.assetFolder + 'audio/sfx/select.wav');
+    this.game.load.audio('sfx:wrong', this.assetFolder + 'audio/sfx/wrong.wav');
 };
 
 Preload.create = function(){

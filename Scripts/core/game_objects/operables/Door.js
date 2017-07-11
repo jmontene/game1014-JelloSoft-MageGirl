@@ -10,7 +10,9 @@ Door.prototype.constructor = Door;
 
 Door.prototype.defaults = {
     //Operable defaults
-    sprite : "sprite:operable:door"
+    sprite : null,
+    hitbox_width : 50,
+    hitbox_height : 50
 }
 
 Door.prototype.operate = function(){

@@ -17,7 +17,7 @@ Arcane.prototype.constructor = Arcane;
 
 //Constants
 Arcane.prototype.defaults = {
-    sprite : "arcane",
+    sprite : "sprite:collectible:arcane",
     radius : 4,
     offsetX : 0,
     offsetY : 0,

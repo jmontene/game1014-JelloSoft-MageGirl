@@ -7,6 +7,10 @@ function Heroine(game, args){
     //State
     this.enabled = true;
     this.inputEnabled = true
+    this.secondaryEnabled = true;
+    this.switchEnabled = true;
+    this.parentHeroine = null;
+    this.type = "Heroine";
 
     //Status
     this.invincible = false;
@@ -95,7 +99,7 @@ Heroine.prototype.secondaryAbility = function(){
 
 Heroine.prototype.handleInput = function(){
     //Secondary Ability
-    if(this.keys.secondary.justDown){
+    if(this.secondaryEnabled && this.keys.secondary.justDown){
         this.secondaryAbility();
     }
 

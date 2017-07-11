@@ -1,8 +1,5 @@
 function Coin(game, args){
     //Basics
-    if(!args.sprite){
-        args.sprite = this.defaults.sprite;
-    }
     Collectible.call(this, game, args);
 
     this.animations.add('rotate', [0,1,2,1], 6, true);
@@ -21,7 +18,7 @@ Coin.prototype.constructor = Coin;
 
 //Constants
 Coin.prototype.defaults = {
-    sprite : "coin",
+    sprite : "sprite:collectible:coin",
     radius : 4,
     offsetX : 0,
     offsetY : 0,

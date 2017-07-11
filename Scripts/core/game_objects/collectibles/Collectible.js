@@ -1,12 +1,9 @@
 function Collectible(game, args){
     //Basics
-    let img = '';
-    if(args.sprite){
-        img = 'sprite:collectible:' + args.sprite;
-    }else{
-        img = null;
+    if(!args.sprite){
+        args.sprite = this.defaults.sprite;
     }
-    Phaser.Sprite.call(this, game, args.x, args.y, img);
+    Phaser.Sprite.call(this, game, args.x, args.y, args.sprite);
     this.anchor.set(0.5,0.5);
     this.game.physics.enable(this);
     this.body.allowGravity = false;

@@ -47,10 +47,11 @@ PlayState.create = function(){
 
     //Enable Gravity
     this.game.physics.arcade.gravity.y = PlayState.gravity;
-    this.game.physics.arcade.TILE_BIAS = 40;
+    this.game.physics.arcade.TILE_BIAS = 50;
 };
 
 PlayState.update = function(){
+    this.game.debug.body(this.platformLayer);
     //Do nothing for now
 };
 
@@ -63,7 +64,7 @@ PlayState.findObjectsByType = function(type, map, layer) {
         //Phaser uses top left, Tiled bottom left so we have to adjust the y position
         //also keep in mind that the cup images are a bit smaller than the tile which is 16x16
         //so they might not be placed in the exact pixel position as in Tiled
-        element.y -= map.tileHeight;
+        element.y += map.tileHeight;
         result.push(element);
       }      
     });
@@ -72,13 +73,17 @@ PlayState.findObjectsByType = function(type, map, layer) {
 
 PlayState.loadLevel = function(){
     this.map = this.game.add.tilemap('level:castle');
-    this.map.addTilesetImage('castle', 'tileset:castle');
+    this.map.addTilesetImage('Castle', 'tileset:castle');
 
     //create layer
-    this.platformLayer = this.map.createLayer('platforms');
+    this.map.createLayer('Background');
+    this.map.createLayer('Floor Fleshing');
+    this.map.createLayer('Doors');
+    this.map.createLayer('Objects & Power ups');
+    this.platformLayer = this.map.createLayer('Terrain');
  
-    //collision on blockedLayer
-    this.map.setCollisionBetween(1, 100, true, 'platforms');
+    //collisions
+    this.map.setCollisionBetween(0,1000, true, 'Terrain');
  
     //resizes the game world to match the layer dimensions
     this.platformLayer.resizeWorld();
@@ -124,6 +129,8 @@ PlayState.createMapTargets = function(){
 PlayState.spawnCharacters = function(){
     //Heroine
     this.spawnHeroine();
+    this.heroine.toggleSwitch();
+    this.heroine.toggleSecondary();
 
     //Enemies
     let enemies = this.findObjectsByType('enemySpawn', this.map, 'Objects');
@@ -133,7 +140,7 @@ PlayState.spawnCharacters = function(){
 };
 
 PlayState.spawnCollectibles = function(){
-    let collectibles = this.findObjectsByType('collectibleSpawn', this.map, 'Objects');
+    let collectibles = this.findObjectsByType('collectible', this.map, 'Objects');
     for(var i=0;i<collectibles.length;++i){
         this.spawnCollectible(collectibles[i]);
     }
@@ -211,21 +218,26 @@ PlayState.spawnCollectible = function(collectible){
     let c = undefined;
 
     switch(collectible.properties.class){
-        case "Arcane":
+        case "arcane":
             c = new Arcane(this.game, args);
             break;
-        case "Coin":
+        case "coin":
             c = new Coin(this.game, args);
             break;
-        case "Deadzone":
+        case "deadzone":
             c = new Deadzone(this.game, args);
-            this.deadzone = c;
             break;
-        default:
-            c = new Collectible(this.game, args);
+        case "change":
+            c = new Change(this.game, args);
+            break;
+        case "dash":
+            c = new Dash(this.game, args);
+            break;
     }
-    this.game.add.existing(c);
-    this.collectibles.add(c);
+    if(c){
+        this.game.add.existing(c);
+        this.collectibles.add(c);
+    }
 };
 
 PlayState.spawnOperable = function(operable){
@@ -236,7 +248,7 @@ PlayState.spawnOperable = function(operable){
     let o = undefined;
 
     switch(operable.properties.class){
-        case "Door":
+        case "door":
             args.target = {
                 position : {
                     x : this.mapTargets[operable.properties.targetID].x,
@@ -246,11 +258,13 @@ PlayState.spawnOperable = function(operable){
             o = new Door(this.game, args);
             break;
         default:
-            o = new Operable(this.game, args);
+            //o = new Operable(this.game, args);
     }
 
-    this.game.add.existing(o);
-    this.operables.add(o);
+    if(o){
+        this.game.add.existing(o);
+        this.operables.add(o);
+    }
 };
 
 //UI
