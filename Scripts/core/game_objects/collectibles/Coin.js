@@ -9,8 +9,6 @@ function Coin(game, args){
         args.offsetX ? args.offsetX : this.defaults.offsetX,
         args.offsetY ? args.offsetY : this.defaults.offsetY
     );
-
-    this.sfx = args.sfx ? args.sfx : this.defaults.sfx;
 };
 
 Coin.prototype = Object.create(Collectible.prototype);

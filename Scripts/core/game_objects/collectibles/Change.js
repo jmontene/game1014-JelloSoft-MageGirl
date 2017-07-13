@@ -2,7 +2,6 @@ function Change(game, args){
     //Basics
     Collectible.call(this, game, args);
     this.scale.setTo(1.3);
-    this.sfx = args.sfx ? args.sfx : this.defaults.sfx;
 };
 
 Change.prototype = Object.create(Collectible.prototype);

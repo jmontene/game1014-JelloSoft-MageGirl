@@ -58,8 +58,10 @@ DualHeroine.prototype.update = function(){
 };
 
 DualHeroine.prototype.handleInput = function(){
-    if(this.currentHeroine.switchEnabled && this.keys.switch.justDown){
-        this.onSwitch.dispatch();
+    if(this.keys.switch.justDown){
+        if(this.currentHeroine.switchEnabled){
+            this.onSwitch.dispatch();
+        }
     }
 };
 
@@ -79,9 +81,10 @@ DualHeroine.prototype.switch = function(){
     this.currentHeroine.position.y = this.position.y;
     
     this.maxHP = this.currentHeroine.maxHP;
-
+    this.hp = this.currentHeroine.hp;
     this.uiManager.lifebar.changeTint(this.currentHeroine.uiTint);
     this.uiManager.lifebar.setBack(this.currentHeroine.uiBack);
+    this.uiManager.lifebar.updateContent();
 };
 
 DualHeroine.prototype.die = function(){

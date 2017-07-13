@@ -38,6 +38,10 @@ function Heroine(game, args){
     let stateMachineArgs = args.animation_state_machine ? args.animation_state_machine : this.defaults.animation_state_machine;
     this.animationStateMachine = new StateMachine(this, this.game.cache.getJSON(stateMachineArgs, true));
     this.animationStateMachine.start();
+
+    //Sfx
+    this.hurtSfx = args.hurt_sfx ? args.hurt_sfx : this.defaults.hurt_sfx;
+    this.jumpSfx = args.jump_sfx ? args.jump_sfx : this.defaults.jump_sfx;
 }
 
 Heroine.prototype = Object.create(Actor.prototype);
@@ -75,6 +79,7 @@ Heroine.prototype.basicJump = function(){
     let canJump = this.body.blocked.down;
 
     if(canJump){
+        this.game.sound.play(this.jumpSfx);
         this.body.velocity.y = -this.jumpSpeed;
     }
 
@@ -166,7 +171,7 @@ Heroine.prototype.handleOperables = function(){
     let found = false;
     let operables = this.operableGroup.getAll();
     for(var i=0;i<operables.length;++i){
-        if(this.game.physics.arcade.intersects(this, operables[i])){
+        if(this.game.physics.arcade.intersects(this.body, operables[i].body)){
             this.currentOperable = operables[i];
             found = true;
             break;
@@ -175,6 +180,9 @@ Heroine.prototype.handleOperables = function(){
 
     if(!found){
         this.currentOperable = null;
+        this.jumpEnabled = true;
+    }else{
+        this.jumpEnabled = false;
     }
 };
 
@@ -189,6 +197,7 @@ Heroine.prototype.dealDamage = function(amount){
         this.hp = 0;
         this.onDeath.dispatch();
     }else if(amount > 0){
+        this.game.sound.play(this.hurtSfx);
         this.startInvincibility();
     }
 }

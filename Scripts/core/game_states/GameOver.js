@@ -9,7 +9,7 @@ GameOver.init = function(){
 GameOver.create = function(){
     console.log(this.game.world._width);
     this.game.camera.flash(0x000000, 1000);
-    this.game.sound.play("bgm:game_over", 0.6);
+    this.game.sound.play("bgm:game_over", 0.6, true);
 
     this.title = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 40, 'ui:texts:game_over');
     this.title.scale.setTo(2);

@@ -35,9 +35,13 @@ LifeBar.prototype.defaults = {
 //Phaser Overrides
 
 LifeBar.prototype.update = function(){
+    this.updateContent();
+};
+
+LifeBar.prototype.updateContent = function(){
     let perc = this.heroine.hp / this.heroine.maxHP;
     this.content.scale.x = perc;
-};
+}
 
 //Utility
 LifeBar.prototype.changeTint = function(tint){

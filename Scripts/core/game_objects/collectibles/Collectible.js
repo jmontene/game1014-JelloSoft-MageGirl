@@ -8,6 +8,7 @@ function Collectible(game, args){
     this.game.physics.enable(this);
     this.body.allowGravity = false;
     this.body.collideWorldBounds = true;
+    this.sfx = args.sfx ? args.sfx : this.defaults.sfx;
 
     //Collision
     this.heroine = args.heroine;

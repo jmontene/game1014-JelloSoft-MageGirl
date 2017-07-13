@@ -1,7 +1,7 @@
 MainMenu = {};
 
 MainMenu.create = function(){
-    this.game.sound.play("bgm:title", 0.6);
+    this.game.sound.play("bgm:title", 0.6, true);
 
     this.title = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 200, 'ui:texts:title');
     this.title.scale.setTo(2);

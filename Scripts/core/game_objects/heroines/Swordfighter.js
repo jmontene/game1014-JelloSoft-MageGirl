@@ -15,6 +15,7 @@ function Swordfighter(game, args){
     });
     game.add.existing(this.sword);
     this.enemyDamageGroup.add(this.sword);
+    this.slashSfx = args.slash_sfx ? args.slash_sfx : this.defaults.slash_sfx;
 
     //Dashing
     this.dashSpeed = args.dash_speed ? args.dash_speed : this.defaults.dash_speed;
@@ -61,18 +62,21 @@ Swordfighter.prototype.constructor = Swordfighter;
 Swordfighter.prototype.defaults = {
     //Actor Defaults
     sprite : "heroine:sword",
-    hp : 3,
+    hp : 10,
     speed : 250,
     base_attack : 3,
     jump_speed : 800,
     //Heroine Defaults
+    hurt_sfx : "sfx:hurt",
     invincibility_time : 2000,
     animation_state_machine : "statemachine:animations:heroine",
     ui_tint : 0x00ff00,
     ui_back : "ui:lifebar:back:sword",
+    jump_sfx : "sfx:jump",
     //Swordfighter defaults
     dash_speed : 400,
-    dash_time : 450
+    dash_time : 450,
+    slash_sfx : "sfx:sword_slash"
 };
 
 //Phaser overrides
@@ -89,6 +93,7 @@ Swordfighter.prototype.update = function(){
 Swordfighter.prototype.slash = function(){
     if(!this.slashing && (this.attackDir.x != 0 || this.attackDir.y != 0)){
         this.slashing = true;
+        this.game.sound.play(this.slashSfx);
         this.animationStateMachine.setProperty("attacking", true);
         this.sword.slashDir.x = this.attackDir.x;
         this.sword.slashDir.y = this.attackDir.y;

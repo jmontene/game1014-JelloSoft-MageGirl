@@ -43,7 +43,7 @@ PlayState.create = function(){
     this.loadLevel();
 
     //Add sounds
-    this.game.sound.play('bgm:castle',0.6,true);
+    this.game.sound.play('bgm:castle',0.4,true);
 
     //Enable Gravity
     this.game.physics.arcade.gravity.y = PlayState.gravity;
@@ -64,7 +64,6 @@ PlayState.findObjectsByType = function(type, map, layer) {
         //Phaser uses top left, Tiled bottom left so we have to adjust the y position
         //also keep in mind that the cup images are a bit smaller than the tile which is 16x16
         //so they might not be placed in the exact pixel position as in Tiled
-        element.y += map.tileHeight;
         result.push(element);
       }      
     });
@@ -83,7 +82,7 @@ PlayState.loadLevel = function(){
     this.platformLayer = this.map.createLayer('Terrain');
  
     //collisions
-    this.map.setCollisionBetween(0,1000, true, 'Terrain');
+    this.map.setCollisionBetween(0,500, true, 'Terrain');
  
     //resizes the game world to match the layer dimensions
     this.platformLayer.resizeWorld();
@@ -101,19 +100,23 @@ PlayState.loadLevel = function(){
     //Get the targets object
     this.mapTargets = this.createMapTargets();
 
+    //Set an object to store doors
+    this.doors = {};
+
     //Create the UI
     this.uiManager = this.createUI();
 
     //spawn heroine and enemies
     this.spawnCharacters();
 
-    //spawn powerups
-    this.spawnCollectibles();
-
     //spawn operables
     this.spawnOperables();
 
+    //spawn powerups
+    this.spawnCollectibles();
+
     //Set Camera
+    this.game.camera.focusOn(this.heroine);
     this.game.camera.follow(this.heroine, Phaser.Camera.FOLLOW_PLATFORMER, 0.05, 0.1);
 };
 
@@ -193,17 +196,15 @@ PlayState.spawnEnemy = function(enemy){
     let e = undefined;
     
     switch(enemy.properties.class){
-        case "Soldier":
+        case "soldier":
             e = new Soldier(this.game, args);
             break;
-        case "EnemyMage":
+        case "mage":
             e = new EnemyMage(this.game, args);
             break;
-        case "Bat":
+        case "bat":
             e = new Bat(this.game, args);
             break;
-        default:
-            e = new Enemy(this.game, enemy.args);
     }
 
     this.game.add.existing(e);
@@ -233,6 +234,10 @@ PlayState.spawnCollectible = function(collectible){
         case "dash":
             c = new Dash(this.game, args);
             break;
+        case "key":
+            args.door = this.doors[collectible.properties.door];
+            c = new Key(this.game, args);
+            break;
     }
     if(c){
         this.game.add.existing(c);
@@ -255,10 +260,12 @@ PlayState.spawnOperable = function(operable){
                     y : this.mapTargets[operable.properties.targetID].y
                 }
             };
+            args.hitbox_width = operable.width;
+            args.hitbox_height = operable.height;
+            args.locked = operable.properties.locked == "true" ? true : false;
             o = new Door(this.game, args);
+            this.doors[operable.name] = o;
             break;
-        default:
-            //o = new Operable(this.game, args);
     }
 
     if(o){

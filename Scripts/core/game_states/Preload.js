@@ -60,6 +60,7 @@ Preload.preload = function(){
     this.game.load.image('sprite:collectible:arcane', this.assetFolder + 'images/sprites/collectibles/levitate.png');
     this.game.load.image('sprite:collectible:change', this.assetFolder + 'images/sprites/collectibles/change.png');
     this.game.load.image('sprite:collectible:dash', this.assetFolder + 'images/sprites/collectibles/dash.png');
+    this.game.load.image('sprite:collectible:key', this.assetFolder + 'images/sprites/collectibles/key.png');
     this.game.load.spritesheet('sprite:collectible:coin', this.assetFolder + 'images/sprites/collectibles/coin.png',22,22);
 
     //Operable Sprites
@@ -78,6 +79,10 @@ Preload.preload = function(){
     this.game.load.audio('sfx:hover', this.assetFolder + 'audio/sfx/hover.wav');
     this.game.load.audio('sfx:select', this.assetFolder + 'audio/sfx/select.wav');
     this.game.load.audio('sfx:wrong', this.assetFolder + 'audio/sfx/wrong.wav');
+    this.game.load.audio('sfx:hurt', this.assetFolder + 'audio/sfx/hurt.wav');
+    this.game.load.audio('sfx:mage_shoot', this.assetFolder + 'audio/sfx/mage_shoot.wav');
+    this.game.load.audio('sfx:jump', this.assetFolder + 'audio/sfx/jump.wav');
+    this.game.load.audio('sfx:sword_slash', this.assetFolder + 'audio/sfx/sword_slash.wav');
 };
 
 Preload.create = function(){

@@ -13,10 +13,12 @@ function Mage(game, args){
     this.weapon.trackSprite(this);
     this.weapon.fireRate = args.fire_rate ? args.fire_rate : this.defaults.fire_rate;
     this.weapon.onFire.add(function(bullet, weapon){
+        this.game.sound.play(this.shootSfx);
         bullet.body.allowGravity = false;
         bullet.body.setCircle(4,4,4);
         bullet.damage = new Damage(bullet, {"baseValue": this.currentAttack});
     },this);
+    this.shootSfx = args.shoot_sfx ? args.shoot_sfx : this.defaults.shoot_sfx;
 
     //Events
     this.levitateTimer = this.game.time.create(false);
@@ -44,18 +46,24 @@ Mage.prototype.constructor = Mage;
 
 //Constants
 Mage.prototype.defaults = {
+    //Actor Defaults
     sprite : "heroine:mage",
     hp : 15,
     speed : 200,
     base_attack : 1,
     jump_speed : 600,
-    fire_rate : 200,
-    bullet_speed : 800,
-    bullet_sprite : "energy_ball",
+    //Heroine Defaults
+    hurt_sfx : "sfx:hurt",
     invincibility_time : 2000,
     animation_state_machine : "statemachine:animations:mage",
     ui_tint : 0xff0000,
-    ui_back : "ui:lifebar:back"
+    ui_back : "ui:lifebar:back",
+    jump_sfx : "sfx:jump",
+    //Mage Defaults
+    fire_rate : 200,
+    bullet_speed : 800,
+    bullet_sprite : "energy_ball",
+    shoot_sfx : "sfx:mage_shoot"
 };
 
 //Phaser Overrides
