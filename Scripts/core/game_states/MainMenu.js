@@ -98,10 +98,15 @@ MainMenu.addInstructionMessages = function(){
     this.wFont.text = "SWITCH           ENTER";
     this.switch = this.game.add.image(this.game.world.centerX - xOff, this.game.world.centerY + yOff, this.wFont);
     this.switch.anchor.setTo(0);
+    yOff += yInc
+
+    this.oFont = this.game.add.retroFont('ui:font:basic', 32, 32,"ABCDEFGHIJKLMNOPQRSTUVWXYZ.!?()123456789",10);
+    this.oFont.text = "DOORS            SHIFT";
+    this.doors = this.game.add.image(this.game.world.centerX - xOff, this.game.world.centerY + yOff, this.oFont);
+    this.switch.anchor.setTo(0);
 
     this.bFont = this.game.add.retroFont('ui:font:basic', 32, 32,"ABCDEFGHIJKLMNOPQRSTUVWXYZ.!?()123456789",10);
     this.bFont.text = "GO BACK";
-    yOff += yInc
 
     this.back = this.game.add.button(this.game.world.centerX, this.game.world.centerY + yOff*2, this.bFont);
     this.back.anchor.setTo(0.5);
@@ -122,7 +127,7 @@ MainMenu.addInstructionMessages = function(){
         this.toggleInstructions();
     }, this);
 
-    return [this.movement, this.jump, this.attack, this.secondary, this.switch];
+    return [this.movement, this.jump, this.attack, this.secondary, this.switch, this.doors];
 };
 
 MainMenu.setInstructionsVisibility = function(val){
