@@ -99,19 +99,30 @@ DualHeroine.prototype.die = function(){
 DualHeroine.prototype.setJumpEnabled = function(enabled){
     this.heroineA.setJumpEnabled(enabled);
     this.heroineB.setJumpEnabled(enabled);
-}
+};
+
+DualHeroine.prototype.setInputEnabled = function(enabled){
+    this.heroineA.inputEnabled = enabled;
+    this.heroineB.inputEnabled = enabled;
+    this.inputEnable = enabled;
+};
+
+DualHeroine.prototype.toggleInvincibility = function(){
+    this.heroineA.invincible = !this.heroineA.invincible;
+    this.heroineB.invincible = !this.heroineB.invincible;
+};
 
 DualHeroine.prototype.teleportTo = function(x, y){
-    this.currentHeroine.inputEnabled = false;
-    this.inputEnabled = false;
+    this.setInputEnabled(false);
     this.currentHeroine.dir.x = 0;
     this.game.camera.onFadeComplete.addOnce(function(){
         this.currentHeroine.x = x;
         this.currentHeroine.y = y;
-        this.currentHeroine.inputEnabled = true;
-        this.inputEnabled = true;
         this.game.camera.focusOn(this.currentHeroine);
-        this.game.camera.flash(0x000000, 1000);
+        this.game.camera.onFlashComplete.addOnce(function(){
+            this.setInputEnabled(true);
+        },this);
+        this.game.camera.flash(0x000000, 500);
     },this);
     this.game.camera.fade(0x000000, 1000);
 }

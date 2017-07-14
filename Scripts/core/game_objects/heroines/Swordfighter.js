@@ -73,6 +73,7 @@ Swordfighter.prototype.defaults = {
     ui_tint : 0x00ff00,
     ui_back : "ui:lifebar:back:sword",
     jump_sfx : "sfx:jump",
+    operate_cooldown : 1500,
     //Swordfighter defaults
     dash_speed : 400,
     dash_time : 450,

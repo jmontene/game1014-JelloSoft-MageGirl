@@ -82,6 +82,7 @@ Preload.preload = function(){
     this.game.load.audio('sfx:hurt', this.assetFolder + 'audio/sfx/hurt.wav');
     this.game.load.audio('sfx:mage_shoot', this.assetFolder + 'audio/sfx/mage_shoot.wav');
     this.game.load.audio('sfx:jump', this.assetFolder + 'audio/sfx/jump.wav');
+    this.game.load.audio('sfx:win', this.assetFolder + 'audio/sfx/win.wav');
     this.game.load.audio('sfx:sword_slash', this.assetFolder + 'audio/sfx/sword_slash.wav');
 };
 

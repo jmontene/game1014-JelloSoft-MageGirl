@@ -11,6 +11,9 @@ function Heroine(game, args){
     this.switchEnabled = true;
     this.parentHeroine = null;
     this.type = "Heroine";
+    this.canOperate = true;
+    this.operateTimer = this.game.time.create(false);
+    this.operateCooldown = args.operate_cooldown ? args.operate_cooldown : this.defaults.operate_cooldown;
 
     //Status
     this.invincible = false;
@@ -62,9 +65,9 @@ Heroine.prototype.update = function(){
             this.animationStateMachine.update();
             this.animationStateMachine.setProperty("x_speed", this.body.velocity.x);
             this.animationStateMachine.setProperty("grounded", this.isGrounded());
-            this.handleOperables();
             if(this.inputEnabled){
                 this.handleInput();
+                this.handleOperables();
             }
             this.move();
         }
@@ -111,14 +114,22 @@ Heroine.prototype.handleInput = function(){
     //Movement
     this.handleMovementInput();
 
-    //Jumping
-    if(this.keys.up.justDown){
-        if(this.currentOperable != null){
+    //Operating
+    if(this.keys.operate.justDown){
+        if(this.currentOperable != null && this.canOperate){
             this.currentOperable.operate();
-        }else{
-            let didJump = this.jump();
+            this.canOperate = false;
+            this.operateTimer.add(this.operateCooldown, function(){
+                this.canOperate = true;
+                this.operateTimer.stop();
+            },this);
+            this.operateTimer.start();
         }
     }
+
+    if(this.keys.up.justDown){
+        this.jump();
+    };
 
     //Attacking
     if(this.keys.attackLeft.isDown){

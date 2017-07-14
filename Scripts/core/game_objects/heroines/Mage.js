@@ -59,6 +59,7 @@ Mage.prototype.defaults = {
     ui_tint : 0xff0000,
     ui_back : "ui:lifebar:back",
     jump_sfx : "sfx:jump",
+    operate_cooldown : 1500,
     //Mage Defaults
     fire_rate : 200,
     bullet_speed : 800,

@@ -21,7 +21,9 @@ PlayState.init = function(){
         attackUp: Phaser.KeyCode.UP,
         attackDown: Phaser.KeyCode.DOWN,
         switch: Phaser.KeyCode.ENTER,
-        secondary: Phaser.KeyCode.SPACEBAR
+        secondary: Phaser.KeyCode.SPACEBAR,
+        invincible_cheat: Phaser.KeyCode.ONE,
+        operate : Phaser.KeyCode.SHIFT
     });
 };
 
@@ -51,8 +53,9 @@ PlayState.create = function(){
 };
 
 PlayState.update = function(){
-    this.game.debug.body(this.platformLayer);
-    //Do nothing for now
+    if(this.keys.invincible_cheat.justDown){
+        this.heroine.toggleInvincibility();
+    }
 };
 
 //Level Loading
@@ -237,6 +240,11 @@ PlayState.spawnCollectible = function(collectible){
         case "key":
             args.door = this.doors[collectible.properties.door];
             c = new Key(this.game, args);
+            break;
+        case "levelEnd":
+            args.hitbox_width = collectible.width;
+            args.hitbox_height = collectible.height;
+            c = new LevelEnd(this.game, args);
             break;
     }
     if(c){
