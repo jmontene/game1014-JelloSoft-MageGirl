@@ -50,11 +50,14 @@ Preload.preload = function(){
 
     //Bullet Sprites
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');
+    this.game.load.image('sprite:bullet:pierce', this.assetFolder + 'images/sprites/bullets/pierce.png');
+    this.game.load.image('sprite:bullet:spread', this.assetFolder + 'images/sprites/bullets/spread.png');
     this.game.load.image('sprite:bullet:enemy_energy_ball', this.assetFolder + 'images/sprites/bullets/enemy_energy_ball.png');
 
     //Melee Sprites
     this.game.load.atlas('sprite:melee:slash', this.assetFolder + 'images/sprites/melee/slash_shockwave.png', this.assetFolder + 'data/atlases/sword_shockwave.json');
     this.game.load.atlas('sprite:melee:enemy_slash', this.assetFolder + 'images/sprites/melee/slash_shockwave_enemy.png', this.assetFolder + 'data/atlases/sword_shockwave.json');
+    this.game.load.atlas('sprite:melee:fire_slash', this.assetFolder + 'images/sprites/melee/slash_shockwave_fire.png', this.assetFolder + 'data/atlases/sword_shockwave.json');
 
     //Collectible Sprites
     this.game.load.image('sprite:collectible:arcane', this.assetFolder + 'images/sprites/collectibles/levitate.png');
