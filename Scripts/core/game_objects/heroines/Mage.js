@@ -37,6 +37,18 @@ function Mage(game, args){
     this.animHooks.jump = 'jump';
     this.animHooks.attack_run = 'run';
 
+    //Particles
+    this.flightEmitter = this.game.add.emitter(this.x,this.y,200);
+    this.flightEmitter.makeParticles('particles:mage_star');
+    this.flightEmitter.gravity = 0;
+    this.flightEmitter.setAlpha(1,0,500);
+    this.flightEmitter.setSize(20,50);
+    this.flightEmitter.setScale(1,1,1,1);
+    this.flightEmitter.setYSpeed(-20,-200);
+    this.flightEmitter.setRotation(0,0);
+    this.flightEmitter.start(false, 130, 10, 0);
+    this.flightEmitter.visible = false;
+
     //Collision Groups
     this.enemyDamageGroup.add(this.weapon.bullets);
 }
@@ -71,6 +83,8 @@ Mage.prototype.defaults = {
 
 Mage.prototype.update = function(){
     Heroine.prototype.update.call(this);
+    this.flightEmitter.x = this.x;
+    this.flightEmitter.y = this.y;
     this.handleWeaponCollisions();
 }
 
@@ -107,6 +121,21 @@ Mage.prototype.shoot = function(){
 //Death Functions
 
 //Input Handling
+Mage.prototype.flight_handleMovementInput = function(){
+    if(this.keys.left.isDown){
+        this.dir.x = Actor.DIRX_LEFT;
+        this.dir.y = 0;
+    }else if(this.keys.right.isDown){
+        this.dir.x = Actor.DIRX_RIGHT;
+        this.dir.y = 0;
+    }else if(this.keys.up.isDown){
+        this.dir.y = Actor.DIRY_UP;
+        this.dir.x = 0;
+    }else if(this.keys.down.isDown){
+        this.dir.y = Actor.DIRY_DOWN;
+        this.dir.x = 0;
+    }
+};
 
 //Collision Handling
 
@@ -137,6 +166,22 @@ Mage.prototype.startLevitation = function(args){
 
     this.levitateTimer.start();
 };
+
+Mage.prototype.startFlight = function(){
+    this.body.allowGravity = false;
+    this.handleMovementInput = this.flight_handleMovementInput;
+    this.move = this.levitationMove;
+    this.flightEmitter.visible = true;
+};
+
+Mage.prototype.endFlight = function(){
+    this.body.allowGravity = true;
+    this.dir.x = 0;
+    this.dir.y = 0;
+    this.handleMovementInput = Heroine.prototype.handleMovementInput;
+    this.move = Actor.prototype.basicMove;
+    this.flightEmitter.visible = false;
+}
 
 Mage.prototype.die = function(){
     this.weapon.destroy();

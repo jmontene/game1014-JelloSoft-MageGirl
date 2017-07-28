@@ -2028,6 +2028,21 @@
                  "width":23,
                  "x":5464.19,
                  "y":2167.42
+                }, 
+                {
+                 "height":221,
+                 "id":199,
+                 "name":"FlightZone",
+                 "properties":
+                    {
+                     "class":"flightzone"
+                    },
+                 "rotation":0,
+                 "type":"operable",
+                 "visible":true,
+                 "width":409,
+                 "x":737,
+                 "y":1313
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2036,7 +2051,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":199,
+ "nextobjectid":200,
  "orientation":"orthogonal",
  "properties":
     {

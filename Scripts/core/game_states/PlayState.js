@@ -274,6 +274,11 @@ PlayState.spawnOperable = function(operable){
             o = new Door(this.game, args);
             this.doors[operable.name] = o;
             break;
+        case "flightzone":
+            args.hitbox_width = operable.width;
+            args.hitbox_height = operable.height;
+            o = new FlightZone(this.game, args);
+            break;
     }
 
     if(o){

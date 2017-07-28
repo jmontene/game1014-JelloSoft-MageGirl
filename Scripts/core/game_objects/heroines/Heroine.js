@@ -181,19 +181,28 @@ Heroine.prototype.handleCollisions = function(){
 Heroine.prototype.handleOperables = function(){
     let found = false;
     let operables = this.operableGroup.getAll();
+    let newOpr = null;
     for(var i=0;i<operables.length;++i){
         if(this.game.physics.arcade.intersects(this.body, operables[i].body)){
-            this.currentOperable = operables[i];
+            newOpr = operables[i];
             found = true;
             break;
         }
     }
 
     if(!found){
+        if(this.currentOperable != null){
+            this.currentOperable.onExit();
+        }
         this.currentOperable = null;
-        this.jumpEnabled = true;
     }else{
-        this.jumpEnabled = false;
+        if(this.currentOperable != null && newOpr != this.currentOperable){
+            this.currentOperable.onExit();
+        }
+        if(newOpr != this.currentOperable){
+            newOpr.onEnter();
+        }
+        this.currentOperable = newOpr;
     }
 };
 

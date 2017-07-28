@@ -89,6 +89,11 @@ Preload.preload = function(){
     this.game.load.audio('sfx:jump', this.assetFolder + 'audio/sfx/jump.wav');
     this.game.load.audio('sfx:win', this.assetFolder + 'audio/sfx/win.wav');
     this.game.load.audio('sfx:sword_slash', this.assetFolder + 'audio/sfx/sword_slash.wav');
+
+    //Particles
+    this.game.load.image('particles:star', this.assetFolder + 'images/sprites/particles/star.png');
+    this.game.load.image('particles:mage_star', this.assetFolder + 'images/sprites/particles/star_purple.png');
+    this.game.load.image('particles:mage_shadow', this.assetFolder + 'images/sprites/particles/mage_shadow.png');
 };
 
 Preload.create = function(){
