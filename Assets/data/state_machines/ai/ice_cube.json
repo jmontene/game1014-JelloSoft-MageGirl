@@ -1,0 +1,51 @@
+{
+    "start_state" : "frozen",
+    "properties" : {
+        "moving" : false
+    },
+    "states" : {
+        "frozen" : {
+            "onEnter" : {
+                "function" : "frozenStateEnter",
+                "args" : []
+            },
+            "onState" : {
+                "function" : "frozenState",
+                "args" : []
+            },
+            "transitions" :[
+                {
+                    "to" : "moving",
+                    "check" : "property_is_equal_to",
+                    "property" : "moving",
+                    "val" : true
+                }   
+            ]
+        },
+        "moving" : {
+            "onEnter" : {
+                "function" : "movingStateEnter",
+                "args" : []   
+            },
+            "transitions" :[
+                {
+                    "to" : "stop",
+                    "check" : "property_is_equal_to",
+                    "property" : "moving",
+                    "val" : false
+                }   
+            ]
+        },
+        "stop" : {
+            "onEnter" : {
+                "function" : "stopStateEnter",
+                "args" : []
+            },
+            "onState" : {
+                "function" : "stopState",
+                "args" : []
+            },
+            "transitions" :[]
+        }
+    }
+}

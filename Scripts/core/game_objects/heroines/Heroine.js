@@ -79,7 +79,7 @@ Heroine.prototype.update = function(){
 //Jump Functions
 
 Heroine.prototype.basicJump = function(){
-    let canJump = this.body.blocked.down;
+    let canJump = this.isGrounded();
 
     if(canJump){
         this.game.sound.play(this.jumpSfx);
@@ -224,6 +224,10 @@ Heroine.prototype.startInvincibility = function(){
         this.invincibilityTimer.stop();
     },this);
     this.invincibilityTimer.start();
+};
+
+Heroine.prototype.isGrounded = function(){
+    return this.body.blocked.down || this.body.touching.down;
 };
 
 //Function Wiring

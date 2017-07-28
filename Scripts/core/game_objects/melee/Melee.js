@@ -14,8 +14,8 @@ function Melee(game, args){
     this.baseAttack = args.base_attack ? args.base_attack : this.defaults.base_attack;
     this.currentAttack = this.baseAttack;
     this.damage = new Damage(this.sword, {"baseValue": this.baseAttack});
-    this.damage.onTargetCollision = function(){
-        //Do nothing
+    this.damage.onTargetCollision = function(target){
+        target.onDamageHit(this);
     }
 
     //State Machine

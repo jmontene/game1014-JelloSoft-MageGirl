@@ -21,6 +21,7 @@ Preload.preload = function(){
 
     //AI Data
     this.game.load.json('statemachine:ai:soldier', this.assetFolder + 'data/state_machines/ai/soldier.json');
+    this.game.load.json('statemachine:ai:ice_cube', this.assetFolder + 'data/state_machines/ai/ice_cube.json');
     
     //Background
     this.game.load.image('bg:castle', this.assetFolder + 'images/backgrounds/castle.png');
@@ -47,6 +48,7 @@ Preload.preload = function(){
     this.game.load.image('sprite:enemy:soldier', this.assetFolder + 'images/sprites/enemies/soldier.png');
     this.game.load.image('sprite:enemy:mage', this.assetFolder + 'images/sprites/enemies/mage.png');
     this.game.load.image('sprite:enemy:bat', this.assetFolder + 'images/sprites/enemies/bat.png');
+    this.game.load.image('sprite:enemy:ice_cube', this.assetFolder + 'images/sprites/enemies/iceCube.png');
 
     //Bullet Sprites
     this.game.load.image('sprite:bullet:energy_ball', this.assetFolder + 'images/sprites/bullets/energy_ball.png');

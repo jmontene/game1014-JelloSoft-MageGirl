@@ -114,8 +114,7 @@ Actor.prototype.processDamageCollisions = function(damage){
 
 Actor.prototype.processSingleDamage = function(actor, obj){
     let damage = obj.damage;
-    actor.onDamageHit(damage);
-    damage.onTargetCollision();
+    damage.onTargetCollision(this);
 }
 
 Actor.prototype.onDamageHit = function(damage){

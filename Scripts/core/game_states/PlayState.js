@@ -135,8 +135,8 @@ PlayState.createMapTargets = function(){
 PlayState.spawnCharacters = function(){
     //Heroine
     this.spawnHeroine();
-    this.heroine.toggleSwitch();
-    this.heroine.toggleSecondary();
+    //this.heroine.toggleSwitch();
+    //this.heroine.toggleSecondary();
 
     //Enemies
     let enemies = this.findObjectsByType('enemySpawn', this.map, 'Objects');

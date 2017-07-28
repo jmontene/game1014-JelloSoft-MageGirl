@@ -3,6 +3,7 @@ function Enemy(game, args){
     Actor.call(this, game, args);
 
     //Stats
+    this.aiEnabled = true;
 
     //Enemies deal damage by collision
     this.damage = new Damage(this,{"baseValue": 1});
@@ -26,7 +27,7 @@ Enemy.prototype.constructor = Enemy;
 
 Enemy.prototype.update = function(){
     Actor.prototype.update.call(this);
-    if(!this.dead){
+    if(!this.dead && this.aiEnabled){
         this.aiStateMachine.update();
     }
 };
@@ -46,6 +47,31 @@ Enemy.prototype.basicEnemyDeath = function(){
 //Collision Handling
 
 //Damage Handling
+
+//Status Functions
+Enemy.prototype.onFreezeEnter = function(){
+    let args = {
+        platformGroup : this.platformGroup,
+        damageGroup : this.damageGroup,
+        enemyDamageGroup : this.enemyDamageGroup,
+        enemy : this,
+        heroine : this.heroine,
+        x : this.x,
+        y : this.y
+    };
+    let icube = new IceCube(this.game, args);
+    this.game.add.existing(icube);
+};
+
+Enemy.prototype.onFreezeExit = function(respawnPos){
+    this.game.stage.addChild(this);
+    this.x = respawnPos.x;
+    this.y = respawnPos.y;
+    this.aiEnabled = true;
+    this.body.enable = true;
+    this.body.allowGravity = true;
+    console.log(this);
+};
 
 //Function Wiring
 

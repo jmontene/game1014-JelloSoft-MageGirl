@@ -3,6 +3,7 @@ function Damage(parent, args){
     this.parent = parent;
 }
 
-Damage.prototype.onTargetCollision = function(){
+Damage.prototype.onTargetCollision = function(target){
+    target.onDamageHit(this);
     this.parent.kill();
 };

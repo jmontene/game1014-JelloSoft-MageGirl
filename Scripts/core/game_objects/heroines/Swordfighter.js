@@ -7,7 +7,7 @@ function Swordfighter(game, args){
     this.type = "Swordfighter"
 
     //Slashing
-    this.sword = new BasicSword(game, {
+    this.sword = new IceSword(game, {
         x : 0,
         y : 0,
         tracked_sprite : this,
