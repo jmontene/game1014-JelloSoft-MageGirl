@@ -279,6 +279,11 @@ PlayState.spawnOperable = function(operable){
             args.hitbox_height = operable.height;
             o = new FlightZone(this.game, args);
             break;
+        case "ladder":
+            args.hitbox_width = operable.width;
+            args.hitbox_height = operable.height;
+            o = new Ladder(this.game, args);
+            break;
     }
 
     if(o){

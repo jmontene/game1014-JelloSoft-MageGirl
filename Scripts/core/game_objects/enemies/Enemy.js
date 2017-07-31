@@ -70,7 +70,6 @@ Enemy.prototype.onFreezeExit = function(respawnPos){
     this.aiEnabled = true;
     this.body.enable = true;
     this.body.allowGravity = true;
-    console.log(this);
 };
 
 //Function Wiring

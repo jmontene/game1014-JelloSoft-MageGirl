@@ -17,13 +17,10 @@ Operable.prototype = Object.create(Phaser.Sprite.prototype);
 Operable.prototype.constructor = Operable;
 
 Operable.prototype.operate = function(){
-    console.log("Operated");
 }
 
 Operable.prototype.onEnter = function(){
-    console.log("Entered");
 };
 
 Operable.prototype.onExit = function(){
-    console.log("Exited");
 };
