@@ -258,6 +258,8 @@ PlayState.spawnOperable = function(operable){
     args.x = operable.x;
     args.y = operable.y;
     args.heroine = this.heroine;
+    args.hitbox_width = operable.width;
+    args.hitbox_height = operable.height;
     let o = undefined;
 
     switch(operable.properties.class){
@@ -268,21 +270,19 @@ PlayState.spawnOperable = function(operable){
                     y : this.mapTargets[operable.properties.targetID].y
                 }
             };
-            args.hitbox_width = operable.width;
-            args.hitbox_height = operable.height;
             args.locked = operable.properties.locked == "true" ? true : false;
             o = new Door(this.game, args);
             this.doors[operable.name] = o;
             break;
         case "flightzone":
-            args.hitbox_width = operable.width;
-            args.hitbox_height = operable.height;
             o = new FlightZone(this.game, args);
             break;
         case "ladder":
-            args.hitbox_width = operable.width;
-            args.hitbox_height = operable.height;
             o = new Ladder(this.game, args);
+            break;
+        case "changeGate":
+            args.h_type = operable.properties.h_type;
+            o = new ChangeGate(this.game, args);
             break;
     }
 
@@ -315,5 +315,17 @@ PlayState.createUI = function(){
     return {
         lifebar : lifebar,
         coinCounter : coinCounter
+    }
+};
+
+//Status Change
+PlayState.reverseGravity = function(){
+    this.game.physics.arcade.gravity.y *= -1;
+    this.heroine.currentHeroine.scale.y *= -1;
+    this.heroine.backupHeroine.scale.y *= -1;
+
+    let enems = this.enemies.getAll();
+    for(var i=0;i<enems.length;++i){
+        enems[i].scale.y *= -1;
     }
 };

@@ -94,7 +94,7 @@ Heroine.prototype.basicJump = function(){
 
     if(canJump){
         this.game.sound.play(this.jumpSfx);
-        this.body.velocity.y = -this.jumpSpeed;
+        this.body.velocity.y = this.jumpSpeed * (this.game.physics.arcade.gravity.y >= 0 ? -1 : 1);
     }
 
     return canJump;
@@ -248,10 +248,6 @@ Heroine.prototype.startInvincibility = function(){
         this.invincibilityTimer.stop();
     },this);
     this.invincibilityTimer.start();
-};
-
-Heroine.prototype.isGrounded = function(){
-    return this.body.blocked.down || this.body.touching.down;
 };
 
 //Function Wiring

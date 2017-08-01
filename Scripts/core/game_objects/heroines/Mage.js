@@ -118,6 +118,10 @@ Mage.prototype.shoot = function(){
     }
 };
 
+Mage.prototype.gravity = function(){
+    this.state.reverseGravity();
+};
+
 //Death Functions
 
 //Input Handling
@@ -193,6 +197,7 @@ Mage.prototype.die = function(){
 Mage.prototype.move = Actor.prototype.basicMove;
 Mage.prototype.jump = Heroine.prototype.basicJump;
 Mage.prototype.attack = Mage.prototype.shoot;
+Mage.prototype.secondaryAbility = Mage.prototype.gravity;
 
 //Powerup hooks
 

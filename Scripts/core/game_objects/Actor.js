@@ -6,6 +6,7 @@ function Actor(game, args){
     this.game.physics.enable(this);
     this.body.allowGravity = true;
     this.body.collideWorldBounds = true;
+    this.state = this.game.state.states[this.game.state.current];
 
     //Stats
     this.hp = args.hp ? args.hp : this.defaults.hp;
@@ -83,7 +84,7 @@ Actor.prototype.updateFacingDir = function(){
 };
 
 Actor.prototype.isGrounded = function(){
-    return this.body.blocked.down;
+    return this.game.physics.arcade.gravity.y >= 0 ? (this.body.blocked.down || this.body.touching.down) : (this.body.blocked.up || this.body.touching.up);
 };
 
 //Attack Functions
