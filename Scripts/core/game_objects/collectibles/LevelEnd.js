@@ -4,6 +4,7 @@ function LevelEnd(game, args){
     this.winSfx = args.win_sfx ? args.win_sfx : this.defaults.win_sfx;
     this.hitboxWidth = args.hitbox_width ? args.hitbox_width : this.defaults.hitbox_width;
     this.hitboxHeight = args.hitbox_height ? args.hitbox_height : this.defaults.hitbox_height;
+    this.nextLevel = args.next_level ? args.next_level : undefined;
     this.body.setSize(this.hitboxWidth, this.hitboxHeight);
 }
 
@@ -20,12 +21,5 @@ LevelEnd.prototype.defaults = {
 }
 
 LevelEnd.prototype.onPickup = function(heroine){
-    this.game.camera.onFadeComplete.addOnce(function(){
-        this.game.state.start("GameOver");
-    }, this);
-    heroine.parentHeroine.setInputEnabled(false);
-    this.game.sound.removeByKey("bgm:castle");
-    this.game.sound.play(this.winSfx, 0.5);
-    this.game.camera.fade(0x000000, 2500);
-    this.kill();
-}
+    this.game.state.states[this.game.state.current].changeLevel(this.nextLevel);
+};

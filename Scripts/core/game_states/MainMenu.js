@@ -62,7 +62,9 @@ MainMenu.startPlay = function(){
     this.insMessage.inputEnabled = false;
     this.game.camera.fade(0x000000, 1000);
     this.game.camera.onFadeComplete.addOnce(function(){
-        this.game.state.start("PlayState");
+        this.game.state.start("PlayState", true, false, {
+            level : "castle" 
+        });
     },this)
 };
 

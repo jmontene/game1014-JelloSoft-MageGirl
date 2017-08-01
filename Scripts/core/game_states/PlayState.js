@@ -7,8 +7,10 @@ PlayState.gravity = GRAVITY;
 
 //Game Loop Functions
 
-PlayState.init = function(){
+PlayState.init = function(args){
     this.game.renderer.renderSession.roundPixels = true;
+
+    this.levelKey = args.level;
 
     //Set up keyboard keys
     this.keys = this.game.input.keyboard.addKeys({
@@ -23,6 +25,7 @@ PlayState.init = function(){
         switch: Phaser.KeyCode.ENTER,
         secondary: Phaser.KeyCode.SPACEBAR,
         invincible_cheat: Phaser.KeyCode.ONE,
+        level_cheat : Phaser.KeyCode.TWO,
         operate : Phaser.KeyCode.SHIFT
     });
 };
@@ -36,7 +39,7 @@ PlayState.create = function(){
     this.game.camera.flash(0x000000, 1000);
 
     //Add the background
-    this.bg = this.game.add.image(0,0,'bg:castle');
+    this.bg = this.game.add.image(0,0,'bg:' + this.levelKey);
     this.bg.scale.x /= 1.5;
     this.bg.scale.y /= 1.5;
     this.bg.fixedToCamera = true;
@@ -45,7 +48,7 @@ PlayState.create = function(){
     this.loadLevel();
 
     //Add sounds
-    this.game.sound.play('bgm:castle',0.4,true);
+    this.game.sound.play('bgm:' + this.levelKey,0.4,true);
 
     //Enable Gravity
     this.game.physics.arcade.gravity.y = PlayState.gravity;
@@ -55,8 +58,27 @@ PlayState.create = function(){
 PlayState.update = function(){
     if(this.keys.invincible_cheat.justDown){
         this.heroine.toggleInvincibility();
+    }else if(this.keys.level_cheat.justDown){
+        let levelKey = prompt("WELCOME TO THE LEVEL CHEAT! PLEASE ENTER THE LEVEL YOU WANT TO JUMP TO");
+        this.changeLevel(levelKey);
     }
 };
+
+PlayState.changeLevel = function(key){
+    this.game.camera.onFadeComplete.addOnce(function(){
+        if(key){
+            this.game.state.start("PlayState", true, false, {
+                level : key
+            });
+        }else{
+            this.game.state.start("GameOver");
+        }
+    }, this);
+    this.heroine.setInputEnabled(false);
+    this.game.sound.removeByKey("bgm:" + this.levelKey);
+    this.game.sound.play("sfx:win", 0.5);
+    this.game.camera.fade(0x000000, 2500);
+}
 
 //Level Loading
 
@@ -74,8 +96,8 @@ PlayState.findObjectsByType = function(type, map, layer) {
 };
 
 PlayState.loadLevel = function(){
-    this.map = this.game.add.tilemap('level:castle');
-    this.map.addTilesetImage('Castle', 'tileset:castle');
+    this.map = this.game.add.tilemap('level:' + this.levelKey);
+    this.map.addTilesetImage('Castle', 'tileset:' + this.levelKey);
 
     //create layer
     this.map.createLayer('Background');
@@ -244,6 +266,7 @@ PlayState.spawnCollectible = function(collectible){
         case "levelEnd":
             args.hitbox_width = collectible.width;
             args.hitbox_height = collectible.height;
+            args.next_level = collectible.properties.nextLevel;
             c = new LevelEnd(this.game, args);
             break;
     }

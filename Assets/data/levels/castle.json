@@ -234,8 +234,8 @@
                  "type":"playerSpawn",
                  "visible":true,
                  "width":41,
-                 "x":517,
-                 "y":1494.67
+                 "x":4987,
+                 "y":2300.67
                 }, 
                 {
                  "height":26,
@@ -564,7 +564,8 @@
                  "name":"Level End",
                  "properties":
                     {
-                     "class":"levelEnd"
+                     "class":"levelEnd",
+                     "nextLevel":"castle"
                     },
                  "rotation":0,
                  "type":"collectible",
@@ -2060,7 +2061,7 @@
                  "y":2144
                 }, 
                 {
-                 "height":27.818181818182,
+                 "height":27.8182,
                  "id":202,
                  "name":"changeGate sword",
                  "properties":
@@ -2071,9 +2072,9 @@
                  "rotation":0,
                  "type":"operable",
                  "visible":true,
-                 "width":31.6363636363635,
-                 "x":1504.45454545455,
-                 "y":2145.81818181818
+                 "width":31.6364,
+                 "x":1504.45,
+                 "y":2145.82
                 }, 
                 {
                  "height":27.8182,
@@ -2088,8 +2089,8 @@
                  "type":"operable",
                  "visible":true,
                  "width":31.6364,
-                 "x":2016.6818,
-                 "y":2145.0909
+                 "x":2016.68,
+                 "y":2145.09
                 }],
          "opacity":1,
          "type":"objectgroup",
