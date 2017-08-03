@@ -20,6 +20,7 @@ Dash.prototype.onPickup = function(heroine){
     if(this.heroine.getType() == "Swordfighter"){
         this.heroine.currentHeroine.secondaryEnabled = true;
         this.game.sound.play(this.sfx);
+        this.game.state.states[this.game.state.current].showMessage("Use Secondary Ability \nwith the Spacebar")
         this.kill();
     }else{
         this.game.sound.play(this.wrongSfx);

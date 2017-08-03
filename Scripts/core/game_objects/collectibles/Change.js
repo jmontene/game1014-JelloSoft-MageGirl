@@ -18,5 +18,6 @@ Change.prototype.defaults = {
 Change.prototype.onPickup = function(heroine){
     this.heroine.toggleSwitch();
     this.game.sound.play(this.sfx);
+    this.game.state.states[this.game.state.current].showMessage("Switch Characters \nwith ENTER");
     this.kill();
 }

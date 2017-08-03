@@ -157,8 +157,8 @@ PlayState.createMapTargets = function(){
 PlayState.spawnCharacters = function(){
     //Heroine
     this.spawnHeroine();
-    //this.heroine.toggleSwitch();
-    //this.heroine.toggleSecondary();
+    this.heroine.toggleSwitch();
+    this.heroine.toggleSecondary();
 
     //Enemies
     let enemies = this.findObjectsByType('enemySpawn', this.map, 'Objects');
@@ -307,6 +307,11 @@ PlayState.spawnOperable = function(operable){
             args.h_type = operable.properties.h_type;
             o = new ChangeGate(this.game, args);
             break;
+        case "messageBoxEnabler":
+            args.m_box = this.uiManager.message_box;
+            args.text = operable.properties.text;
+            o = new MessageBoxEnabler(this.game, args);
+            break;
     }
 
     if(o){
@@ -332,12 +337,21 @@ PlayState.createUI = function(){
         "font": "numbers",
     });
 
+    let messageBox = new MessageBox(this.game, {
+        x : 500,
+        y : 10,
+        sprite : "ui:message_box",
+        font : "ui:font:basic"
+    });
+
     this.ui.add(lifebar);
     this.ui.add(coinCounter);
+    this.ui.add(messageBox);
 
     return {
         lifebar : lifebar,
-        coinCounter : coinCounter
+        coinCounter : coinCounter,
+        message_box : messageBox
     }
 };
 
@@ -351,4 +365,8 @@ PlayState.reverseGravity = function(){
     for(var i=0;i<enems.length;++i){
         enems[i].scale.y *= -1;
     }
+};
+
+PlayState.showMessage = function(text){
+    this.uiManager.message_box.showMessage(text);
 };

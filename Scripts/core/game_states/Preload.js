@@ -34,6 +34,7 @@ Preload.preload = function(){
     this.game.load.image('ui:lifebar:front', this.assetFolder + 'images/ui/lifebar/front.png');
     this.game.load.image('ui:lifebar:content', this.assetFolder + 'images/ui/lifebar/content.png');
     this.game.load.image('ui:icon:coin', this.assetFolder + 'images/ui/icons/coin.png');
+    this.game.load.image('ui:message_box', this.assetFolder + 'images/ui/message_box.png');
 
     //Platform images
     this.game.load.image('platform:forest:ground', this.assetFolder + 'images/tiles/forest/ground.png')
