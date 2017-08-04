@@ -20,7 +20,7 @@ Ice.prototype.onPickup = function(heroine){
     if(this.heroine.getType() == "Swordfighter"){
         this.heroine.currentHeroine.sword = this.heroine.currentHeroine.iceSword;
         console.log(this.heroine.currentHeroine.iceSword);
-        this.game.state.states[this.game.state.current].showMessage("Your sword now freezes enemies")
+        this.game.state.states[this.game.state.current].showMessage("Your sword now freezes \nenemies")
         this.kill();
     }else{
         this.game.sound.play(this.wrongSfx);

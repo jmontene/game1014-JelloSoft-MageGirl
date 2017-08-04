@@ -87,11 +87,13 @@
                  "properties":
                     {
                      "class":"door",
+                     "locked":false,
                      "targetID":"3"
                     },
                  "propertytypes":
                     {
                      "class":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -108,11 +110,13 @@
                  "properties":
                     {
                      "class":"door",
+                     "locked":false,
                      "targetID":"4"
                     },
                  "propertytypes":
                     {
                      "class":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -129,11 +133,13 @@
                  "properties":
                     {
                      "class":"door",
+                     "locked":false,
                      "targetID":"5"
                     },
                  "propertytypes":
                     {
                      "class":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -150,11 +156,13 @@
                  "properties":
                     {
                      "class":"door",
+                     "locked":false,
                      "targetID":"6"
                     },
                  "propertytypes":
                     {
                      "class":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -171,11 +179,13 @@
                  "properties":
                     {
                      "class":"door",
+                     "locked":false,
                      "targetID":"7"
                     },
                  "propertytypes":
                     {
                      "class":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -192,11 +202,13 @@
                  "properties":
                     {
                      "class":"door",
+                     "locked":false,
                      "targetID":"8"
                     },
                  "propertytypes":
                     {
                      "class":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -213,11 +225,13 @@
                  "properties":
                     {
                      "class":"door",
+                     "locked":false,
                      "targetID":"10"
                     },
                  "propertytypes":
                     {
                      "class":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -234,13 +248,13 @@
                  "properties":
                     {
                      "class":"door",
-                     "locked":"true",
+                     "locked":true,
                      "targetID":"11"
                     },
                  "propertytypes":
                     {
                      "class":"string",
-                     "locked":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -257,11 +271,13 @@
                  "properties":
                     {
                      "class":"door",
+                     "locked":false,
                      "targetID":"12"
                     },
                  "propertytypes":
                     {
                      "class":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -636,13 +652,13 @@
                  "properties":
                     {
                      "class":"door",
-                     "locked":"false",
+                     "locked":false,
                      "targetID":"1"
                     },
                  "propertytypes":
                     {
                      "class":"string",
-                     "locked":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
@@ -659,11 +675,13 @@
                  "properties":
                     {
                      "class":"door",
+                     "locked":false,
                      "targetID":"9"
                     },
                  "propertytypes":
                     {
                      "class":"string",
+                     "locked":"bool",
                      "targetID":"string"
                     },
                  "rotation":0,
