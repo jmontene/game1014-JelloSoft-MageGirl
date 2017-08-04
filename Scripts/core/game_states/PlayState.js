@@ -76,7 +76,9 @@ PlayState.changeLevel = function(key){
     }, this);
     this.heroine.setInputEnabled(false);
     this.game.sound.removeByKey("bgm:" + this.levelKey);
-    this.game.sound.play("sfx:win", 0.5);
+    if(key){
+        this.game.sound.play("sfx:win", 0.5);
+    }
     this.game.camera.fade(0x000000, 2500);
 }
 
@@ -97,7 +99,7 @@ PlayState.findObjectsByType = function(type, map, layer) {
 
 PlayState.loadLevel = function(){
     this.map = this.game.add.tilemap('level:' + this.levelKey);
-    this.map.addTilesetImage('Castle', 'tileset:' + this.levelKey);
+    this.map.addTilesetImage(this.levelKey, 'tileset:' + this.levelKey);
 
     //create layer
     this.map.createLayer('Background');
@@ -157,8 +159,10 @@ PlayState.createMapTargets = function(){
 PlayState.spawnCharacters = function(){
     //Heroine
     this.spawnHeroine();
-    this.heroine.toggleSwitch();
-    this.heroine.toggleSecondary();
+    if(this.levelKey == "castle"){
+        this.heroine.toggleSwitch();
+        this.heroine.toggleSecondary();
+    }
 
     //Enemies
     let enemies = this.findObjectsByType('enemySpawn', this.map, 'Objects');
@@ -240,6 +244,8 @@ PlayState.spawnCollectible = function(collectible){
     let args = {};
     args.x = collectible.x;
     args.y = collectible.y;
+    args.width = collectible.width;
+    args.height = collectible.height;
     args.heroine = this.heroine;
     let c = undefined;
 
@@ -264,10 +270,11 @@ PlayState.spawnCollectible = function(collectible){
             c = new Key(this.game, args);
             break;
         case "levelEnd":
-            args.hitbox_width = collectible.width;
-            args.hitbox_height = collectible.height;
             args.next_level = collectible.properties.nextLevel;
             c = new LevelEnd(this.game, args);
+            break;
+        case "ice":
+            c = new Ice(this.game, args);
             break;
     }
     if(c){
@@ -293,7 +300,7 @@ PlayState.spawnOperable = function(operable){
                     y : this.mapTargets[operable.properties.targetID].y
                 }
             };
-            args.locked = operable.properties.locked == "true" ? true : false;
+            args.locked = operable.properties.locked;
             o = new Door(this.game, args);
             this.doors[operable.name] = o;
             break;

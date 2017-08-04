@@ -22,4 +22,5 @@ LevelEnd.prototype.defaults = {
 
 LevelEnd.prototype.onPickup = function(heroine){
     this.game.state.states[this.game.state.current].changeLevel(this.nextLevel);
+    this.kill();
 };

@@ -280,8 +280,8 @@
                  "type":"playerSpawn",
                  "visible":true,
                  "width":41,
-                 "x":505.060606060606,
-                 "y":1494.51848484849
+                 "x":505.061,
+                 "y":1494.52
                 }, 
                 {
                  "height":26,
@@ -700,7 +700,7 @@
                  "properties":
                     {
                      "class":"levelEnd",
-                     "nextLevel":"castle"
+                     "nextLevel":"jungle"
                     },
                  "propertytypes":
                     {
@@ -2617,7 +2617,7 @@
          "imageheight":480,
          "imagewidth":480,
          "margin":0,
-         "name":"Castle",
+         "name":"castle",
          "spacing":0,
          "tilecount":225,
          "tileheight":32,

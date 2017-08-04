@@ -12,7 +12,11 @@ Preload.preload = function(){
     //Level Data
     this.game.load.json('level:forest', this.assetFolder + 'data/firstPlayable.json');
     this.load.tilemap('level:castle', this.assetFolder + '/data/levels/castle.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('level:jungle', this.assetFolder + '/data/levels/jungle.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('level:ruins', this.assetFolder + '/data/levels/ruins.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('tileset:castle', this.assetFolder + '/images/tiles/castle/tileset.png');
+    this.load.image('tileset:jungle', this.assetFolder + '/images/tiles/jungle/tileset.png');
+    this.load.image('tileset:ruins', this.assetFolder + '/images/tiles/ruins/tileset.png');
 
     //Animation Data
     this.game.load.json('statemachine:animations:heroine', this.assetFolder + 'data/state_machines/animations/heroine.json');
@@ -25,6 +29,8 @@ Preload.preload = function(){
     
     //Background
     this.game.load.image('bg:castle', this.assetFolder + 'images/backgrounds/castle.png');
+    this.game.load.image('bg:jungle', this.assetFolder + 'images/backgrounds/jungle.png');
+    this.game.load.image('bg:ruins', this.assetFolder + 'images/backgrounds/ruins.png');
 
     //UI Elements
     this.game.load.image('ui:texts:title', this.assetFolder + 'images/ui/texts/title.png');
@@ -35,11 +41,6 @@ Preload.preload = function(){
     this.game.load.image('ui:lifebar:content', this.assetFolder + 'images/ui/lifebar/content.png');
     this.game.load.image('ui:icon:coin', this.assetFolder + 'images/ui/icons/coin.png');
     this.game.load.image('ui:message_box', this.assetFolder + 'images/ui/message_box.png');
-
-    //Platform images
-    this.game.load.image('platform:forest:ground', this.assetFolder + 'images/tiles/forest/ground.png')
-    this.game.load.image('platform:forest:4x1', this.assetFolder + 'images/tiles/forest/4x1.png');
-    this.game.load.image('platform:forest:2x1', this.assetFolder + 'images/tiles/forest/2x1.png');
 
     //Heroine Sprites
     this.game.load.atlas('sprite:heroine:mage', this.assetFolder + 'images/sprites/heroine/mage.png', this.assetFolder + 'data/atlases/mage_girl.json');
@@ -78,6 +79,8 @@ Preload.preload = function(){
     //BGM
     this.game.load.audio('bgm:title', this.assetFolder + 'audio/bgm/title.mp3');
     this.game.load.audio('bgm:castle', this.assetFolder + 'audio/bgm/castle.mp3');
+    this.game.load.audio('bgm:jungle', this.assetFolder + 'audio/bgm/jungle.mp3');
+    this.game.load.audio('bgm:ruins', this.assetFolder + 'audio/bgm/ruins.mp3');
     this.game.load.audio('bgm:game_over', this.assetFolder + 'audio/bgm/game_over.mp3');
 
     //SFX

@@ -7,14 +7,23 @@ function Swordfighter(game, args){
     this.type = "Swordfighter"
 
     //Slashing
-    this.sword = new IceSword(game, {
+    this.iceSword = new IceSword(game, {
+        x : 0,
+        y : 0,
+        tracked_sprite : this,
+        base_attack : this.baseAttack
+    }); 
+    this.basicSword = new BasicSword(game, {
         x : 0,
         y : 0,
         tracked_sprite : this,
         base_attack : this.baseAttack
     });
-    game.add.existing(this.sword);
-    this.enemyDamageGroup.add(this.sword);
+    game.add.existing(this.basicSword);
+    game.add.existing(this.iceSword);
+    this.sword = this.basicSword;
+    this.enemyDamageGroup.add(this.basicSword);
+    this.enemyDamageGroup.add(this.iceSword);
     this.slashSfx = args.slash_sfx ? args.slash_sfx : this.defaults.slash_sfx;
 
     //Dashing

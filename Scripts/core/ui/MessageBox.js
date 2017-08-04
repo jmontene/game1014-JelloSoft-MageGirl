@@ -28,7 +28,6 @@ MessageBox.prototype.showMessage = function(text){
     this.game.add.tween(this.message).to({alpha : 1}, 2000, Phaser.Easing.Linear.None, true);
 
     t1.onComplete.add(function(){
-        console.log(this.alpha);
         this.game.add.tween(this).to({alpha : 0}, 2000, Phaser.Easing.Linear.None, true, 3000);
         this.game.add.tween(this.message).to({alpha : 0}, 2000, Phaser.Easing.Linear.None, true, 3000);
     },this);

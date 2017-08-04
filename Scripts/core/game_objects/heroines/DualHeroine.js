@@ -88,12 +88,7 @@ DualHeroine.prototype.switch = function(){
 };
 
 DualHeroine.prototype.die = function(){
-    this.game.sound.removeByKey("bgm:castle");
-    this.game.camera.onFadeComplete.addOnce(function(){
-        this.game.camera.unfollow();
-        this.game.state.start("GameOver");
-    },this)
-    this.game.camera.fade(0x000000, 1000);
+    this.game.state.states[this.game.state.current].changeLevel("");
 };
 
 DualHeroine.prototype.setJumpEnabled = function(enabled){

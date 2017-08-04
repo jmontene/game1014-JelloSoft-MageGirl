@@ -5,7 +5,7 @@ function Dash(game, args){
 };
 
 Dash.prototype = Object.create(Collectible.prototype);
-Dash.prototype.constructor = Change;
+Dash.prototype.constructor = Dash;
 
 //Constants
 Dash.prototype.defaults = {

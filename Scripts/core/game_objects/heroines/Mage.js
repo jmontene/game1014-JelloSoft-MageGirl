@@ -51,6 +51,9 @@ function Mage(game, args){
 
     //Collision Groups
     this.enemyDamageGroup.add(this.weapon.bullets);
+
+    //Status
+    this.flying = false;
 }
 
 Mage.prototype = Object.create(Heroine.prototype);
@@ -85,6 +88,10 @@ Mage.prototype.update = function(){
     Heroine.prototype.update.call(this);
     this.flightEmitter.x = this.x;
     this.flightEmitter.y = this.y;
+    if(this.flying){
+        this.body.allowGravity = false;
+        this.move = this.levitationMove;
+    }
     this.handleWeaponCollisions();
 }
 
@@ -172,6 +179,7 @@ Mage.prototype.startLevitation = function(args){
 };
 
 Mage.prototype.startFlight = function(){
+    this.flying = true;
     this.body.allowGravity = false;
     this.handleMovementInput = this.flight_handleMovementInput;
     this.move = this.levitationMove;
@@ -179,6 +187,7 @@ Mage.prototype.startFlight = function(){
 };
 
 Mage.prototype.endFlight = function(){
+    this.flying = false;
     this.body.allowGravity = true;
     this.dir.x = 0;
     this.dir.y = 0;
