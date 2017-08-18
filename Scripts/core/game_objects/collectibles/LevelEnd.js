@@ -2,8 +2,8 @@ function LevelEnd(game, args){
     //Basics
     Collectible.call(this, game, args);
     this.winSfx = args.win_sfx ? args.win_sfx : this.defaults.win_sfx;
-    this.hitboxWidth = args.hitbox_width ? args.hitbox_width : this.defaults.hitbox_width;
-    this.hitboxHeight = args.hitbox_height ? args.hitbox_height : this.defaults.hitbox_height;
+    this.hitboxWidth = args.width ? args.width : this.defaults.hitbox_width;
+    this.hitboxHeight = args.height ? args.height : this.defaults.hitbox_height;
     this.nextLevel = args.next_level ? args.next_level : undefined;
     this.body.setSize(this.hitboxWidth, this.hitboxHeight);
 }

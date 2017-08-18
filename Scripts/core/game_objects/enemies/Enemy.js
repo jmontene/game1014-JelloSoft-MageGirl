@@ -64,12 +64,8 @@ Enemy.prototype.onFreezeEnter = function(){
 };
 
 Enemy.prototype.onFreezeExit = function(respawnPos){
-    this.game.stage.addChild(this);
-    this.x = respawnPos.x;
-    this.y = respawnPos.y;
-    this.aiEnabled = true;
-    this.body.enable = true;
-    this.body.allowGravity = true;
+    this.dead = true;
+    this.kill();
 };
 
 //Function Wiring
